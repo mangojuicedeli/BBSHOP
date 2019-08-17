@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ include file="../include/shopping_header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style>
 body {
@@ -47,12 +48,12 @@ body {
 									<span>주문 번호</span> : 60235</a>
 							</li>
 							<li>
-								<a href="#none">
-									<span>주문 날짜</span> : 2019/07/11</a>
+								<a>
+									<span>주문 날짜</span> : <fmt:formatDate pattern="yyyy-MM-dd" value="${info.approved_at}" /></a>
 							</li>
 							<li>
 								<a href="#none">
-									<span>총 결제금액</span> : 835,000원</a>
+									<span>총 결제금액</span> : ${info.amount.total}</a>
 							</li>
 							<li>
 								<a href="#none">
@@ -93,39 +94,19 @@ body {
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach var="order" items="${orderList}" varStatus="status">
 							<tr>
 								<td>
-									<p>드마리니 펑고델릭 메이플 우드 배트</p>
+									<p>${goodsList[status.index].name}</p>
 								</td>
 								<td>
-									<h5 style="text-align:center;">02</h5>
+									<h5 style="text-align:center;"><c:out value="${order.QNTTY}"/></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">200,000원</p>
+									<p style="text-align:center;"><c:out value="${order.TOTALPRICE}"/></p>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<p>윌슨 2019 KOREA A2K GM 이대호 12.25" 1루수 미트</p>
-								</td>
-								<td>
-									<h5 style="text-align:center;">01</h5>
-								</td>
-								<td>
-									<p style="text-align:center;">560,000원</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p>이보쉴드 럭스 배팅 헬멧</p>
-								</td>
-								<td>
-									<h5 style="text-align:center;">01</h5>
-								</td>
-								<td>
-									<p style="text-align:center;">75,000원</p>
-								</td>
-							</tr>
+						</c:forEach>
 							<tr>
 								<td>
 									<p>총 상품 금액</p>
@@ -134,7 +115,7 @@ body {
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">835,000원</p>
+									<p style="text-align:center;"></p>
 								</td>
 							</tr>
 							<tr>
@@ -156,7 +137,7 @@ body {
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">835,000원</p>
+									<p style="text-align:center;">${info.amount.total}</p>
 								</td>
 							</tr>
 						</tbody>

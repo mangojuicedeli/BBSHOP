@@ -5,7 +5,11 @@
 
 <script type="text/javascript"
 	src="resources/community/js/smarteditor/js/service/HuskyEZCreator.js"
-	charset="utf-8"></script>
+	charset="utf-8">
+	
+	
+	</script>
+
 
 <body>
 <div style="margin-bottom:100px;">
@@ -16,38 +20,40 @@
 				<h3 class="mb-30 title_color" style="font-weight:bold;">1대1 문의 수정</h3>
 				<form id="writeForm" action="">
 					<div class="mt-10">
-						<input type="text" name="writer" value="admin" required
-							class="single-input" readonly>
+						<input type="text" name="writer" value="${nickname}" required class="single-input" readonly>
 					</div>
 					<div class="mt-10">
-						<input type="text" name="subject" value="테스트입니다"
-							required class="single-input">
+						<input type="text" name="subject" value="${board.one_title}" required class="single-input">
 					</div>
 					<div class="input-group-icon mt-10">
 						<div class="icon">
 							<i class="fa fa-thumb-tack" aria-hidden="true"></i>
 						</div>
-						<div class="form-select" id="default-select">
-							<select name="one_to_one_category">
-								<option value="header">말머리를 선택하세요</option>
-								<option value="order_or_delivery">주문/배송</option>
-								<option value="about_product" selected>상품관련</option>
-								<option value="about_payment">결제관련</option>
-								<option value="other">기타</option>
+						<div class="form-select" id="default-select" >
+							<select name="one_to_one_category">	
+								<option value="--" >--</option>
+								<option value="주문배송">주문배송</option>
+								<option value="상품관련">상품관련</option>
+								<option value="결제관련">결제관련</option>
+								<option value="기타">기타</option>
 							</select>
 						</div>
 					</div>
 					<div class="mt-10">
 						<!-- <textarea name="content" id="ir1" rows="10" cols="100"
 							style="width: 766px; height: 412px; display: none;"></textarea> -->
-						<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;"></textarea>
+						<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;">
+						</textarea>
 					</div>
+					<input type='hidden' name='pageNum' value='<c:out value="${pagingVO.pageNum}"/>'>
+					<input type='hidden' name='amount' value='<c:out value="${pagingVO.amount}"/>'>
+				
 					<div class="mt-10">
 						<table style="width:100%;">
 							<tr>
 								<td align="center"><br /> <input type="submit" value="수정" style="float:right;"/></td>
 								<td align="center"><br /> <input type="button" value="취소" style="float:left;"
-									onclick="location.href='/one_to_one_list'" /></td>
+									onclick='history.back(-1); return false;' /></td>
 							</tr>
 						</table>
 					</div>

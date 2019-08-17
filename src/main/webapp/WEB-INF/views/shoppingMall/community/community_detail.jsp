@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../include/community_header.jsp"%>
+<jsp:useBean id="today" class="java.util.Date"/>
+
+<!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+
+<%
+	String url = request.getRequestURL().toString() + "?BOARD_NUM=" + request.getParameter("BOARD_NUM");
+%>
 
 <style>
 body {
@@ -20,7 +29,7 @@ body {
 	transition: all 300ms linear 0s;
 }
 
-.modal {
+.report_modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top - display가 block 처리되었을 때 view보다 상단에 노출되게 해줌*/
@@ -34,13 +43,6 @@ body {
 }
 
 /* Modal Content/Box */
-#replyModal { .modal-content { background-color:#fefefe;
-	margin: 8% auto; /* 15% from the top and centered */
-	padding: 10px;
-	border: 1px solid #888;
-	width: 40%; /* Could be more or less, depending on screen size */
-	height: 50%;
-}
 
 }
 .modal-content {
@@ -48,8 +50,8 @@ body {
 	margin: 8% auto; /* 15% from the top and centered */
 	padding: 10px;
 	border: 1px solid #888;
-	width: 20%; /* Could be more or less, depending on screen size */
-	height: 35%;
+	width: 40%; !important /* Could be more or less, depending on screen size */
+	height: 50%;
 }
 /* The Close Button */
 .close {
@@ -67,14 +69,6 @@ body {
 
 #myModal {
 	opacity: 0.9;
-}
-
-#replyModal {
-	opacity: 0.9;
-}
-
-.modal-footer {
-	margin-top: 20px;
 }
 
 .modal-body {
@@ -109,7 +103,7 @@ body {
 
 <body>
 	<div style="margin-bottom: 50px;"></div>
-	<!--================Blog Area =================-->
+	<!--================글 상세 =================-->
 	<section class="cat_product_area section_gap">
 		<div class="container-fluid">
 			<div class="row flex-row-reverse">
@@ -123,7 +117,7 @@ body {
 										<table>
 											<tr>
 												<td>
-													<h2>[엘지] 가을야구 가자!!!!!</h2>
+													<h2><b>[<c:out value="${post.TEAM_NAME}"/>]</b><c:out value="${post.TITLE}" /></h2>
 												</td>
 											</tr>
 										</table>
@@ -133,27 +127,19 @@ body {
 										<table>
 											<tr>
 												<td><p class="bno" style="margin-right: 10px;">글
-														번호: 5</p></td>
+														번호: <c:out value="${post.BOARD_NUM}" /></p></td>
 												<td><p class="title" style="margin-right: 10px;">
-														<i class="lnr lnr-user"></i> 엘지사랑해요
+														<i class="lnr lnr-user"></i> <c:out value="${post.WRITER}" />
 													</p></td>
 												<td>
 													<p class="regdate" style="margin-right: 10px;">
-														<i class="lnr lnr-calendar-full"></i> 2019/07/11
+														<i class="lnr lnr-calendar-full"></i> <fmt:formatDate pattern="yyyy-MM-dd"
+														value="${post.REGDATE}" />
 													</p>
-												</td>
-												<td>
-													<p class="ip" style="margin-right: 10px;">IP:
-														123.456.789</p>
 												</td>
 												<td>
 													<p class="hit" style="margin-right: 10px;">
-														<i class="lnr lnr-eye"></i>123
-													</p>
-												</td>
-												<td>
-													<p class="reply_num">
-														<i class="lnr lnr-bubble"></i>3
+														<i class="lnr lnr-eye"></i><c:out value="${post.HIT}" />
 													</p>
 												</td>
 											</tr>
@@ -164,17 +150,8 @@ body {
 						</div>
 
 						<div class="col-lg-9 col-md-9 blog_details"
-							style="min-width: 100%;">
-							<p>차명석 단장은 조셉의 웨이버 공시에 대해 "외국인 선수는 실력 여부를 떠나 일단 경기에 나서야 하는데
-								(가래톳과 허리 통증으로) 제대로 뛰질 못했으니까…"라고 답답해했다. 조셉은 좋은 성적(타율 0.274 9홈런
-								36타점)을 올린 것도 아니었고, 무엇보다 개막 후부터 지난 9일까지 KBO 리그에서 뛰고 있는 6명(SK 로맥,
-								두산 페르난데스, 키움 샌즈, KT 로하스, 삼성 러프, 한화 호잉) 외국인 타자 평균타석(372타석)의 약
-								58%밖에 소화하지 못했다.</p>
-							<p>이 과정에서 세리자와 유지 1군 배터리 코치가 결정적인 역할을 했다. 페게로는 2016년부터
-								2018년까지 일본 프로야구 라쿠텐 소속으로 259경기에 출장해 타율 0.265, 53홈런, 145타점을 기록했다.
-								일본 출신인 세리자와 코치는 이런저런 경로와 직접 눈으로 확인한 부분을 구단에 설명했다. 구단은 "일본 야구를
-								경험한 점을 감안했다"고 했고, 차명석 단장 역시 "아무리 좋은 선수를 데려와도 적응을 못하면 문제다. 아시아
-								야구를 경험이 점을 고려했다"고 설명했다.</p>
+							style="min-width: 100%;margin-bottom:20px;">
+							<c:out value="${post.BOARD_CONTENT}" />
 
 						</div>
 					</div>
@@ -183,25 +160,30 @@ body {
 						<table style="width: 100%; margin-top: 15px;">
 							<tr>
 								<td><p>
-										첨부파일: <a href="C:\Users\Jisoo\Desktop\커뮤니티_로고\wooyoung.jpg">다운로드</a>
+										<c:if test="${post.UPLOADFILE ne null}">
+										첨부파일: 
+										<a href='#'>${post.UPLOADFILE}</a>
+										</c:if>
 									</p></td>
-								<td style="float: right;"><a href="#"
-									class="genric-btn primary small" id="reportBtn1"
-									style="float: right; padding: 0 20px;">신고하기</a></td>
+								<td style="float: right;"><a
+									class="genric-btn primary small" id="reportBtn0"
+									style="float: right; padding: 0 20px;" onclick="report(0)"> 신고하기</a></td>
 							</tr>
 						</table>
 					</div>
 
 					<div class="comments-area">
-						<div class="comment-list">
+						<div class="comment-list-write" style="padding-bottom:48px;">
 							<div class="single-comment justify-content-between d-flex"
 								style="border-bottom: 1.5px solid #eee;">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<h5>글쓴이</h5>
-										<p class="date">2019/07/11</p>
+								<div class="user justify-content-between d-flex" style="min-width:100%;">
+									<div class="desc" style="min-width:100%;">
+										<h5 id="reply_writer">글쓴이</h5>
+										<p class="write_date" style="font-size:13px;color:#cccccc;margin-bottom:13px;">
+										<!-- sysdate 받아와야 함 -->
+										<fmt:formatDate pattern="yyyy-MM-dd" value="${post.REGDATE}" /></p>
 										<input type="text" name="reply_content"
-											style="width: 1100px; height: 100px;" />
+											id="reply_content" style="width: 100%; height: 100px;" />
 										<div class="reply-btn">
 											<a class="genric-btn primary small" id="reply_submit"
 												style="float: right; padding: 0 20px; margin-top: 20px; margin-bottom: 30px;">등록</a>
@@ -210,64 +192,29 @@ body {
 								</div>
 							</div>
 						</div>
-						<h4>03 Comments</h4>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<h5>정우영</h5>
-										<p class="date">2019/07/11</p>
-										<p class="comment">안녕하세요 59번이에요</p>
-									</div>
-								</div>
-								<div class="reply-btn">
-									<a class="genric-btn primary small" id="reportBtn2"
-										style="float: right; padding: 0 20px;">신고하기</a>
-								</div>
-							</div>
+						
+						<!-- 댓글 -->
+						
+						<h4 id="getComments"></h4>
+						<div class="comment-list-show">
+
 						</div>
-						<div class="comment-list left-padding">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<h5>유강남</h5>
-										<p class="date">2019/07/11</p>
-										<p class="comment">안녕하세요 27번이에요</p>
-									</div>
-								</div>
-								<div class="reply-btn">
-									<a class="genric-btn primary small" id="reportBtn3"
-										style="float: right; padding: 0 20px;">신고하기</a>
-								</div>
-							</div>
-						</div>
-						<div class="comment-list left-padding">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="desc">
-										<h5>윌슨</h5>
-										<p class="date">2019/07/11</p>
-										<p class="comment">Hi i'm the best pitcher</p>
-									</div>
-								</div>
-								<div class="reply-btn">
-									<a class="genric-btn primary small" id="reportBtn4"
-										style="float: right; padding: 0 20px;">신고하기</a>
-								</div>
-							</div>
+						<div class="panel-footer">
+						
 						</div>
 					</div>
-
 					<!-- 이전글 다음글 버튼 -->
 					<div class="navigation-area" style="margin-top: 0px; width: 100%;">
 						<div class="row">
-							<div
-								class="col-lg-12 col-md-12 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+							<div class="col-lg-12 col-md-12 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
 								<div class="thumb" style="width:100%;">
-									<a href="#"> <img class="img-fluid"
+									<a href="/communityGetPrevPostNumAction.do?
+									TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
+									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>"> <img class="img-fluid"
 										src="resources/shoppingMall/img/left_arrow.png" alt=""
 										style="width: 30px;float:left;">
-									</a> <a href="#"> <img class="img-fluid"
+									</a> <a href="/communityGetNextPostNumAction.do?TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
+									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>"><img class="img-fluid"
 										src="resources/shoppingMall/img/right_arrow.png" alt=""
 										style="width: 30px;float:right;">
 									</a>
@@ -280,11 +227,11 @@ body {
 					<!-- 수정, 삭제, 목록보기 버튼 -->
 					<div style="width: 100%;">
 						<div class="button-group-area mt-40">
-							<a href="/community_list" id="go_list"
-								class="genric-btn primary radius" style="margin-left: 500px;">목록보기</a>
-							<a href="/community_modify" id="modify_post"
+							<a href="/community_list.do?TEAM_NAME=<c:out value="${post.TEAM_NAME}"/>" id="go_list"
+								class="genric-btn primary radius" style="margin-left:35%">목록보기</a>
+							<a href="/community_modify.do?BOARD_NUM=<c:out value="${post.BOARD_NUM}"/>" id="modify_post"
 								class="genric-btn primary radius">수정</a> <a id="delete_post"
-								class="genric-btn primary radius" style="float: right;">삭제</a>
+								class="genric-btn primary radius" style="float: right;" >삭제</a>
 						</div>
 					</div>
 					<!-- 수정, 삭제, 목록보기 버튼 끝 -->
@@ -344,39 +291,39 @@ body {
 			</div>
 		</div>
 	</section>
-	<!--================Blog Area =================-->
-
-	<!-- 신고 modal -->
-	<div id="myModal" class="modal">
-
-		<!-- Modal content -->
-		<div class="modal-content">
-			<!-- header -->
-			<div class="modal-header">
-							<!-- header title -->
-				<h4 class="modal-title" align="center">신고하기</h4>
-				
-				<!-- 닫기(x) 버튼 -->
-				<span class="close">&times;</span>
-			</div>
-			<!-- body -->
-			<form id="reportForm" name="report" role="form" action="/community_detail">
-				<div class="modal-body">
+	
+		<!-- ===============신고 모달 Area ==================== -->
+	<div class="modal fade" id="report_modal" tabindex="-1" role="dialog"
+		aria-labelledby="report_modal_label" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width:30%;margin:8% auto;">
+				<div class="modal-header">
+					<h2 class="text-black" style="font-weight: bold">신고하기</h2>
+					<span class="close" data-dismiss="modal">&times;</span>
+				</div>
+				<div class="modal-body" style="margin-left:3%">
+					<div class="row">
+						<div class="col-md-11">
+							<form id="reportForm" role="form">
+							<input type="hidden" name="BOARD_NUM" value="<c:out value='${post.BOARD_NUM}'/>"/>
+							<input type="hidden" id="REPLY_NUM"/> 
+								<div class="form-group row">
 					<table>
 						<tr class="report_content">
 							<td><p>작성자:</p></td>
-							<td><input type="text" name="writer" value="작성자"
-								class="form-control" readonly /></td>
+							<td><input type="text" name="WRITER"
+								class="form-control" id="WRITER" readonly /></td>
 						</tr>
 						<tr>
 							<td><p>신고 내용 주소:</p></td>
-							<td><input type="text" name="team_num" class="form-control"
-								value="https://naver.com" readonly /></td>
-							<!-- or reply_num -->
+							<td><input type="text" name="URI" class="form-control" style="width:140%;"
+								value=<%=url %> readonly /></td>
+							
 						</tr>
+
 						<tr>
 							<td><p>신고 카테고리:</p></td>
-							<td><select class="nice-select">
+							<td><select class="nice-select" name="RE_CATEGORY">
 									<option value="header">신고사유</option>
 									<option value="swear">욕설</option>
 									<option value="flood">도배</option>
@@ -385,83 +332,288 @@ body {
 							</select></td>
 						</tr>
 					</table>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
-				<!-- Footer -->
-				<div class="modal-footer">
-					<table align="center">
-						<tr>
-							<td><button type="button" class="btn btn-info btn-block">닫기</button></td>
-							<td><input type="submit" class="btn btn-info btn-primary"
-								value="제출" /></td>
-						</tr>
-					</table>
+				<div class="modal-footer" align="center">
+					<button type="button" class="genric-btn danger radius"
+						data-dismiss="modal">닫기</button>
+					<button class="genric-btn default radius" id="submitReport">제출</button>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-	<!-- 모달 script -->
-	<script>
-		var modal = document.getElementById('myModal');
+	
+	<!-- 댓글 기능 구현된 js > reply.js -->
+	<script type="text/javascript" src="/resources/community/js/reply.js">
+	</script>
+	
+	<script>		
+		var bnoValue = '<c:out value="${post.BOARD_NUM}"/>';
+		
+		var replyDIV = $(".comment-list-show");
+		
+		var totalCommentNumH4 = $("#getComments"); 
+		
+		var number = $("#get_reply_num").val();
+		showList(-1);
+		
+		// 글 상세 > 글 삭제버튼 클릭 시 동작
+	    $("#delete_post").click(function(){                
+	    	if(confirm("글을 삭제하시겠습니까?") == true){
+	    		location.href="/communityDeleteAction.do?BOARD_NUM=<c:out value="${post.BOARD_NUM}"/>&TEAM_NAME=<c:out value="${post.TEAM_NAME}"/>"    
+	    	} else{
+	    		return false;
+	    	}
+	    });
 
-		var replymodal = document.getElementById('replyModal');
+		// 댓글 뿌리는 함수
+		
+		function showList(page){
+			
+			replyService.getList(
+			{board_num:bnoValue, PAGENUM: page|| 1}, function(replyCnt, list){
+				
+				if(page == -1){
+					pageNum = Math.ceil(replyCnt/10.0);
+					showList(pageNum);
+					return;
+				}
+				
+				var str = "";
+				var str2 = "";
+				
+				// 댓글이 없는 경우
+				if(list == null || list.length == 0){
+					replyDIV.html("<p style='text-align:center;'>등록된 댓글이 없습니다.</p>");
+					return;
+				}
+				for(var i = 0, len = list.length || 0; i < len; i++){
+					str += "<div class='single-comment justify-content-between d-flex'";
+					str += "style='padding-bottom:28px;'>"
+					str += "<div class='user justify-content-between d-flex'>";
+					str += "<div class='desc'>";
+					str += "<input type='hidden'";
+					str += "id='get_reply_num"+[i]+"'";
+					str += "value="+list[i].reply_num+">"
+					str += "<h5>"+list[i].writer+"</h5>";
+					str += "<p class='date'>"+replyService.displayTime(list[i].regdate)+"</p>";
+					str += "<p class='comment'>"+list[i].reply_content+"</p>";
+					str += "</div>";
+					str += "</div>";
+					str += "<div class='reply-btn'>";
+					str += "<a class='genric-btn primary small'";
+					str += "id='reportBtn"+list[i].reply_num+"'";
+					str += "style='float: right; padding: 0 20px'";
+			//		str += "href='.report_modal'";
+			//		str += "data-toggle='modal'"
+			//		str += ">신고하기</a>";
+					str += "onclick='report("+list[i].reply_num+")'>신고하기</a>";
+					str += "<a class='genric-btn primary small'";
+					str += "style='font-weight: bold;font-size:17px;'"
+					str += "onclick='modify("+list[i].reply_num+")'>수정</a>";
+					str += "</div>";
+					str += "</div>";
+					str += "<input type='text'";
+					str += "class='"+list[i].reply_num+"content'";
+					str += "style='margin-bottom:20px;width:50%;padding-bottom:20px;display:none;'>";
+					str += "<button class='genric-btn danger radius'";
+					str += "id='"+list[i].reply_num+"delete_replyBtn'";
+					str += "style='display:none;float:right;line-height:24px;margin-top:3%;margin-right:20%;'>삭제</button>"
+					str += "<button type='submit'";
+					str += "class='genric-btn default radius'";
+					str += "id='"+list[i].reply_num+"modify_replyBtn'";
+					str += "style='display:none;float:right;line-height:24px;margin-top:3%;'>수정</button>"
+					str += "</div>";
+				}
+				str2 += "<h4 id='getComments'>"+replyCnt+" Comments</h4>"
+				replyDIV.html(str);
+				totalCommentNumH4.html(str2);
+				showReplyPage(replyCnt);
+			}); // end function
+		} // end showList
+		
+		// 댓글 추가
+		var reply_writer = $("#reply_writer");
+		var reply_date = $(".write_date");
+		var reply_content = $("#reply_content");
+		var reply_submit = $("#reply_submit");
+		
+		reply_submit.on("click", function(e){
+			
+			if(confirm("댓글을 등록하시겠습니까?") == true){
+			
+				var reply= {
+						writer : reply_writer[0].innerText,
+						regdate : reply_date[0].innerText,
+						reply_content : reply_content[0].value,
+						board_num : bnoValue
+				};
+				replyService.add(reply, function(result){
+				
+					reply_content[0].value = "";
+					
+					// 전체 댓글의 숫자를 파악하게 한다.
+					//showList(1);
+					showList(-1);
 
-		// Get the button that opens the modal
-		// 뷰 단계에서는 1,2,3,4 .. 등으로 정의하지만 백단으로 넘어가면 jstl 태그 + for문 사용할 것
-		var reportbtn1 = document.getElementById("reportBtn1");
-
-		var reportbtn2 = document.getElementById("reportBtn2");
-
-		var reportbtn3 = document.getElementById("reportBtn3");
-
-		var reportbtn4 = document.getElementById("reportBtn4");
-
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
-
-		// 닫기 버튼 불러오기
-		var close = document.getElementsByClassName("btn-block")[0];
-
-		// 글 상세 -> 삭제버튼
-		var delete_postBtn = document.getElementById('delete_post');
-
-		// When the user clicks on the button, open the modal 
-		reportbtn1.onclick = function() {
-			modal.style.display = "block";
-		}
-
-		reportbtn2.onclick = function() {
-			modal.style.display = "block";
-		}
-
-		reportbtn3.onclick = function() {
-			modal.style.display = "block";
-		}
-
-		reportbtn4.onclick = function() {
-			modal.style.display = "block";
-		}
-
-		// When the user clicks on <span> (x), close the modal
-		span.onclick = function() {
-			modal.style.display = "none";
-		}
-
-		// 닫기 버튼을 누른 경우 display none.(창 없앰)
-		close.onclick = function() {
-			modal.style.display = "none";
-		}
-
-		// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
+				});
 			}
-		}
+			 else{
+		    		return false;
+		    	}
+		}); // end reply_submit onclick
+		
+		// 댓글 수정
+		function modify(reply_num){
+			
+		//	$("."+reply_num+"content").toggle();
+		
+		$("."+reply_num+"content").toggle();
+		$("#"+reply_num+"delete_replyBtn").toggle();
+		$("#"+reply_num+"modify_replyBtn").toggle();
 
-		// 글 삭제 버튼 클릭 시 알람창
-		delete_postBtn.onclick = function() {
-			alert('글을 삭제하시겠습니까?');
+			var modalInputContent = $("."+reply_num+"content");
+			
+			replyService.get(reply_num, function(reply){
+				modalInputContent.val(reply.reply_content);
+			});
+			
+			var reply = {reply_num : reply_num, reply_content : modalInputContent.val()};
+			
+			// 수정하기 버튼 
+			
+			$("#"+reply_num+"modify_replyBtn").on("click", function(e){
+				
+				
+				if(confirm("댓글을 수정하시겠습니까?") == true){
+					var reply = {reply_num : reply_num, reply_content : modalInputContent.val()};
+			
+					replyService.update(reply, function(result){
+
+					showList(pageNum);
+					});
+				} else{
+					return false;
+				}
+					 
+			}) // end $("#modify_replyBtn").onclick
+				
+			// 댓글 수정 버튼 > input 태크 toggle > 삭제 버튼
+			$("#"+reply_num+"delete_replyBtn").on("click", function(e){
+				
+				if(confirm("댓글을 삭제하시겠습니까?") == true){
+						
+				replyService.remove(reply_num, function(result){
+					showList(pageNum);
+				 });
+				} else{
+					return false;
+				}
+					 
+			})	 // end $("#delete_replyBtn").onclick	
+			
+		} // end function modify;
+		
+		// .panel-footer에 페이지 번호 출력하는 로직
+		var pageNum = 1;
+		var replyPageFooter = $(".panel-footer");
+		
+		function showReplyPage(replyCnt){
+			
+			var endNum = Math.ceil(pageNum/10.0) * 10;
+			var startNum = endNum -9;
+			
+			var prev = startNum != 1;
+			var next = false;
+			
+			if(endNum * 10 >= replyCnt){
+				endNum = Math.ceil(replyCnt/10.0);
+			}
+			
+			if(endNum * 10 < replyCnt){
+				next = true;
+			}
+			
+			var str = "<ul class='pagination pull-right'>";
+			
+			if(prev){
+				str += "<li class = 'page-item'><a class='page-link' href='"+(startNum - 1)+"'>Previous</a></li>";
+			}
+			
+			for(var i = startNum ; i<= endNum; i++){
+				
+				var active = pageNum == i ? "active":"";
+				
+				str += "<li class='page-item " + active + " '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+			}
+			
+			if(next){
+				str += "<li class='page-item'><a class='page-link' href='"+(endNum + 1) +"'>Next</a></li>";
+			}
+			
+			str += "</ul></div>";
+			
+			replyPageFooter.html(str);
+		} // end showReplyPage
+		
+		// 페이지의 번호를 클릭했을 때 새로운 댓글 가져오는 부분
+		
+		replyPageFooter.on("click","li a", function(e){
+			
+			e.preventDefault();
+			
+			var targetPageNum = $(this).attr("href");
+			
+			pageNum = targetPageNum;
+			
+			showList(pageNum);
+		}); // end replyPageFooter onclick
+	</script>
+	
+	<!-- 신고하기 버튼 처리 -->
+	<script>
+		
+//	$('#report_modal').on("show.bs.modal", function (event) {
+//		alert('hi');
+//	})
+
+	function report(num){
+	
+		// 댓글 신고인 경우
+		if(num != 0){
+			replyService.get(num, function(reply){
+				$('#WRITER').val(reply.writer);
+				$('#REPLY_NUM').attr("name", "REPLY_NUM");
+			});
+		} else{
+			$('#WRITER').val("<c:out value='${post.WRITER}'/>");
 		}
+		$('#REPLY_NUM').val(num);
+		$("#report_modal").modal();
+	}
+	
+	// 신고 등록
+    $("#submitReport").click(function(){   
+    	if(confirm("신고 접수하시겠습니까?") == true){
+    		if($('#REPLY_NUM').val() != 0){
+    		alert('댓글신고입니다');
+    		$('#reportForm').attr("action","/reportReply_registerAction.do");
+    		$('#reportForm').attr("method","POST");
+    		$('#reportForm')[0].submit();  
+    		} else{
+    			alert('게시글 신고입니다.');
+        		$('#reportForm').attr("action","/reportBoard_registerAction.do");
+        		$('#reportForm').attr("method","POST");
+        		$('#reportForm')[0].submit();  
+    		}
+    	} else{
+    		return false;
+    	}
+    });
+
 	</script>
 
 	<%@ include file="../include/community_footer.jsp"%>

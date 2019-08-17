@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="../include/shopping_header.jsp" %>
 
@@ -35,6 +37,11 @@
 }
 .section_gap {
 	padding: 80px 0px;
+}
+
+/* 로그인 모달 추가 */
+#loginModal {
+	opacity: 0.9;
 }
 </style>
 
@@ -73,166 +80,83 @@
 
 	<!--============추천상품 공간 : 전달받은 추천상품리스트를 출력=============-->
 	<!--================Feature Product Area =================-->
+	<div class="container">
 	<section class="feature_product_area section_gap">
 		<div class="main_box">
 			<div class="container-fluid">
 				<!-- 추천상품 배너부분 -->
-				<div class="row" style="background-color : #70e270; margin-bottom : 40px; border-radius : 30px;">
+				<div class="row" style="background-color : #57c051; margin-bottom : 40px; border-radius : 30px;">
 					<div class="main_title" style="margin : 20px auto;">
-						<h2 style="color : white; font-weight : bold;">추천 상품</h2>
+						<h2 style="color : white; font-weight : bold; margin-bottom: 0px;">추천 상품</h2>
 					</div>
 				</div>
 				
 				<!-- 상품 list !반복! -->
 				<div class="row">
-					<div class="col col1">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-6.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>모리모토 195MBG 아이웹 내야</h4>
-							</a>
-							<h5>119,000원</h5>
-						</div>
-					</div>
-					<div class="col col2">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-7.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>원에이티 BPC-40 포수미트</h4>
-							</a>
-							<h5>360,000원</h5>
-						</div>
-					</div>
-					<div class="col col3">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-8.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>이스턴 GHOST X 배트</h4>
-							</a>
-							<h5>329,000원</h5>
-						</div>
-					</div>
-					<div class="col col4">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-9.jpg" alt="">
-								
-							</div>
-							<a href="#">
-								<h4>이스턴 한국형 LOCK&LOAD</h4>
-							</a>
-							<h5>273,000원</h5>
-						</div>
-					</div>
-					<div class="col col5">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-10.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>아디다스 B39190 파워엘리</h4>
-							</a>
-							<h5>79,000원</h5>
-						</div>
-					</div>
-					<div class="col col6">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-5.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>Long Sleeve TShirt</h4>
-							</a>
-							<h5>$150.00</h5>
-						</div>
-					</div>
+				
+<!-- 					<div class="col col1"> -->
+<!-- 						<div class="f_p_item"> -->
+<!-- 							<div class="f_p_img"> -->
+<!-- 								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-6.jpg" alt=""> -->
+<!-- 							</div> -->
+<!-- 							<a href="#"> -->
+<!-- 								<h4>모리모토 195MBG 아이웹 내야</h4> -->
+<!-- 							</a> -->
+<!-- 							<h5>119,000원</h5> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class="col col7">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-4.jpg" alt="">
+					<!-- 상품 출력  -->
+						<c:forEach items="${recommendList}" var="goods">
+						<div class="col">
+							<div class="f_p_item">
+								<div class="f_p_img">
+									<a href="/goods_info.do?goods_num=${goods.goods_num }&&category=${goods.category}"><img class="img-fluid" src="<c:out value='${goods.main_img }' />" ></a>
+								</div>
+								<a href="#">
+									<h4><c:out value="${goods.name }" /></h4>
+								</a>
+								<h5><c:out value="${goods.price }" />원</h5>
 							</div>
-							<a href="#">
-								<h4>Long Sleeve TShirt</h4>
-							</a>
-							<h5>$150.00</h5>
 						</div>
-					</div>
-
-					<div class="col col8">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-5.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>Long Sleeve TShirt</h4>
-							</a>
-							<h5>$150.00</h5>
-						</div>
-					</div>
-					<div class="col col9">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-1.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>Long Sleeve TShirt</h4>
-							</a>
-							<h5>$150.00</h5>
-						</div>
-					</div>
-					<div class="col col10">
-						<div class="f_p_item">
-							<div class="f_p_img">
-								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-4.jpg" alt="">
-							</div>
-							<a href="#">
-								<h4>Long Sleeve TShirt</h4>
-							</a>
-							<h5>$150.00</h5>
-						</div>
-					</div>
+						</c:forEach>
+					<!-- end 상품 출력 -->
+						
 				</div>
 				<!-- 상품 list 반복 끝 -->
 
 				<!-- 페이지 출력 - script 항상 같이 따라가야함 -->
-				<div class="row">
-					<nav class="cat_page mx-auto" aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item page-item-left">
-								<a class="page-link" href="#">
-									<i class="fa fa-chevron-left" aria-hidden="true"></i>
-								</a>
-							</li>
-							<li class="page-item active">
-								<a class="page-link" href="#">01</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">02</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">03</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">04</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">05</a>
-							</li>
-							<li class="page-item page-item-right">
-								<a class="page-link" href="#">
-									<i class="fa fa-chevron-right" aria-hidden="true"></i>
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
+<!-- 				<div class="row"> -->
+<!-- 					<nav class="cat_page mx-auto" aria-label="Page navigation example"> -->
+<!-- 						<ul class="pagination"> -->
+<!-- 							<li class="page-item page-item-left"> -->
+<!-- 								<a class="page-link" href="#"> -->
+<!-- 									<i class="fa fa-chevron-left" aria-hidden="true"></i> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item active"> -->
+<!-- 								<a class="page-link" href="#">01</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item"> -->
+<!-- 								<a class="page-link" href="#">02</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item"> -->
+<!-- 								<a class="page-link" href="#">03</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item"> -->
+<!-- 								<a class="page-link" href="#">04</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item"> -->
+<!-- 								<a class="page-link" href="#">05</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item page-item-right"> -->
+<!-- 								<a class="page-link" href="#"> -->
+<!-- 									<i class="fa fa-chevron-right" aria-hidden="true"></i> -->
+<!-- 								</a> -->
+<!-- 							</li> -->
+<!-- 						</ul> -->
+<!-- 					</nav> -->
+<!-- 				</div> -->
 			</div>
 		</div>
 	</section>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/shopping_header.jsp"%>
 
 <style>
@@ -45,7 +46,42 @@ body {
 	color: white !important;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
 
+	var formObj = $("#operForm");
+
+	$('button').on("click", function(e) {
+	
+		e.preventDefault();
+
+		var operation = $(this).data("oper");
+
+		console.log(operation);
+
+		if (operation === 'remove') {
+			
+			var answer = confirm('게시글을 삭제하시겠습니까?');
+			
+			if (answer == true) {
+			
+				formObj.attr("action", "onetoone_remove.do");
+			}
+			
+		} else if (operation === 'list') {
+			
+			self.location = "onetoonelist.do";
+			
+			return;
+		}
+		
+		formObj.submit();
+
+	});
+});
+	
+	
+</script>
 <body>
 <!--================Home Banner Area =================-->
 	<section class="banner_area">
@@ -56,7 +92,7 @@ body {
 					<h2 style="color: white;">고객센터</h2>
 					<div class="page_link">
 						<a href="/shopping_main" style="color: white;">Home</a> <a
-							href="/one_to_one_list" style="color: white;">1대1문의</a>
+							href="/one_to_one_list" style="color: white;">1대1 문의</a>
 					</div>
 				</div>
 			</div>
@@ -78,7 +114,7 @@ body {
 										<table style="margin-left:auto;margin-right:auto;">
 											<tr>
 												<td>
-													<h2>[상품] 테스트입니다.</h2>
+													<c:out value="${board.one_title}" />
 												</td>
 											</tr>
 										</table>
@@ -88,13 +124,17 @@ body {
 										<table style="float:right;margin-top:20px;">
 											<tr>
 												<td><p class="bno" style="margin-right: 10px;">글
-														번호: 5</p></td>
+														번호 : 
+														<c:out value="${board.one_one_num}" />
+														</p></td>
 												<td><p class="title" style="margin-right: 10px;">
-														<i class="lnr lnr-user"></i> 천웅짱짱
+														<i class="lnr lnr-user"></i>
+														<c:out value="${nickname}" />
 													</p></td>
 												<td>
 													<p class="regdate" style="margin-right: 10px;">
-														<i class="lnr lnr-calendar-full"></i> 2019/07/11
+														<i class="lnr lnr-calendar-full"></i>
+														<c:out value="${board.regdate}" />
 													</p>
 												</td>
 											</tr>
@@ -106,7 +146,8 @@ body {
 
 						<div class="col-lg-9 col-md-9 blog_details"
 							style="min-width: 100%;">
-							<p>테스트입니다.
+							<p>
+							<c:out value="${board.one_contents}" />
 							</p>
 
 						</div>
@@ -116,12 +157,21 @@ body {
 						<table style="width: 100%; margin-top: 15px;">
 							<tr>
 								<td><p>
-										첨부파일: <a href="C:\Users\Jisoo\Desktop\커뮤니티_로고\wooyoung.jpg">다운로드</a>
+										첨부파일: <a href="#"><c:out value="${board.one_file}" /></a>
 									</p></td>
 							</tr>
 						</table>
 					</div>
-														<!-- 이전글 다음글 버튼 -->
+					
+					<form id='operForm' action="/onetoone_get.do" method="post">
+						<input type='hidden' id='one_one_num' name='one_one_num' value='<c:out value="${board.one_one_num}"/>'>
+						<input type='hidden' name='pageNum' value='<c:out value="${pagingVO.pageNum}"/>'>
+						<input type='hidden' name='amount' value='<c:out value="${pagingVO.amount}"/>'>
+          				<input type='hidden' name='keyword' value ='<c:out value="${pagingVO.keyword}"/>'>
+						<input type='hidden' name='type' value ='<c:out value="${pagingVO.type}"/>'>
+						<!-- <input type='hidden' name='one_to_one_category' value ='<c:out value="${category}"/>'> -->
+					</form> 
+														<!-- 이전글 다음글 버튼 
 					<div class="navigation-area" style="margin-top: 0px; width: 100%;">
 						<div class="row">
 							<div
@@ -143,11 +193,11 @@ body {
 					<!-- 수정, 삭제, 목록보기 버튼 -->
 					<div style="width: 100%;">
 						<div class="button-group-area mt-40">
-							<a href="/one_to_one_list" id="go_list"
-								class="genric-btn primary radius" style="margin-left: 42%;">목록보기</a>
-							<a href="/one_to_one_list_modify" id="modify_post"
-								class="genric-btn primary radius">수정</a> <a id="delete_post"
-								class="genric-btn primary radius" style="float: right;">삭제</a>
+							<a href="#"  onclick='history.back(-1); return false;' id="go_list" class="genric-btn primary radius" style="margin-left: 42%;">목록보기</a>
+							
+							<a id="modify_post" href="/onetoone_modify.do?one_one_num=${board.one_one_num}" class="genric-btn primary radius">수정</a>
+							
+							<button type="submit" data-oper='remove' id="delete_post" class="genric-btn primary radius" style="float: right;">삭제</button>
 						</div>
 					</div>
 					<!-- 수정, 삭제, 목록보기 버튼 끝 -->
@@ -155,16 +205,6 @@ body {
 			</div>
 		</div>
 	</section>
-
-	<script>
-		// 글 상세 -> 삭제버튼
-		var delete_postBtn = document.getElementById('delete_post');
-
-		// 글 삭제 버튼 클릭 시 알람창
-		delete_postBtn.onclick = function() {
-			alert('글을 삭제하시겠습니까?');
-		}
-	</script>
 
 <%@ include file="../include/shopping_footer.jsp"%>
 

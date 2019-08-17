@@ -2808,6 +2808,8 @@ h6 {
 	background: #f9f9ff;
 	border: 1px solid transparent;
 	cursor: not-allowed;
+	/* 민구 추가 */
+	font-size: 14px;
 }
 
 .generic-blockquote {
@@ -3553,7 +3555,7 @@ h6 {
 	border: none;
 	border-radius: 0px;
 	height: 40px;
-	background: #fff;
+	background: #f5f5f5;
 	padding-left: 20px;
 	padding-right: 40px;
 	font-weight : bold;

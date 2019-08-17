@@ -126,7 +126,7 @@
 		miniCart.style.width = "0";
 		location.href="/cart";
 	}
-	//상품info에서 장바구니 버튼 눌렀을 때, miniCart나오기
+	// 상품info에서 장바구니 버튼 눌렀을 때, miniCart나오기
 	info_cart_btn.onclick = function() {
 		curtain.style.display = "block";
 		miniCart.style.width = "350px";
@@ -136,12 +136,14 @@
 		curtain.style.display = "block";
 		miniCart.style.width = "350px";
 	}
+	
 	function closeCart() {
 		curtain.style.display = "none";
 		miniCart.style.width = "0";
 	}
 	
 	window.onclick = function(event) {
+		
 		if (event.target == search_Modal) {
 			search_Modal.style.display = "none";
 		} else if (event.target == searchBig_Modal) {
@@ -178,7 +180,7 @@
 <script src="https://kit.fontawesome.com/2eb351aff8.js"></script>
 
 <!-- Modal -->
-
+<!-- 마이페이지의 주문/배송의 주문 목록을 누르면 나옴 -->
 <div class="modal modal-center fade" id="modal_order_detail"
 	tabindex="-1" role="dialog" aria-labelledby="modal_order_detail_label"
 	aria-hidden="true">
@@ -200,72 +202,70 @@
 								<div class="col-md-6">
 									<label for="c_fname" class="text-black">주문일자 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="c_fname" name="c_fname">
+										class="form-control" id="or_date" name="or_date" 
+											value="<fmt:formatDate pattern="yyyy-MM-dd" value="${orderVO.or_date }"/>" readonly>
 								</div>
 								<div class="col-md-6">
-									<label for="c_lname" class="text-black">주문자 <span
+									<label for="orderer" class="text-black">주문자 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="c_lname" name="c_lname">
+										class="form-control" id="orderer" name="orderer" readonly>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-md-12">
 									<label for="c_companyname" class="text-black">주문 번호 </label> <input
-										type="text" class="form-control" id="c_companyname"
-										name="c_companyname">
+										type="text" class="form-control" id="mdl_or_num" name="mdl_or_num" readonly>
 								</div>
 							</div>
-
-
-
+							
 							<div class="form-group">
-								<label for="c_order_notes" class="text-black">주문 메모</label>
-								<textarea name="c_order_notes" id="c_order_notes" cols="30"
-									rows="5" class="form-control" placeholder=""></textarea>
+								<label for="order_notes" class="text-black">주문 메모</label>
+								<textarea name="order_notes" id="order_notes" cols="30"
+									rows="5" class="form-control" placeholder="" readonly></textarea>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-md-6">
-									<label for="c_state_country" class="text-black">수취인 <span
+									<label for="receiver" class="text-black">수취인 <span
 										class="text-danger">*</span>
-									</label> <input type="text" class="form-control" id="c_state_country"
-										name="c_state_country">
+									</label> <input type="text" class="form-control" id="receiver"
+										name="receiver" readonly>
 								</div>
 								<div class="col-md-6">
-									<label for="c_postal_zip" class="text-black">우편번호 <span
+									<label for="postal_zip" class="text-black">우편번호 <span
 										class="text-danger">*</span>
-									</label> <input type="text" class="form-control" id="c_postal_zip"
-										name="c_postal_zip">
+									</label> <input type="text" class="form-control" id="postal_zip"
+										name="postal_zip" readonly>
 								</div>
 							</div>
 
 							<div class="form-group row mb-5">
 								<div class="col-md-6">
-									<label for="c_email_address" class="text-black">송장번호 <span
+									<label for="email_address" class="text-black">배송번호 <span
 										class="text-danger">*</span>
-									</label> <input type="text" class="form-control" id="c_email_address"
-										name="c_email_address">
+									</label> <input type="text" class="form-control" id="email_address"
+										name="email_address" readonly>
 								</div>
 								<div class="col-md-6">
-									<label for="c_phone" class="text-black">연락처 <span
+									<label for="phone" class="text-black">연락처 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="c_phone" name="c_phone"
-										placeholder="">
+										class="form-control" id="phone" name="phone"
+										placeholder="" readonly>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-md-12">
-									<label for="c_address" class="text-black">주소 <span
+									<label for="address" class="text-black">주소 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="c_address" name="c_address"
-										placeholder="기본 주소">
+										class="form-control" id="address" name="address"
+										placeholder="기본 주소" readonly>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="상세 주소">
+								<input type="text" class="form-control" placeholder="상세 주소" readonly>
 							</div>
 
 						</div>
@@ -277,25 +277,17 @@
 								<div class="p-3 p-lg-2 border">
 									<table class="table site-block-order-table mb-5">
 										<thead>
-											<th>상품</th>
-											<th>수량</th>
-											<th>금액</th>
+											<tr>
+												<th>상품</th>
+												<th>수량</th>
+												<th>금액</th>
+											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>야구공</td>
+												<td id="goods"></td>
 												<td>1</td>
-												<td>￦10,000</td>
-											</tr>
-											<tr>
-												<td>배트</td>
-												<td>1</td>
-												<td>￦10,000</td>
-											</tr>
-											<tr>
-												<td>배트</td>
-												<td>1</td>
-												<td>￦10,000</td>
+												<td>￦30,000</td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>주문

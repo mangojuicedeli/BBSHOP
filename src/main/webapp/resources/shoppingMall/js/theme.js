@@ -210,10 +210,14 @@
       values: [ 1000, 500000 ],
       slide: function( event, ui ) {
         $( "#amount" ).val( ui.values[ 0 ] + "원  -  " + ui.values[ 1 ] + "원" );
+        $( "#min_amount" ).val(ui.values[0]);
+        $( "#max_amount" ).val(ui.values[1]);
       }
     });
     $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 )+
       "원  -  " + $( "#slider-range" ).slider( "values", 1 ) + "원" );
+    $( "#min_amount" ).val( $( "#slider-range" ).slider( "values", 0 ));
+    $( "#max_amount" ).val( $( "#slider-range" ).slider( "values", 1 ));
 	
 	
 	/*----------------------------------------------------*/
