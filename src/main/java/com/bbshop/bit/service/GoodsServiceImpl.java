@@ -159,8 +159,8 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 	
 	/* 상품 별, REVIEW 글 개수 */
-	public int getReviewCount(long goods_num) {
-		return mapper.getReviewCount(goods_num);
+	public int getReviewCount(long goods_num, int score) {
+		return mapper.getReviewCount(goods_num, score);
 	}
 
 	/* 상품 별, 리뷰개수, 별점 개수, 등.. DTO를 반환 */
@@ -168,28 +168,58 @@ public class GoodsServiceImpl implements GoodsService {
 	public ReviewDTO getReviewDTO(long goods_num) {
 		ReviewDTO reviewDTO = new ReviewDTO();
 		
-		// 리뷰 평균
-		reviewDTO.setAvg(mapper.getReviewAvg(goods_num));
-		System.out.println("reviewDTO.getAvg() : " + reviewDTO.getAvg());
-		
 		// 리뷰 개수
-		reviewDTO.setTotal(mapper.getReviewCount(goods_num));
-		System.out.println("reviewDTO.getTotal() : " + reviewDTO.getTotal());
+		int total = mapper.getReviewCount(goods_num, 0);
+		reviewDTO.setTotal(total);
+			
+		// 별점 평균 : 0으로 초기화
+		double avg = 0.0;
 		
-		int[] scoreCount = new int[5];
+		// 점수 별 리뷰 갯수 : 0으로 초기화
+		int[] scoreCount = {0, 0, 0, 0, 0};
 		
-		for(int i=0; i<5; i++) {
-			scoreCount[i] = mapper.getScoreCount(goods_num, i+1);
+		// 리뷰 개수가 없다면 평균을 계산할 수 없으므로 0으로 set
+		if(total == 0) {
+			reviewDTO.setAvg(avg);
+			reviewDTO.setScoreCount(scoreCount);
 		}
-		// 리뷰 - 별점 별, 리뷰 개수
-		reviewDTO.setScoreCount(scoreCount);
+		else {
+			avg = mapper.getReviewAvg(goods_num);
+			reviewDTO.setAvg(avg);
+			
+			for(int i=0; i<5; i++) {
+				scoreCount[i] = mapper.getReviewCount(goods_num, i+1);
+			}
+			reviewDTO.setScoreCount(scoreCount);
+		}
 		
 		return reviewDTO;
 	}
 
 	
-	
-	
+	// 등급에 따른 적립금 구하기
+	@Override
+	public int getSavings(long price, long user_key) {
+		System.out.println("user_key : " + user_key);
+		String grade = mapper.getGrade(user_key);
+		System.out.println("grade : " + grade);
+		
+		double savings = 0.0;
+		if(grade.equals("bronze")) {
+			savings = price * 0.03;
+		}
+		else if(grade.equals("silver")) {
+			savings = price * 0.05;
+		}
+		else if(grade.equals("gold")) {
+			savings = price * 0.07;
+		}
+		else {
+			savings = price * 0.1;
+		}
+		
+		return (int) Math.floor(savings);
+	}
 	
 	/* user_key를 이용해 moredetail을 가져온다. */
 	@Override
@@ -246,11 +276,10 @@ public class GoodsServiceImpl implements GoodsService {
 	
 
 	@Override
-	public void addGoodsToCart(GoodsVO goods, int qty, long user_key, long goods_detail_num) {
+	public void addGoodsToCart(GoodsVO goods, int qty, long user_key, long goods_detail_num, int savings) {
 
-		mapper.addGoodsToCart(goods, qty, user_key, goods_detail_num); 
+		mapper.addGoodsToCart(goods, qty, user_key, goods_detail_num, savings); 
 	}
-
 
 	
 	

@@ -1,5 +1,6 @@
 package com.bbshop.bit.mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,9 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbshop.bit.domain.Gd_GloveVO;
-import com.bbshop.bit.domain.GoodsQnaVO;
 import com.bbshop.bit.domain.GoodsVO;
-import com.bbshop.bit.domain.MoreDetailsVO;
 import com.bbshop.bit.domain.PagingVO;
 
 import lombok.Setter;
@@ -28,7 +27,7 @@ public class GoodsMapperTests {
 	
 //	@Setter(onMethod_ = @Autowired)
 //	private OrderMapper ordermapper;
-	/*
+	
 //	@Test
 	public void testGetList() {
 		Gd_GloveVO g = new Gd_GloveVO();
@@ -38,33 +37,36 @@ public class GoodsMapperTests {
 	}
 	
 	
-//	@Test
+	@Test
 	public void testPaging() {
 		
 		PagingVO pagingVO = new PagingVO();
 		
-		//8���� 2������
 		pagingVO.setPageNum(1);
-		pagingVO.setAmount(18);
+		pagingVO.setAmount(8);
 		
-		//�˻� ���� ����
-		pagingVO.setType("N");
-		pagingVO.setKeyword("��ġ��");
+		log.info(pagingVO);
+//		pagingVO.setKeyword("null");
+		
+		List<String> positions = new ArrayList<String>();
+		positions.add("외야수");
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("pagingVO", pagingVO);
 		map.put("category", 1);
-		map.put("sorting", "lowPrice");
+		map.put("sorting", "new");
 		map.put("min_amount", 1000);
 		map.put("max_amount", 500000);
+		map.put("positions", positions);
+		log.info(map.toString());
 		
 		
-		List<GoodsVO> goodsList = ordemapper.getGoodsList(map);
+		List<GoodsVO> goodsList = goodsMapper.getGoodsList(map);
 		
 		goodsList.forEach(goods -> log.info(goods));
 	}
-	*/
-	@Test 
+	
+//	@Test 
 	public void testGetGoodsInfo() {
 		GoodsVO g = new GoodsVO();
 		g = goodsMapper.getGoodsInfo(8);

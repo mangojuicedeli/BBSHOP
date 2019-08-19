@@ -23,9 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		FROM cart_gd
 		WHERE
 		goods_num IN
-		<foreach collection="array" item="goods_num" open="(" close=")" separator=",">
+		<foreach collection="goods_num_list" item="goods_num" open="(" close=")" separator=",">
 		#{goods_num}
 		</foreach> 
+		and user_key = #{user_key}
 	</select>
 	
 	<select id="getOptionListGlove" resultType = "com.bbshop.bit.domain.Gd_GloveVO">

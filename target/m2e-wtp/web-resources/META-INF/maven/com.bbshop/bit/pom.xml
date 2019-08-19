@@ -284,6 +284,14 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- 쿼리 로그 출력을 위한..의정 0818 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.lazyluke</groupId> -->
+<!-- 			<artifactId>log4jdbc-remix</artifactId> -->
+<!-- 			<version>0.2.7</version> -->
+<!-- 		</dependency> -->
+		
 	</dependencies>
 	<build>
 		<plugins>

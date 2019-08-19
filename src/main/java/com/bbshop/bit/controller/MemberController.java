@@ -90,7 +90,7 @@ public class MemberController {
 		String result = "";
 		noAccountCount++;
 		if(toPage.equals("goShop")) {
-			result="redirect:/shopping_main_temp.do";
+			result="redirect:/shopping_main.do";
 		}
 		else {
 			result="redirect:/community_main.do";

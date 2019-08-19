@@ -56,6 +56,7 @@ function goodsList_Ajax() {
 	var max_amount = $('#max_amount').val();
 	var search = '';
 	
+	
 	var pageNum = $('#actionForm input[name="pageNum"]').val();
 	
 	if(pageNum === undefined)
@@ -126,7 +127,7 @@ function goodsList_Ajax() {
 				<div class="banner_content text-center">
 					<h2>${categoryString }</h2>	<!-- 카테고리(String) 출력 -->
 					<div class="page_link">
-						<a href="/shopping_main">쇼핑몰</a>
+						<a href="/shopping_main.do">쇼핑몰</a>
 						<!-- url에 카테고리값 전달, view에 카테고리(String) 출력 -->
 						<a href="/goods_list.do?category=${categoryInt }">${categoryString }</a>
 					</div>
@@ -150,6 +151,9 @@ function goodsList_Ajax() {
 								<option id="lowPrice" 	value="lowPrice">낮은가격</option>
 								<option id="highPrice" 	value="highPrice">높은가격</option>
 							</select>
+							<form id="sortingForm">
+								<input type="hidden" name="sorting" value="">
+							</form>
 						</div>
 						<!-- end 정렬 -->
 						<!-- price bar -->
@@ -172,27 +176,10 @@ function goodsList_Ajax() {
  					</div>
 					
 					<div class="latest_product_inner row">
-					
-						<!-- 상품 출력 
-						<c:forEach items="${goodsList }" var="goods">
-						<div class="col-lg-3 col-md-3 col-sm-6">
-							<div class="f_p_item">
-								<div class="f_p_img">
-									<a href="/goods_info?goods_num=${goods.goods_num }"><img class="img-fluid" src="<c:out value='${goods.main_img }' />" alt=""></a>
-								</div>
-								<a href="#">
-									<h4><c:out value="${goods.name }" /></h4>
-								</a>
-								<h5><c:out value="${goods.price }" />원</h5>
-							</div>
-						</div>
-						</c:forEach>
-						<!-- end 상품 출력 -->
-						
+						<!-- Ajax로 goodsList를 출력하는 부분 -->
 						<script>
 						goodsList_Ajax();						
 						</script>
-						
 					</div>
 				</div>
 			</div>
@@ -209,20 +196,12 @@ function goodsList_Ajax() {
 						<li class="page-item page-item-left"><a class="page-link"
 							href="${pageMaker.startPage-1 }"><i class="fa fa-chevron-left" aria-hidden="true"></i>
 						</a></li>
-					</c:if>
-					
+					</c:if>			
 					
 					<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
 						<li class="page-item  ${pageMaker.pagingVO.pageNum == num? 'active':''}">
 							<a class="page-link" href="${num }">${num }</a></li>
 					</c:forEach>
-					
-					<!-- 
-					<li class="page-item"><a class="page-link" href="#">02</a></li>
-					<li class="page-item"><a class="page-link" href="#">03</a></li>
-					<li class="page-item"><a class="page-link" href="#">04</a></li>
-					<li class="page-item"><a class="page-link" href="#">05</a></li>
-					-->
 					
 					<c:if test="${pageMaker.next }">
 						<li class="page-item page-item-right"><a class="page-link"
@@ -268,16 +247,6 @@ function goodsList_Ajax() {
 
 			goodsList_Ajax();
 		});
-		
-		/*
-		// 페이지 active 처리
-		var page_item = $('.page-item');
-		
-		$('.page-item').click(function() {
-			$('.page-item').removeClass("active");
-			$(this).addClass("active");
-		});
-		*/
 		
 		// price slider - 변경할 때,
 		$('span.ui-slider-handle.ui-corner-all.ui-state-default').click(function() {goodsList_Ajax();});

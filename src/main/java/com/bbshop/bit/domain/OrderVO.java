@@ -7,23 +7,23 @@ import lombok.Data;
 @Data
 public class OrderVO {
 
-	private long order_num;
-	private String or_addr;
-	private String pymntmthd;
-	private long pymntamnt;
-	private long phone1;
-	private long phone2;
-	private long savings;
-	private String or_msg;
-	private String or_date;
-	private int stts; // 주문상태
-	private long ship_nmbr;
-	private Date ship_date;
-	private long user_key;
-	private String name; // 주문자
-	private String items; // 추가: 주문내역
-	private String receiver; // 추가: 수취인
-	private String tid; // 추가: 19/08/17 카카오페이 결제시 필요
+	private long order_num;		// 주문 번호
+	private String or_addr;		// 주문 주소
+	private String pymntmthd;	// 결제 방법
+	private long pymntamnt;		// 결제 금액
+	private long phone1;		// 연락처1	
+	private long phone2;		// 연락처2
+	private long savings;		// 적립금
+	private String or_msg;		// 주문 메세지
+	private String or_date;		// 주문 일자(sysdate)
+	private int stts; 			// 주문 상태(0:결제완료, 1:배송준비중, 2:배송중, 3:배송완료, 4:주문취소)
+	private long ship_nmbr;		// 배송 번호
+	private Date ship_date;		// 배송 일자
+	private long user_key;		// 회원 식별자(FK)
+	private String name; 		// 주문자
+	private String items; 		// 추가: 주문내역
+	private String receiver; 	// 추가: 수취인
+	private String tid; 		// 추가: 19/08/17 카카오페이 결제시 필요
 	
 	public long getOrder_num() {
 		return order_num;

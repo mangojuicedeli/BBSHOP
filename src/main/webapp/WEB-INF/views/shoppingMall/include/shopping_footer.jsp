@@ -217,7 +217,7 @@
 		
 		data["pageNum"] = pageNum * 1;
 		data["amount"] = 8;
-		data["category"] = ${categoryInt};
+		data["category"] = 0;
 		data["sorting"] = $('select.sorting option:selected').val();
 		data["min_amount"] = min_amount;
 		data["max_amount"] = max_amount;
@@ -234,8 +234,7 @@
 			dataType: 'json',
 			contentType : "application/json",
 			success : function(goodsList) {
-				
-				alert('일반 검색 ajax 성공!');
+// 				alert('일반 검색 ajax 성공!');
 				
 				search_Modal.style.display = "none";
 				
@@ -357,7 +356,7 @@
 		
 		data["pageNum"] = pageNum * 1;
 		data["amount"] = 8;
-		data["category"] = ${categoryInt};
+		data["category"] = 0;
 		data["sorting"] = $('select.sorting option:selected').val();
 		data["min_amount"] = min_amount;
 		data["max_amount"] = max_amount;
@@ -374,7 +373,7 @@
 			contentType : 'application/json',
 			success : function(goodsList) {
 				
-				alert('상세 검색 ajax 성공!');
+// 				alert('상세 검색 ajax 성공!');
 				
 				searchBig_Modal.style.display = "none";
 				
@@ -453,29 +452,6 @@
 
 </script>
 <!--================ 모달 & 장바구니 js====================== -->
-
-<!--
-<script>
-	// 페이지 active 처리
-	$(document).ready(function() {
-		var page_item = $('.page-item');
-
-		$('.page-item').click(function() {
-			$('.page-item').removeClass("active");
-			$(this).addClass("active");
-		});
-
-		$('.page-item-left').click(function() {
-			$('.page-item').removeClass("active");
-			page_item[5].classList.add("active");
-		})
-		$('.page-item-right').click(function() {
-			$('.page-item').removeClass("active");
-			page_item[1].classList.add("active");
-		})
-	});
-</script>
--->
 
 <!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

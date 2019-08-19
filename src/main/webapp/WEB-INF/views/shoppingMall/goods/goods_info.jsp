@@ -142,10 +142,10 @@ color: black;
 </style>
 
 <script>
-$(document).ready(function() {
+
 	
 	// QNA paging
-	$(".qna-page-item").on("click", function(e) {
+	$(document).on("click", ".qna-page-item", function(e) {
 		
 		e.preventDefault();	// a태그를 클릭해도 페이지이동이 없도록,
 		
@@ -153,12 +153,17 @@ $(document).ready(function() {
 		$(this).addClass("active");
 		
 		var page = $('.qna-page-item.active a').text();
+		var qnaPagingForm = $('#qnaPagingForm');
+		qnaPagingForm.find("input[name='pageNum']").val(page);
 		
 		qnaList_Ajax();
 	});
+	$(document).on("click", ".qna-page-item a", function(e) {
+		e.preventDefault();
+	});
 	
 	// REVIEW paging
-	$(".review-page-item").on("click", function(e) {
+	$(document).on("click", ".review-page-item", function(e) {
 		
 		e.preventDefault();	// a태그를 클릭해도 페이지이동이 없도록,
 		
@@ -166,18 +171,26 @@ $(document).ready(function() {
 		$(this).addClass("active");
 		
 		var page = $('.review-page-item.active a').text();
+		var reviewPagingForm = $('#reviewPagingForm');
+		reviewPagingForm.find("input[name='pageNum']").val(page);
 		
 		reviewList_Ajax();
 	});
-});
+	$(document).on("click", ".review-page-item a", function(e) {
+		e.preventDefault();
+	});
+	
+	
 
+// 상품 QNA 리스트 출력
 function qnaList_Ajax() {
 	
-	var qnaPageNum = $('.qna-page-item.active a').attr("href");
+	var qnaPagingForm = $('#qnaPagingForm');
 	
+	var qnaPageNum = qnaPagingForm.find("input[name='pageNum']").val();
 	if(qnaPageNum === undefined)
 		qnaPageNum = 1;
-	
+
 	var qnaAmount = 10;
 	var goods_num = ${goods.goods_num};
 	
@@ -196,44 +209,104 @@ function qnaList_Ajax() {
 		dataType: "json",
 		contentType : "application/json",
 		success : function(data) {
-			$.each(data, function(index, qna) {
+			var list = data.qnaList;
+			var total = data.total;
+			
+			// 출력할 데이터가 없을 경우, 없다는 글 출력..
+			if(list.length == 0) {
+				var output = "";
+				output += "<tr><td colspan='4'><p><h2 style='color:black;'>QNA가 없습니다.</h2></p></td></tr>";
+				$('#qna_list').append(output);
+			}
+			// QNA 리스트 출력
+			$.each(list, function(index, qna) {
 				var output = "";
 				
-				if(data[index].re_lev == 1) 
+				if(list[index].re_lev == 1) 
 					output += "<tr class='table_item reply'><td style='color:red;'>답변</td>";
 				else
 					output += "<tr class='table_item'><td style='color:blue;'>질문</td>";
 					
-				
-				output += "<td>" + data[index].title + "</td>";
-				output += "<td>" + data[index].nickname + "</td>";
-				output += "<td>" + data[index].regdate + "</td></tr>";
+				output += "<td>" + list[index].title + "</td>";
+				output += "<td>" + list[index].nickname + "</td>";
+				output += "<td>" + list[index].regdate + "</td></tr>";
 				
 				output += "<tr class='table_content' style='display:none;'>";
-				output += "<td colspan='4'><div class='view'><p>" + data[index].content + "</p></div></td></tr>";
+				output += "<td colspan='4'><div class='view'><p>" + list[index].content + "</p></div></td></tr>";
 
 				$('#qna_list').append(output);
 
 			});
+			
+			// 페이징 버튼 AJAX 처리
+			var end = Math.ceil(qnaPageNum / 10.0) * 10.0;
+			var start = end - 9;
+			var realEnd = Math.ceil((total * 1.0) / qnaAmount);
+			
+			if(realEnd < end) {
+				end = realEnd;
+			}
+			
+			var paging = '';
+			for(var i=start; i<=end; i++) {
+				paging += "<li class='page-item qna-page-item ";
+				
+				if (qnaPageNum == i)
+					paging += "active";
+				
+				paging += "'>";
+//				paging += "' id='btn_" + i + "'>";
+				paging += "<a href='" + i + "' class='page-link'>" + i + "</a></li>";
+			}
+			
+			$('ul#qnaPagination').empty();
+			$('ul#qnaPagination').append(paging);
+			
+//			$('.qna-page-item').removeClass("active");
+//			$('#btn_' + qnaPagingForm.find("input[name='pageNum']").val()).addClass("active");
 		},
 		error : function() {alert('qna ajax 통신 실패!');}
 	});
 }
-
+// 상품 REVIEW 리스트 출력
 function reviewList_Ajax() {
-	var reviewPageNum = $('.review-page-item.active a').attr("href");
 	
+	var reviewPagingForm = $('#reviewPagingForm');
+	
+	// score가 카테고리를 의미!
+	var clickScore = $('select#score option:selected').val();
+	var formScore = reviewPagingForm.find("input[name='score']").val();
+	
+	// score가 다르면 pageNum을 1로 초기화, score를 클릭한 value로 초기화 >> 리스트 출력
+	if(clickScore != formScore) {
+		reviewPagingForm.find("input[name='pageNum']").val(1);
+		reviewPagingForm.find("input[name='score']").val(clickScore);
+	}
+	// score가 같으면 클릭한 페이지의 리스트를 출력 
+	else {
+		var clickPageNum = $('.review-page-item.active a').attr("href");
+		reviewPagingForm.find("input[name='pageNum']").val(clickPageNum);
+	}
+	
+	
+	/* form 에서 데이터 불러오기 */
+	var reviewPageNum = reviewPagingForm.find("input[name='pageNum']").val();
 	if(reviewPageNum === undefined)
 		reviewPageNum = 1;
 	
 	var reviewAmount = ${reviewPageMaker.pagingVO.amount};
 	var goods_num = ${goods.goods_num};
 	
+	var score = reviewPagingForm.find("input[name='score']").val();
+	if(score === undefined)
+		score = 0;
+	
+	
 	var data = {};
 	data["pageNum"] = reviewPageNum * 1;
 	data["amount"] = reviewAmount;
 	data["goods_num"] = goods_num;
-	data["score"] = $('select#score option:selected').val() * 1;
+	data["score"] = Number(score);
 	console.log(data);
 	
 	// 상품 목록이 들어갈 div 클래스 이름 - 초기화
@@ -246,31 +319,68 @@ function reviewList_Ajax() {
 		dataType: "json",
 		contentType : "application/json",
 		success : function(data) {
-			$.each(data, function(index, review) {
+			var list = data.reviewList;
+			var total = data.total;
+			
+			// 출력할 데이터가 없을 경우, 없다는 글 출력..
+			if(list.length == 0) {
 				var output = "";
-				
+				output += "<tr><td colspan='4'><p><h2 style='color:black;'>REVIEW가 없습니다.</h2></p></td></tr>";
+				$('#review_list').append(output);
+			}
+			
+			// REVIEW 리스트 출력
+			$.each(list, function(index, review) {
+				var output = "";
+
 				output += "<tr class='table_item'>";
-				output += "<td>" + data[index].rv_num + "</td>";
-				output += "<td>" + data[index].title + "</td>";
+//				output += "<td>" + data[index].rv_num + "</td>";
+				output += "<td>" + list[index].title + "</td>";
 				
 				output += "<td>";
 				// 별점
-				for(i=0; i<data[index].score; i++) {
+				for(i=0; i<list[index].score; i++) {
 					output += "<i class='fa fa-star'></i>"
 				}
 				output += "</td>";
-				output += "<td>" + data[index].nickname + "</td>";
-				output += "<td>" + data[index].re_date + "</td></tr>";
+				output += "<td>" + list[index].nickname + "</td>";
+				output += "<td>" + list[index].re_date + "</td></tr>";
 				
 				output += "<tr class='table_content' style='display:none;'>";
-				output += "<td colspan='5'><div class='view'><p>" + data[index].contents + "</p></div></td></tr>";
+				output += "<td colspan='4'><div class='view'><p>" + list[index].contents + "</p></div></td></tr>";
 				
 				$('#review_list').append(output);
 			});
+			
+			
+			// 페이징 버튼 AJAX 처리
+			var end = Math.ceil(reviewPageNum / 10.0) * 10.0;
+			var start = end - 9;
+			var realEnd = Math.ceil((total * 1.0) / reviewAmount);
+			
+			if(realEnd < end) {
+				end = realEnd;
+			}
+			
+			var paging = '';
+			for(var i=start; i<=end; i++) {
+				paging += "<li class='page-item review-page-item ";
+				
+				if (reviewPageNum == i)
+					paging += "active";
+				
+				paging += "'>";
+				paging += "<a href='" + i + "' class='page-link'>" + i + "</a></li>";
+			}
+			
+			$('ul#reviewPagination').empty();
+			$('ul#reviewPagination').append(paging);
+
 		},
 		error : function() {alert('review ajax 통신 실패!');}
 	});
 }
+// 상품 REVIEW - 평균 별점, 후기 개수 등 출력
 function reviewScore_Ajax() {
 
 	var goods_num = ${goods.goods_num};
@@ -442,7 +552,6 @@ function reviewScore_Ajax() {
 					<!-- ---------------------->
 						</ul>
 						<p>
-							적립금 : 1790원 <br>
 							배송비 : 2500원 (5만원 이상 구매 시, 무료배송)
 						</p>
 						<!-- 상품 수량 체크 -->
@@ -498,7 +607,7 @@ function reviewScore_Ajax() {
 <!-- #home : 상세 설명 -->
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<!-- DB, 사진3번째컬럼, 상세사진 긴~거 띄우기 -->
-				  	<img class="bbshop-info" src=${goods.dtl_img2 } alt="" style="max-width: -webkit-fill-available;" >
+				  	<img class="bbshop-info" src="${goods.dtl_img2 }" alt="" style="max-width: -webkit-fill-available;" >
 				</div>
 				
 <!-- #profile : 상품 정보 (객체의 속성들? 다 설정) ----------------------------------------------------------------------------------->
@@ -550,11 +659,11 @@ function reviewScore_Ajax() {
 								<c:when test="${categoryInt eq 3 }">
 								<tr class="gd_info uniform">
 									<td><h5>구단</h5></td>
-									<td><h5>??</h5></td>
+									<td><h5>lg</h5></td>
 								</tr>
 								<tr class="gd_info uniform">
 									<td><h5>홈어웨이</h5></td>
-									<td><h5>??</h5></td>
+									<td><h5>홈</h5></td>
 								</tr>
 								</c:when>
 								<c:when test="${categoryInt eq 4 }">
@@ -566,7 +675,7 @@ function reviewScore_Ajax() {
 								<c:otherwise>
 								<tr class="gd_info ball">
 									<td><h5>용도</h5></td>
-									<td><h5>??</h5></td>
+									<td><h5>시합/연습용</h5></td>
 								</tr>
 								</c:otherwise>
 							</c:choose>
@@ -603,41 +712,37 @@ function reviewScore_Ajax() {
 							<!-- 페이지 출력 - script 항상 같이 따라가야함 -->
 							<div class="row" style="padding-top:30px; margin:0; max-width:100%;">
 								<nav class="cat_page mx-auto" aria-label="Page navigation example">
-									<ul class="pagination">
-										<c:if test="${qnaPageMaker.prev }">
-											<li class="page-item page-item-left qna-page-item">
-												<a class="page-link" href="${qnaPageMaker.startPage-1 }">
-													<i class="fa fa-chevron-left" aria-hidden="true"></i>
-												</a>
-											</li>
-										</c:if>
+									<ul class="pagination" id="qnaPagination">
+<%-- 										<c:if test="${qnaPageMaker.prev }"> --%>
+<!-- 											<li class="page-item page-item-left qna-page-item"> -->
+<%-- 												<a class="page-link" href="${qnaPageMaker.startPage-1 }"> --%>
+<!-- 													<i class="fa fa-chevron-left" aria-hidden="true"></i> -->
+<!-- 												</a> -->
+<!-- 											</li> -->
+<%-- 										</c:if> --%>
 
-										<!-- a태그의 href속성에 페이지번호값을 설정하였다. -->
-										<c:forEach var="num" begin="${qnaPageMaker.startPage }" end="${qnaPageMaker.endPage }">
-											<li class="page-item qna-page-item ${qnaPageMaker.pagingVO.pageNum == num? 'active':''}">
-												<a class="page-link" href="${num }">${num }</a>
-											</li>
-										</c:forEach>
+										
 
-										<c:if test="${qnaPageMaker.next }">
-											<li class="page-item page-item-right qna-page-item">
-												<a class="page-link" href="${qnaPageMaker.endPage+1 }">
-													<i class="fa fa-chevron-right" aria-hidden="true"></i>
-												</a>
-											</li>
-										</c:if>
+<%-- 										<c:if test="${qnaPageMaker.next }"> --%>
+<!-- 											<li class="page-item page-item-right qna-page-item"> -->
+<%-- 												<a class="page-link" href="${qnaPageMaker.endPage+1 }"> --%>
+<!-- 													<i class="fa fa-chevron-right" aria-hidden="true"></i> -->
+<!-- 												</a> -->
+<!-- 											</li> -->
+<%-- 										</c:if> --%>
 									</ul>
 								</nav>
 								<button class="btn submit_btn" id="qna_btn">상품 문의 등록</button>
 							</div>
 
-								<!-- Q&A 작성버튼
-								<div class="col-md-12 text-right" style="padding : 20px 0 0 0;">
-									<button class="btn submit_btn" id="qna_btn">상품 문의 등록</button>
-								</div>
-								-->
-							</div>
+							<!-- 페이징을 위한 hidden 폼 -->
+							<form id="qnaPagingForm">
+								<input type="hidden" name="pageNum" value="${qnaPageMaker.pagingVO.pageNum }">
+								<input type="hidden" name="amount" value="${qnaPageMaker.pagingVO.amount }">
+							</form>
+
 						</div>
+					</div>
 						
 		<!-- ==================== qna 작성 모달 ==================== -->
 						<div id="qna_Modal">
@@ -646,7 +751,8 @@ function reviewScore_Ajax() {
 								<h4 align="center">Q&A 작성하기</h4>
 								
 								<!-- 상품QNA 작성 FORM (id:#contactForm) -->
-								<form class="row contact_form" action="/registerGoodsQna.do" method="post" id="contactForm" novalidate="novalidate">
+								<form class="row contact_form" action="/registerGoodsQna.do" method="post" 
+									id="contactForm" novalidate="novalidate" onsubmit="return checkMember();">
 									<!-- Q&A 제목 -->
 									<div class="col-md-12">
 										<div class="form-group">
@@ -708,18 +814,14 @@ function reviewScore_Ajax() {
 						
 							<div class="col-6">
 								<div class="box_total">
-									<!-- 평균값 입력 -->
-<!-- 								<h5>평균 별점</h5> -->
-<!-- 								<h4>5.0</h4> -->
+								<!-- 후기 평점 ajax로 출력 -->
 								</div>
 							</div>
 							
 							
 							<div class="col-3" style="text-align:center;">
 								<div class="rating_list">
-							<!--	<h3>총 ??개의 후기</h3>
-									<ul class="list">
-									<!-- 후기 별점 글 개수 입력 -->
+								<!-- 리뷰 총 개수, 점수 별 리뷰 개수 ajax로 출력 -->
 								</div>
 							</div>
 							
@@ -732,7 +834,7 @@ function reviewScore_Ajax() {
 							<table border="0" style="width : -webkit-fill-available;">
 									<thead>
 										<tr>
-											<th scope="col" class="review_number">번호</th>
+<!-- 										<th scope="col" class="review_number">번호</th> -->
 											<th scope="col" class="review_title" style="width:50%;">제목</th>
 											<th scope="col" class="review_score">별점</th>
 											<th scope="col" class="review_nickname">닉네임</th>
@@ -740,51 +842,41 @@ function reviewScore_Ajax() {
 										</tr>
 									</thead>
 									<tbody id="review_list">
+									
 									<script>
 										reviewList_Ajax();
 									</script>
+									
 									</tbody>
 								</table>
 
 							<!-- 페이지 출력 - script 항상 같이 따라가야함 -->
 							<div class="row" style="padding-top:30px; margin:0; max-width:100%;">
 								<nav class="cat_page mx-auto" aria-label="Page navigation example">
-									<ul class="pagination">
-										<c:if test="${reviewPageMaker.prev }">
-											<li class="page-item page-item-left review-page-item">
-												<a class="page-link" href="${reviewPageMaker.startPage-1 }">
-													<i class="fa fa-chevron-left" aria-hidden="true"></i>
-												</a>
-											</li>
-										</c:if>
+									<ul class="pagination" id="reviewPagination">
 
-										<!-- a태그의 href속성에 페이지번호값을 설정하였다. -->
-										<c:forEach var="num" begin="${reviewPageMaker.startPage }" end="${reviewPageMaker.endPage }">
-											<li class="page-item review-page-item ${reviewPageMaker.pagingVO.pageNum == num? 'active':''}">
-												<a class="page-link" href="${num }">${num }</a>
-											</li>
-										</c:forEach>
-
-										<c:if test="${reviewPageMaker.next }">
-											<li class="page-item page-item-right review-page-item">
-												<a class="page-link" href="${reviewPageMaker.endPage+1 }">
-													<i class="fa fa-chevron-right" aria-hidden="true"></i>
-												</a>
-											</li>
-										</c:if>
 									</ul>
 								</nav>
 								<button class="btn submit_btn" id="review_btn">상품 후기 등록</button>
 							</div>
+							
+							<!-- 페이징을 위한 hidden 폼 -->
+							<form id="reviewPagingForm">
+								<input type="hidden" name="pageNum" value="${reviewPageMaker.pagingVO.pageNum }">
+								<input type="hidden" name="amount" value="${reviewPageMaker.pagingVO.amount }">
+								<input type="hidden" name="score" value="0">
+							</form>
 						</div>
 		<!-- ==================== 후기 작성 모달 ==================== -->
 						<div id="review_Modal">
 							<div class="review_Content review_box">
 								<span class="modal_close close">&times;</span>	<!-- X버튼 -->
-								<form class="row review_form" action="/registerReview.do" method="post" id="reviewForm" novalidate="novalidate">
 								<h4 align="center">후기 작성하기</h4>
-								<div id="star_review">
-									<input type="radio" name="score" value="5">
+
+								<form class="row review_form contact_form" action="/registerReview.do" method="post" 
+									id="reviewForm" novalidate="novalidate" onsubmit="return checkMember();">
+								<div id="star_review" style="width:-webkit-fill-available; text-align:center;">
+									<input type="radio" name="score" value="5" checked>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
@@ -882,43 +974,21 @@ function setOption() {
 	
 	return true;
 }
-</script>
-<script>
-//setOption
-function setOption() {
-	var form = document.forms["option"];
+
+//checkMember
+function checkMember() {
+	var member = ${member};
 	
-	var category = form['category'].value;
-	var qty = $('.product_count .qty');
-	
-	if(category == 1) {
-		var option = $('select.glove option:selected');
-		form['option1'].value = option[0].value;
-		form['option2'].value = option[1].value;
+	if(member == 00 || member == 000) {
+		console.log(member);
+		alert("회원만 글쓰기가 가능합니다.");
+		location.href='/goods_info.do?goods_num=${goods.goods_num}&category=${categoryInt}';
+		return false;
 	}
-	else if(category == 2) {
-		var option = $('select.bat option:selected');
-		form['option1'].value = option[0].value;
-	}
-	else if(category == 3) {
-		var option = $('select.uniform option:selected');
-		form['option1'].value = option[0].value;
-	}
-	else if(category == 4) {
-		var option = $('select.shoes option:selected');
-		form['option1'].value = option[0].value;
-		form['option2'].value = option[1].value;
-	}
-	else if(category == 5) {
-		var option = $('select.ball option:selected');
-		form['option1'].value = option[0].value;
-	}
-	
-	form['qty'].value = qty[0].value;
-	
 	return true;
 }
 </script>
+
 <script>
 	// table(qna, review) - 제목 클릭시, 내용 보여주는 이벤트
 	var table_item = document.getElementsByClassName("table_item");
@@ -942,20 +1012,8 @@ function setOption() {
 	var shoes = document.querySelectorAll("a.shoes");
 	var ball = document.querySelectorAll("a.ball");
 	
-	console.log(glove);
-	
 	var category = ${categoryInt};
 	var categoryOption = ['', glove, bat, uniform, shoes, ball];
-	
-	/*
-	for(let i=1; i<categoryArr.length; i++) {
-		if(category == i) {
-			for(j=0; i<categoryOption[i].length; i++) {
-				categoryOption[i][j].style.display = "flex";
-			}
-		}
-	}
-	*/
 	
 	if(category == 1) {
 		$('.gd_info.glove').css('display', 'table-row');

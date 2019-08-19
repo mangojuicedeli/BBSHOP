@@ -553,11 +553,13 @@ body {
 										role="button" aria-haspopup="true" aria-expanded="false">글러브</a>
 										<ul class="dropdown-menu">
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">글러브 카테1</a></li>
+												href="/goods_list.do?category=1">외야수 글러브</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">글러브 카테2</a></li>
+												href="/goods_list.do?category=1">내야수 글러브</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">글러브 카테3</a></li>
+												href="/goods_list.do?category=1">투수 글러브</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=1">포수 글러브</a></li>
 										</ul>
 									</li>
 
@@ -569,11 +571,11 @@ body {
 										role="button" aria-haspopup="true" aria-expanded="false">배트</a>
 										<ul class="dropdown-menu">
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">배트 카테1</a></li>
+												href="/goods_list.do?category=2">알루미늄 배트</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">배트 카테2</a></li>
+												href="/goods_list.do?category=2">카본 배트</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">배트 카테3</a></li>
+												href="/goods_list.do?category=2">나무 배트</a></li>
 										</ul>
 									</li>
 
@@ -585,11 +587,9 @@ body {
 										role="button" aria-haspopup="true" aria-expanded="false">유니폼</a>
 										<ul class="dropdown-menu">
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">유니폼 카테1</a></li>
+												href="/goods_list.do?category=3">SK, LG, 한화, 삼성, 키움</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">유니폼 카테2</a></li>
-											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">유니폼 카테3</a></li>
+												href="/goods_list.do?category=3">KT, NC, 두산, 롯데, 기아</a></li>
 										</ul>
 									</li>
 
@@ -600,12 +600,6 @@ body {
 										class="nav-link dropdown-toggle" data-toggle="dropdown"
 										role="button" aria-haspopup="true" aria-expanded="false">야구화</a>
 										<ul class="dropdown-menu">
-											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구화 카테1</a></li>
-											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구화 카테2</a></li>
-											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구화 카테3</a></li>
 										</ul>
 									</li>
 
@@ -617,11 +611,9 @@ body {
 										role="button" aria-haspopup="true" aria-expanded="false">야구공</a>
 										<ul class="dropdown-menu">
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구공 카테1</a></li>
+												href="/goods_list.do?category=5">시합/연습용</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구공 카테2</a></li>
-											<li class="nav-item"><a class="nav-link"
-												href="/goods_list">야구공 카테3</a></li>
+												href="/goods_list.do?category=5">안전용</a></li>
 										</ul>
 									</li>
 								</ul>

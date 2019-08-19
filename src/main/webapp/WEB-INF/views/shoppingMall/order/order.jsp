@@ -274,7 +274,7 @@ li, a {
                         </c:otherwise>
                    </c:choose>
                         <td>
-                           <h5><c:out value="${order.TOTALPRICE}"/></h5>
+                           <h5><c:out value="${order.TOTALPRICE}"/>원</h5>
                         </td>
                      </tr>
                     
@@ -289,7 +289,7 @@ li, a {
                            <h5>총 상품 금액</h5>
                         </td>
                         <td>
-                           <h5>${allPrice }원</h5>
+                           <h5>${totalPrice }원</h5>
                         </td>
                      </tr>
                   </tbody>
@@ -379,6 +379,9 @@ li, a {
                      <input type="hidden" name="or_addr" id="or_addr"/>
                      <input type="hidden" name="pymntamnt" value="${allPrice}"/>
                      <input type="hidden" name="shipping_fee" value="${shipping_fee}"/>
+<%--                      <input type="hidden" name="from" value="${from }"/> --%>
+<%--                      <input type="hidden" name="qty" value="${qty }"/> --%>
+<%--                      <input type="hidden" name="optionNumber" value="${optionNumber }" /> --%>
                      <div class="col-md-12 form-group">
                         <textarea class="form-control" name="or_msg" id="msg" rows="1" placeholder="주문메세지"></textarea>
                      </div>

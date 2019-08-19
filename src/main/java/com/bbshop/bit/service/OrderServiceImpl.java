@@ -32,10 +32,10 @@ public class OrderServiceImpl implements OrderService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<Cart_GDVO> getCheckedCartList(String[] goods_num_list){
+	public List<Cart_GDVO> getCheckedCartList(String[] goods_num_list, long user_key){
 		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
 		
-		List<Cart_GDVO> cartList = mapper.getCheckedCartList(goods_num_list);
+		List<Cart_GDVO> cartList = mapper.getCheckedCartList(goods_num_list, user_key);
 		
 		return cartList;
 	}
