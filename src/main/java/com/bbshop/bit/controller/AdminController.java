@@ -405,7 +405,7 @@ public class AdminController {
 	@RequestMapping("admin_chart.do")
 	public String show_admin_chart() {
 		
-		return "shoppingMall/admin/chart";
+		return "shoppingMall/admin/g_chart_api_test";
 	}	
 	
 	
