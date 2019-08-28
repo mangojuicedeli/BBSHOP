@@ -193,7 +193,7 @@ $(document).ready(function() {
 					<!-- 수정, 삭제, 목록보기 버튼 -->
 					<div style="width: 100%;">
 						<div class="button-group-area mt-40">
-							<a href="#"  onclick='history.back(-1); return false;' id="go_list" class="genric-btn primary radius" style="margin-left: 42%;">목록보기</a>
+							<a href="/onetoonelist.do" id="go_list" class="genric-btn primary radius" style="margin-left: 42%;">목록보기</a>
 							
 							<a id="modify_post" href="/onetoone_modify.do?one_one_num=${board.one_one_num}" class="genric-btn primary radius">수정</a>
 							

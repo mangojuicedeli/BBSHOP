@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bbshop.bit.domain.Gd_GloveVO;
+import com.bbshop.bit.domain.Criteria;
+import com.bbshop.bit.domain.DormantUserVO;
 import com.bbshop.bit.domain.GoodsVO;
 import com.bbshop.bit.domain.PagingVO;
 
@@ -23,21 +24,21 @@ import lombok.extern.log4j.Log4j;
 public class GoodsMapperTests {
 
 	@Setter(onMethod_ = @Autowired)
-	private GoodsMapper goodsMapper;
+	private AdminMapper mapper;
 	
 //	@Setter(onMethod_ = @Autowired)
 //	private OrderMapper ordermapper;
 	
-//	@Test
+	@Test
 	public void testGetList() {
-		Gd_GloveVO g = new Gd_GloveVO();
-//		g = ordermapper.getGloveOption(2, 1, 1);
+		Criteria cri = new Criteria(1,5);
+		List<DormantUserVO> list = mapper.getDormantUsers(cri);
 		
-		log.info(g);
+		list.forEach(a -> log.info(list));
 	}
 	
 	
-	@Test
+//	@Test
 	public void testPaging() {
 		
 		PagingVO pagingVO = new PagingVO();
@@ -61,15 +62,15 @@ public class GoodsMapperTests {
 		log.info(map.toString());
 		
 		
-		List<GoodsVO> goodsList = goodsMapper.getGoodsList(map);
+//		List<GoodsVO> goodsList = goodsMapper.getGoodsList(map);
 		
-		goodsList.forEach(goods -> log.info(goods));
+//		goodsList.forEach(goods -> log.info(goods));
 	}
 	
 //	@Test 
 	public void testGetGoodsInfo() {
 		GoodsVO g = new GoodsVO();
-		g = goodsMapper.getGoodsInfo(8);
+//		g = goodsMapper.getGoodsInfo(8);
 		
 		log.info(g);
 	}

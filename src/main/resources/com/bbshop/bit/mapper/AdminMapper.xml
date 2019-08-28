@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<result property ="dtl_img2" column ="dtl_img2"/>
 	<result property ="best" column ="best"/>
 	<result property ="discount" column ="discount"/>
-	<result property ="SAILS" column ="SAILS"/>
+	<result property ="sales" column ="sales"/>
 	<result property ="regdate" column ="regdate"/>
 	<result property ="brand" column ="brand"/>
 </resultMap>
@@ -146,7 +146,210 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <update id="ModifyFAQ" parameterType="com.bbshop.bit.domain.FAQVO">
 	update service_FAQ set faq_category=#{FAQ_CATEGORY} , subject=#{SUBJECT} , content=#{CONTENT}
 	where faq_num=#{FAQ_NUM}
+</update>
 
+
+<!-- 의정 - 후기관리 -->
+<!-- 후기 목록 출력 -->
+<select id="getReviewList" resultType="com.bbshop.bit.domain.ReviewVO">
+	SELECT *
+	FROM (
+		SELECT /*+INDEX_DESC(review idx_review_regdate) */
+			ROWNUM RN, REVIEW.*
+		FROM REVIEW
+<![CDATA[
+		WHERE ROWNUM <= #{criteria.pageNum} * #{criteria.amount}
+		AND RE_DATE > '19/01/01'
+]]> 	
+		<if test='score != null and score != 0'>
+		WHERE SCORE = #{score}
+		</if>
+		)
+<![CDATA[
+	WHERE RN > #{criteria.pageNum}-1 * #{criteria.amount}
+]]>
+</select>
+<!-- 후기 개수 -->
+<select id="getReviewCount" resultType="int">
+	SELECT COUNT(*)
+	FROM REVIEW
+	<if test='score != null and score != 0'>
+	WHERE SCORE = #{score}
+	</if>
+</select>
+<!-- 후기 목록에 출력할 회원 아이디 -->
+<select id="getID" resultType="String">
+	SELECT MEMBER_ID
+	FROM SH_USER
+	WHERE USER_KEY = #{user_key}
+</select>
+
+<!-- 의정 - 회원관리 - 회원탈퇴 -->
+<!-- 휴면유저 불러오기 -->
+<select id="getDormantUsers" resultType="com.bbshop.bit.domain.DormantUserVO">
+	SELECT rownum rn, x.*
+	FROM (
+		SELECT u.user_key, u.member_id, u.grade, u.flag, w.wi_date, w.reason
+		FROM sh_user u, withdrawal w
+		WHERE u.user_key = w.user_key
+		ORDER BY w.wi_date desc
+		)x
+	WHERE rownum between (#{criteria.pageNum}*#{criteria.amount}-4) and (#{criteria.pageNum}*#{criteria.amount})
+</select>
+<!-- 휴면> 탈퇴 -->
+<update id="modifyFlag">
+	update sh_user set flag = 2
+	where user_key = #{user_key}
+</update>
+
+<select id="getAllOrders" resultType="com.bbshop.bit.domain.OrderVO">
+	SELECT *
+	FROM
+	( SELECT rownum rn, order_num, or_addr, pymntmthd, pymntamnt, phone1, phone2, savings, or_msg, cancel, or_date, 
+		stts, ship_nmbr, ship_date, user_key, name, items, receiver, tid 
+	  FROM 
+		( SELECT s.* 
+		  FROM shop_order s
+		  
+		  ORDER BY order_num desc )
+	<![CDATA[
+		WHERE rownum <= #{pageNum} * #{amount} )
+	WHERE rn > (#{pageNum} - 1) * #{amount}
+	]]>
+</select>
+
+<select id="getUserId" resultType="String">
+	SELECT member_id
+	FROM sh_user
+	WHERE user_key = #{user_key}
+</select>
+
+<select id="getRtrnExchnOrderGD" resultType="com.bbshop.bit.domain.Order_GDVO">
+	SELECT *
+	FROM order_gd
+	WHERE rtrn_exchn = 1 OR rtrn_exchn = 2
+	ORDER BY rtrn_exchn_date DESC
+</select>
+
+<select id="getRtrnExchnMemberId" resultType="String">
+	SELECT member_id 
+	FROM sh_user WHERE user_key = 
+		(
+        SELECT user_key FROM shop_order 
+        	WHERE order_num = 
+        	(
+            	SELECT order_num FROM order_gd 
+            	WHERE or_gd_key = #{or_gd_key}
+            )
+      	)
+</select>
+
+<select id="getShipDate" resultType="Date">
+	SELECT ship_date 
+	FROM shop_order 
+	WHERE order_num = #{order_num}
+</select>
+
+<select id="getAllMembers" resultType="com.bbshop.bit.domain.MemberVO">
+	SELECT *
+	FROM sh_user
+	ORDER BY caution DESC
+
+</select>
+
+<select id="getOnetoone" resultType="com.bbshop.bit.domain.OnetooneVO">
+	select * from onetoone order by one_one_num desc
+</select>
+
+<select id="searchOtoCategory" parameterType="hashmap" resultType="com.bbshop.bit.domain.OnetooneVO">
+	select * from onetoone
+	where 
+	 <foreach collection="search" item ="category" open="(" close=")" separator="or">
+	one_category = #{category}
+	</foreach>
+	   
+</select>
+
+<select id='searchOtoAnswer' parameterType="String" resultType="com.bbshop.bit.domain.OnetooneVO">
+	select * from onetoone
+	
+	<if test='_parameter =="answerOk"'>
+	where lev=1
+	</if>
+	<if test='_parameter =="answerNo"'>
+	where lev=0
+	</if>
+
+</select>
+
+<select id='getReportBoard' resultType="com.bbshop.bit.domain.ReportBoardVO">
+	select * from report_board
+</select>
+
+<select id='getBoard' resultType="com.bbshop.bit.domain.CommunityVO">
+	select *
+    from community
+	where 
+	<foreach collection="reportNum" item ="report" open="(" close=")" separator="or">
+	board_num = #{report.value}
+	</foreach>
+
+</select>
+<select id='getBoardAll' resultType="com.bbshop.bit.domain.CommunityVO">
+	
+select board_num BOARD_NUM,team_name,title, board_content,uploadfile,writer,hit,regdate,moddate,reply_count,report_num,user_key
+from community
+
+</select>
+<delete id="deleteBoard">
+	delete from community where board_num IN
+	<foreach collection="delnum" item="delete" open="(" close=")" separator=",">
+	#{delete.value}
+	</foreach>
+</delete>
+
+<select id="searchBoardCategory" resultType="com.bbshop.bit.domain.CommunityVO">
+	select board_num BOARD_NUM,team_name,title, board_content,uploadfile,writer,hit,regdate,moddate,reply_count,report_num,user_key
+	from community
+	where
+	<foreach collection="search" item ="category" open="(" close=")" separator="or">
+	team_name = #{category}
+	</foreach>
+	
+</select>
+
+<select id="searchReportCategory" resultType="com.bbshop.bit.domain.ReportBoardVO">
+select *
+from report_board
+where
+	<foreach collection="search" item ="category" open="(" close=")" separator="or">
+	re_category = #{category}
+	</foreach>
+	
+</select>
+
+<update id="sanctionUser" >
+	update sh_user
+	set caution = caution+1 where nickname=#{user}
+</update>
+<delete id="sanctionBoard">
+delete from community where board_num=#{board_num}
+</delete>
+
+<update id="answerOTO">
+	update onetoone
+	set one_contents =#{one_contents}, lev=lev+1 where one_one_num=#{one_one_num}
+</update>
+
+<select id="getTotal" resultType="java.lang.Long">
+	SELECT count(*)
+	FROM ${table}
+</select>
+
+<update id="updateTitle">
+	UPDATE community
+	SET title = '삭제된 게시글입니다.'
+	WHERE board_num = #{board_num}
 </update>
 
 </mapper>

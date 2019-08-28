@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,7 +115,7 @@ body {
 										<div class="float-right">
 											<div class="input-group">
 												<div class="float-right">
-													<input type="checkbox">전체 <label for="cb2"></label>
+													<input type="checkbox" checked="checked">전체 <label for="cb2"></label>
 													<input type="checkbox" style="margin-left: 10px;">교환
 													<input type="checkbox" style="margin-left: 10px;">환불
 													<input type="checkbox" style="margin-left: 10px;">미완료
@@ -124,96 +126,57 @@ body {
 									</div>
 									<div class="table-responsive">
 										<table class="table table-hover">
-											<thead class=" text-primary">
+											<thead class=" text-primary" style="text-align:center;">
 												<th>주문번호</th>
 												<th>회원 ID</th>
 												<th>교환/반품</th>
 												<th>상품번호</th>
-												<th>비고</th>
 												<th>배송일자</th>
 												<th>적립금</th>
 												<th>신청날짜</th>
 												<th>처리상태</th>
 											</thead>
 											<tbody>
-												<tr>
-													<td><input type="checkbox">12035150</td>
+												<tr style="text-align:center;">
+													<td style="text-align:left;"><input type="checkbox">12035150</td>
 													<td>mingu</td>
 													<td>교환</td>
 													<td>15654811</td>
-													<td>X</td>
 													<td>2019-07-06</td>
 													<td>￦1,000</td>
 													<td>2019-07-07</td>
 													<td><a href="#pablo" class="btn btn-danger btn-sm">미완료</a></td>
 												</tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-danger btn-sm">미완료</a></td>
+											<c:forEach var="order_gd_list" items="${order_gd_list}" varStatus="status">
+												<tr style="text-align:center;">
+													<td style="text-align:left;"><input type="checkbox">${order_gd_list.order_num}</td>
+													<td>${user_id_list[status.index]}</td>
+													<td>
+												    <c:choose>
+                             							 <c:when test="${order_gd_list.rtrn_exchn eq 1 }">
+                                							교환
+                             							 </c:when>
+                             						 	<c:otherwise>
+                                 							반품
+                             							</c:otherwise>
+                             						 </c:choose>
+                             						 </td>
+													<td>${order_gd_list.goods_num}</td>
+													<td>
+													<c:choose>
+                             							 <c:when test="${ship_date[status.index] eq null }">
+                                							null
+                             							 </c:when>
+                             						 	<c:otherwise>
+                             						 	<fmt:formatDate pattern="yyyy/MM/dd" value="${ship_date[status.index]}" />
+                             							</c:otherwise>
+                             						 </c:choose>
+                             						</td>
+													<td>￦${order_gd_list.savings}</td>
+													<td><fmt:formatDate pattern="yyyy/MM/dd" value="${order_gd_list.rtrn_exchn_date}" /></td>
+													<td><a href="#pablo" onclick="changeStts(${status.index})" class="btn btn-success btn-sm" id="Btn${status.index}">완  료</a></td>
 												</tr>
-												<tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-success btn-sm">완  료</a></td>
-												</tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-success btn-sm">완  료</a></td>
-												</tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-success btn-sm">완  료</a></td>
-												</tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-success btn-sm">완  료</a></td>
-												</tr>
-												<tr>
-													<td><input type="checkbox">12035150</td>
-													<td>mingu</td>
-													<td>교환</td>
-													<td>15654811</td>
-													<td>X</td>
-													<td>2019-07-06</td>
-													<td>￦1,000</td>
-													<td>2019-07-07</td>
-													<td><a href="#pablo" class="btn btn-success btn-sm">완  료</a></td>
-												</tr>
+											</c:forEach>
 						  <table id='table_footer'width="100%">
                       	<tr>
                       	 	<td align=left><button class='btn btn-success btn-sm'>선택 완료</button></td>
@@ -668,6 +631,19 @@ body {
 																});
 											});
 						});
+	</script>
+	
+	<!-- 버튼 처리 -->
+	<script>
+	function changeStts(num){
+		if( $("#Btn"+num).attr('class') == 'btn btn-success btn-sm'){
+			 $("#Btn"+num).attr('class','btn btn-danger btn-sm');
+			 $("#Btn"+num).text('미완료');
+		} else{
+			 $("#Btn"+num).attr('class','btn btn-success btn-sm');
+			 $("#Btn"+num).text('완료');
+		}
+	}
 	</script>
 </body>
 

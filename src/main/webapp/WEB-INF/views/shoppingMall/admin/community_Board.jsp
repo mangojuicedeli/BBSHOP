@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.bbshop.bit.domain.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,9 +167,14 @@ height:100%;}
             text-decoration: none;
             cursor: pointer;
         }
-        
-    .pagination {
+         .pagination {
 	margin-left: 300px;
+}
+label{
+	font-weight:bold;
+	font-size:large;
+	color:#50bcdf;
+	
 }
 </style>
 </head>
@@ -185,129 +193,104 @@ height:100%;}
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary" style='display:block;'>
-                  <h4 class="card-title ">상품QNA</h4>
-                  <p class="card-category">QNA 내용을 볼수있습니다.</p>
+                  <h4 class="card-title ">커뮤니티 게시글관리</h4>
+                  <p class="card-category">게시글 내용을 볼수있습니다.</p>
+                
+
+              		
                 </div>
                 <div class="card-body">
-                  <table id='categoryList'>
-						<form>
-							<tr>
-								<td><label for="category">카테고리</label> &nbsp; &nbsp;</td>
-								<td><input type='checkbox' id='QNA_all' name='FAQ_category'>전체 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='QNA_glove' name='FAQ_category'>글러브 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='QNA_bat' name='FAQ_category'>배트&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='QNA_uniform' name='FAQ_category'>유니폼&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='QNA_shoes' name='FAQ_category'>야구화&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='QNA_ball' name='FAQ_category'>야구공&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='submit' id='QNA_submit' name='FAQ_category_submit' value='조회' class='btn btn-info btn-sm'>
-								
-						</form>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<form>
-							
-								<td><label for="answer">답변여부</label> &nbsp; &nbsp;</td>
-								<td><input type='checkbox' id='answer_all' name='FAQ_category'>전체 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='complete_answer' name='FAQ_category'>답변O &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='no_answer' name='FAQ_category'>답변X&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='submit' id='FAQ_submit' name='FAQ_category_submit' value='조회' class='btn btn-info btn-sm'>
-							</form>	
-						
-							</tr>
-				  </table>
+					<form action="searchBoardCategory.do" >
+    	              <table id='categoryList' align=right>
+						<tr>
+							<td><label for="category">구단 게시판 분류</label> &nbsp; &nbsp;</td>
+							<td><input type='checkbox' id='notice_all' name='Team_Notice_category' value="all">전체 &nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_LG' name='category' value='lg'>LG &nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Doosan' name='category' value='doosan'>두산&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Hanwha' name='category' value='hanwha'>한화&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Samsung' name='_category' value='samsung'>삼성&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Kia' name='category' value='kia'>기아&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_NC' name='category' value='nc'>NC&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_SK' name='category' value='sk'>SK&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_KT' name='category' value='kt'>KT&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Lotte' name='category' value='lotte'>롯데&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='checkbox' id='notice_Kiwoom' name='category' value='kiwoom'>키움&nbsp;&nbsp;&nbsp;</td>
+							<td><input type='submit' id='notice_submit' name='notice_category_submit' value='조회' class='btn btn-info btn-sm'></td>
+						</tr>		
+					  </table>
+					</form>
                  
                   <div class="table-responsive">
       			   	<table class="table" style="background-color: rgba(230, 236, 236, 0.4)">
                       <thead class=" text-primary">
+                      
+                        <th style="text-align: center"  width=2%>
+                         <input type='checkbox' id='check_all'>
+                        </th>
                         
                         <th style="text-align: center"  width=10%>
-                          QNA 번호
+                          게시글 번호
                         </th>
                         <th  style="text-align:center" width=10%>
-                          상품 카테고리
-                        </th>
-                        <th style="text-align: center" width=10%>
-                          상품 번호
+             	팀		
                         </th>
                         <th style="text-align: center">
-                          QNA제목
+                          제목
                         </th>
 					   <th style="text-align: center">
-                          회원 ID
+                          작성자
                         </th>                
 					    <th style="text-align: center">
                           등록 날짜
                         </th>
                       <th style="text-align: center">
-                          답변 여부
+                          조회수
                         </th>
-                      <th style="text-align: center">
-                          답변 하기
+                            <th style="text-align: center;" width=5%>
+                          
                         </th>
                         
                       </thead>	
-                      <tbody>
+                      <tbody id="boardListTable">
+                      <c:forEach var="board" items="${boardList}" varStatus="status" begin="${PageMaker.cri.pageNum*5-5 }" end="${PageMaker.cri.pageNum*5-1 }">
                       	<tr>
                       		
-                      		<td style='text-align:center'>0000001</td>
-                      		<td style='text-align:center'>글러브</td>
-                      		<td style='text-align:center'>0000001</td>
-                      		<td style='text-align:center'><Button id="info_QNA" type="button" class="btn btn-link" align=center>글러브 관련해서 문의있습니다. 불라불라랄라블라</Button></td>
-                      		<td style='text-align:center'>user1</td>
-                      		<td style='text-align:center'>19.07.10</td>
-                      		<td style='text-align:center'>O</td>
-                      		<td style='text-align:center'><input type='button' id='goanswer1' class='btn btn-success btn-sm' value='답변'></td>
+                      		<td style='text-align:center'><input type='checkbox' class='check'>
+                      		<td style='text-align:center'><text id='board_numbtn${status.index}'>${board.BOARD_NUM}</text></td>
+                      		<td style='text-align:center'>${board.TEAM_NAME}</td>
+                      		<td style='text-align:center'><Button id="info_board${status.index}" type="button" class="btn btn-link" align=center>${board.TITLE }</Button></td>
+                      		<td style='text-align:center'>${board.WRITER}</td>
+                      		<td style='text-align:center'>
+                      			<fmt:formatDate pattern="yyyy-MM-dd" value='${board.REGDATE}'/></td>
+                      		<td style='text-align:center'>${board.HIT}</td>
+                  			
                       	</tr>
-                     	<tr>
-                      		
-                      		<td style='text-align:center'>0000002</td>
-                      		<td style='text-align:center'>배트</td>
-                      		<td style='text-align:center'>0000002</td>
-                      		<td style='text-align:center'><Button id="info_QNA" type="button" class="btn btn-link" align=center>배트 관련해서 문의있습니다. 불라불라랄라블라</Button></td>
-                      		<td style='text-align:center'>user2</td>
-                      		<td style='text-align:center'>19.07.10</td>
-                      		<td style='text-align:center'>O</td>
-                      		<td style='text-align:center'><input type='button' id='goanswer2' class='btn btn-success btn-sm' value='답변'></td>
-                      	</tr>
-                      		<tr>
-                      		
-                      		<td style='text-align:center'>0000003</td>
-                      		<td style='text-align:center'>유티폼</td>
-                      		<td style='text-align:center'>0000003</td>
-                      		<td style='text-align:center'><Button id="info_QNA" type="button" class="btn btn-link" align=center>유니폼 관련해서 문의있습니다. 불라불라랄라블라</Button></td>
-                      		<td style='text-align:center'>user3</td>
-                      		<td style='text-align:center'>19.07.15</td>
-                      		<td style='text-align:center'>X</td>
-                      		<td style='text-align:center'><input type='button' id='goanswer3' class='btn btn-success btn-sm' value='답변'></td>
-                      	</tr>
-                      		<tr>
-                      		
-                      		<td style='text-align:center'>0000004</td>
-                      		<td style='text-align:center'>야구화</td>
-                      		<td style='text-align:center'>0000004</td>
-                      		<td style='text-align:center'><Button id="info_QNA" type="button" class="btn btn-link" align=center>야구화 관련해서 문의있습니다. 불라불라랄라블라</Button></td>
-                      		<td style='text-align:center'>user4</td>
-                      		<td style='text-align:center'>19.07.17</td>
-                      		<td style='text-align:center'>X</td>
-                      		<td style='text-align:center'><input type='button' id='goanswer4' class='btn btn-success btn-sm' value='답변'></td>
-                      	</tr>
-                      	
+                     	</c:forEach>
                       </tbody>
-                       <table id='table_footer'width="100%">
+                     <table id='table_footer'width="100%">
                       	<tr>
-                      	 	<td align=left><button class='btn btn-dark btn-sm'>선택 삭제</button></td>
+                      	 	<td align=left><button id="SelectDelete" class="btn btn-danger btn-sm">선택 삭제</button></td>
                       
                    
                       	<td style='text-align:center'>
                       		<ul class="pagination">
+										<c:if test="${PageMaker.prev}">
 										<li class="page-item disabled"><a class="page-link"
-											href="#">이전</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">4</a></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">다음</a></li>
+											href="${PageMaker.startPage -1 }">이전</a></li>
+										</c:if>
+										<c:forEach var="num" begin="${PageMaker.startPage}" end="${PageMaker.endPage}">
+										<li class="page-item ${PageMaker.cri.pageNum==num?"active":"" }" id="btn_${num}">
+										<a class="page-link" href="<c:out value="${num}"/>"><c:out value="${num}"/></a></li>
+										</c:forEach>
+										<c:if test="${PageMaker.next}">
+										<li class="page-item"><a class="page-link"
+											href="${PageMaker.endPage+1 }">다음</a></li>
+										</c:if>
 									</ul>
+							<form id='pageForm' action="goodsList.do" method='POST'>
+								<input type='hidden' name='pageNum' value='${PageMaker.cri.pageNum}'>
+								<input type='hidden' name='amount' value='${PageMaker.cri.amount}'>
+							</form>
                       	</td>
                       		
                       	<td style='text-align:right;' width=30%>
@@ -319,9 +302,9 @@ height:100%;}
 									검색 기준 <span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">카테고리</a></li>
-									<li><a href="#">회원 ID</a></li>
-									<li><a href="#">답변여부</a></li>
+									<li><a href="#">팀</a></li>
+									<li><a href="#">제목</a></li>
+									<li><a href="#">작성자</a></li>
 								</ul>
 							</div>
 							<input type="text" value="" class="form-control"
@@ -347,212 +330,47 @@ height:100%;}
           </div>
         </div>
       </div>
-      <div id='info_modal' class='info_modal'>
-      	<div class='info_modal_content'>
+	<div id='info_modal' class='info_modal'>
+		<div class='info_modal_content'>
 			<span class='close'>&times;</span>
-			<h4 align =center>글조회</h4>
-			<div class='modal_body' style='padding:40px 50px;'>
-			<table width=100%>
-				<tr>
-					<td>
-						<label for='writer'>작성자</label><input type='text' class=form-control id='content_writer' name='content_writer'></td> 
-				</tr>
-				<tr>
-					<td>
-						<label for='title'>제목</label><input type='text' class=form-control id='content_title' name='content_title'></td>
-				</tr>
-				<tr>
-					<td>
-						<label for='goodsCategory'>상품 분류</label><select name='category_goods'>
-														<option value='glove'>글러브</option>
-														<option value='bat'>배트</option>
-														<option value='uniform'>유니폼</option>
-														<option value='shoes'>야구화</option>
-														<option value='ball'>야구공</option>
-														
-														</select>
-														</td>
-				</tr>
-				<tr>
-					<td>
-						<label for='write_date'>작성일</label>
-						<input type='text' id='write_date' name='write_date' class='form-control'>
-						</td>
-				</tr>
-				<tr>
-					<td>
-						<label for='write_content'>내용</label>
-						<input width='70%'  type='text' id='write_content' name='write_content' class='form-control'></td>
-				</tr>
-				
-			</table>
-			</form>
-			
+			<h4 align=center>글조회</h4>
+			<div class='modal_body' style='padding: 40px 50px;'>
+				<table width=100% style="text-align: center">
+					<tr>
+						<td><label for='writer'>작성자</label></td>
+						<td><text id="writer"></text></td>
+					</tr>
+					<tr>
+						<td><label for='title'>제목</label></td>
+						<td><text id="subject"></text></td>
+					</tr>
+					<tr>
+						<td><label for='goodsCategory'>구단</label></td>
+						<td><text id="team"></text></td>
+					</tr>
+					<tr>
+						<td><label for='write_date'>작성일</label></td>
+						<td><text id="regdate"></text></td>
+					</tr>
+					<tr>
+						<td><label for='write_content'>내용</label></td>
+						<td><textarea id="contents" rows="10" cols="40"></textarea></td>
+					</tr>
+				</table>
+			</div>
+			<!-- Footer -->
+			<div class="modal-footer" style="margin-top: 0px;">
+				<table align="center">
+					<tr>
+						<td><button type="button" class="btn btn-info btn-block"
+								id="confirmation">확인</button></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
-		 <div id='answer_modal' class='answer_modal'>
-      	<div class='answer_modal_content'>
-			<span class='close'>&times;</span>
-			<h4 align =center>글조회</h4>
-			<div class='modal_body' style='padding:40px 50px;'>
-			<form id='answerForm'>
-			<table width=100%>
-				<tr>
-					<td>
-						<label for='writer'>작성자</label><input type='text' class=form-control id='content_writer' name='content_writer'></td> 
-				</tr>
-				<tr>
-					<td>
-						<label for='title'>제목</label><input type='text' class=form-control id='content_title' name='content_title'></td>
-				</tr>
-				<tr>
-					<td>
-						<label for='goodsCategory'>상품 분류</label><select name='category_goods'>
-														<option value='glove'>글러브</option>
-														<option value='bat'>배트</option>
-														<option value='uniform'>유니폼</option>
-														<option value='shoes'>야구화</option>
-														<option value='ball'>야구공</option>
-														
-														</select>
-														</td>
-				</tr>
-				<tr>
-					<td>
-						<label for='write_date'>작성일</label>
-						<input type='text' id='write_date' name='write_date' class='form-control'>
-						</td>
-				</tr>
-				<tr>
-					<td>
-						<label for='contents'>내용</label></td>
-						</tr>
-						<tr>
-						<td width="100%">
-						<textarea name="contents" id="contents" cols="90" rows="15" ></textarea></td>
-				</tr>
-				<tr><td><input type='submit' id=answerSubmit value='답변' class='btn btn-info'>
-						<input type='button' id=cancelAnswer value='취소' class='btn btn-danger'>
-				</td>
-			</table>
-				</form>
-			
-			
-			</div>
-		</div>
-		
-	 </div>
 
-
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="https://creative-tim.com/presentation">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license">
-                  Licenses
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-        </div>
-      </footer>
-    </div>
-  </div>
-  <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-      <a href="#" data-toggle="dropdown">
-        <i class="fa fa-cog fa-2x"> </i>
-      </a>
-      <ul class="dropdown-menu">
-        <li class="header-title"> Sidebar Filters</li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger active-color">
-            <div class="badge-colors ml-auto mr-auto">
-              <span class="badge filter badge-purple" data-color="purple"></span>
-              <span class="badge filter badge-azure" data-color="azure"></span>
-              <span class="badge filter badge-green" data-color="green"></span>
-              <span class="badge filter badge-warning" data-color="orange"></span>
-              <span class="badge filter badge-danger" data-color="danger"></span>
-              <span class="badge filter badge-rose active" data-color="rose"></span>
-            </div>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-1.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-2.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-3.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-4.jpg" alt="">
-          </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-        </li>
-        <!-- <li class="header-title">Want more components?</li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                  Get the pro version
-                </a>
-            </li> -->
-        <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
-            View Documentation
-          </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-   
-  <script >
+	<script >
 
 	var editor_object=[];
 	
@@ -587,9 +405,47 @@ height:100%;}
     var info = document.getElementById('info_modal');
     var answer = document.getElementById('answer_modal');
 	var card = document.getElementsByClassName('card-header card-header-primary');
-    $('#info_QNA').click(function(){
-      info.style.display = "block";
-    })
+	$('#info_board0').click(function(){
+	      info.style.display = "block";
+	      $('#writer').html("${boardList[0].WRITER}");
+	      $('#subject').html("${boardList[0].TITLE}");
+	      $('#team').html("${boardList[0].TEAM_NAME}");
+	      $('#regdate').html("<fmt:formatDate pattern="yyyy-MM-dd" value='${boardList[0].REGDATE}'/></td>");
+	      $('#contents').html("${boardList[0].BOARD_CONTENT}");
+	    });
+	$('#info_board1').click(function(){
+	      info.style.display = "block";
+
+	      $('#writer').html("${boardList[1].WRITER}")
+	      $('#subject').html("${boardList[1].TITLE}");
+	      $('#team').html("${boardList[1].TEAM_NAME}")
+	      $('#regdate').html("<fmt:formatDate pattern="yyyy-MM-dd" value='${boardList[1].REGDATE}'/></td>");
+	      $('#contents').html("${boardList[1].BOARD_CONTENT}");});
+	$('#info_board2').click(function(){
+	      info.style.display = "block";
+
+	      $('#writer').html("${boardList[2].WRITER}")
+	      $('#subject').html("${boardList[2].TITLE}");
+	      $('#team').html("${boardList[2].TEAM_NAME}")
+	      $('#regdate').html("<fmt:formatDate pattern="yyyy-MM-dd" value='${boardList[2].REGDATE}'/></td>");
+	      $('#contents').html("${boardList[2].BOARD_CONTENT}");});
+	$('#info_board3').click(function(){
+	      info.style.display = "block";
+
+	      $('#writer').html("${boardList[3].WRITER}")
+	      $('#subject').html("${boardList[3].TITLE}");
+	      $('#team').html("${boardList[3].TEAM_NAME}")
+	      $('#regdate').html("<fmt:formatDate pattern="yyyy-MM-dd" value='${boardList[3].REGDATE}'/></td>");
+	      $('#contents').html("${boardList[3].BOARD_CONTENT}");});
+	$('#info_board4').click(function(){
+	      info.style.display = "block";
+
+	      $('#writer').html("${boardList[4].WRITER}")
+	      $('#subject').html("${boardList[4].TITLE}");
+	      $('#team').html("${boardList[4].TEAM_NAME}")
+	      $('#regdate').html("<fmt:formatDate pattern="yyyy-MM-dd" value='${boardList[4].REGDATE}'/></td>");
+	      $('#contents').html("${boardList[4].BOARD_CONTENT}");})
+	    
 
     $('#goanswer1').click(function(){
     	answer.style.display='block';
@@ -604,13 +460,139 @@ height:100%;}
       }
     }
 
+    
  
     $(document).ready(function() {    	
     	
-      $().ready(function() {
     	
-    
-    	  $(".sidebar-wrapper li").eq(4).addClass('active');
+    	//선택체크 부분 
+    	  //전체체크를 누르면 하위에 모든 체크박스가 체크된다.
+    		$(document).on("click","#check_all",function(){
+    			if($('#check_all').is(':checked')){
+    				$('.check').prop('checked' , true);
+    			}
+    			else{
+    				$('.check').prop('checked', false);
+    				
+    			}	
+    		});
+    		
+    		//하위 항목중 하나라도 체크가 풀릴시 전체 체크도 풀려야한다.
+    		 $(document).on('click','.check',function(){
+    			if($("input[class='check']:checked").length<=${PageMaker.cri.amount}){
+    				$("#check_all").prop("checked",false);
+    				
+    			}else{
+    				$("#check_all").prop("checked",true);
+    			}
+    		
+    		
+    		});
+    		
+    		 $("#SelectDelete").click(function(){
+    				var listindex=[];
+    				var boardnum=[];
+    				$('input:checkbox[type=checkbox]:checked').each(function (index) {
+    					listindex.push($('.check').index(this));
+    					boardnum.push($('#board_numbtn'+listindex[index]).text());
+    					});
+    				var ajaxarr={"boardnum":boardnum}
+    				alert(listindex);
+    				alert(boardnum);
+    				alert(ajaxarr);
+    				$.ajaxSettings.traditional = true;
+    				$.ajax({
+    					url:"selectBoardDelete.do",
+    					type:"POST",
+    					data:ajaxarr,
+    					dataType:"text",
+    					success : function(data) {
+    						console.log("삭제 성공");
+    						console.log(data);
+    						location.reload();
+    						}, 
+    					error : function() {
+    						console.log("실패");
+    						}
+    					});
+    			});
+
+      $().ready(function() {
+    	  
+    	//페이지 이동부분
+  		 var actionForm =$("#pageForm");
+ 	
+  		  $(".page-item a").on("click",function(e){
+ 				e.preventDefault(); //페이지 이동이없도록 처리한다.
+ 				console.log("click");
+ 				//FORM에 있는 pageNum값을 클릭한 페이지의 숫자로 바꿔주기 위한 코드.
+ 				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+ 				var data = {
+ 						//form의 페이지 넘과 어마운트를 받아온다(amount는 없어도 상관없다.)
+ 						pageNum: actionForm.find("input[name='pageNum']").val(), 
+ 						amount: actionForm.find("input[name='amount']").val()
+ 					};
+ 				console.log("pageNum="+data.pageNum);
+ 				var str = '';
+ 				var end = ${PageMaker.endPage};
+ 				var start = ${PageMaker.startPage};
+ 				var paging = '';
+ 	
+ 				$.ajax({
+ 					url:"boardListPaging.do",
+ 					type:"GET",
+ 					data:data,
+ 					dataType:"json",
+ 					contentType:"application/json",
+ 					success:function(data){
+ 						
+ 						var count=0;
+ 						
+ 						//한 페이지당 굿즈 리스트를 5개씩 받기위해 설정. 초기에는 pageNum이 1 이고 ajax가 실행될 시기에는 2부터 시작하기에 가능하게만듬.
+ 						for( var i = data.PageMaker.cri.pageNum*5-5;i<data.PageMaker.cri.pageNum*5;i++){
+ 							
+ 							var values=data.board[i];
+ 							
+ 	  						// 가입날짜
+ 	  						var time1 = new Date(values.regdate).getTime();
+ 	  						var regdate = new Date(time1);
+ 	  						var formatRegdate = regdate.getFullYear()+"-0"+(regdate.getMonth() + 1)+"-"+regdate.getDate();
+ 							
+ 							str+="<tr><td style='text-align:center'><input type='checkbox' class='check'></td>"
+                      			+"<td style='text-align:center'><text id='board_numbtn"+count+"'>"+values.board_NUM+"</text></td>"
+                      			+"<td style='text-align:center'>"+values.team_NAME+"</td>"
+                      			+"<td style='text-align:center'><Button id='info_QNA' type='button' class='btn btn-link' align=center>"+values.title+"</Button></td>"
+                      			+"<td style='text-align:center'>"+values.writer+"</td>"
+                      			+"<td style='text-align:center'>" + formatRegdate + "</td>"
+                      			+"<td style='text-align:center'>"+values.hit+"</td></tr>";
+                      		count++;
+ 							//마지막 페이지에서 증가 사이즈를 5의 폭으로 줬는데 마지막페이지가 5가 안될경우에는 오류가 나기 때문에 goodsList[i+1]가 null일경우 포문을 빠져나간다.
+ 							if(data.board[i+1]==null)
+ 								break;
+ 								
+ 							
+ 						}
+ 						$('#boardListTable').empty();
+ 						$('#boardListTable').append(str);
+ 						
+ 						// 페이징 버튼 AJAX 처리
+ 						
+ 					
+ 					
+ 						
+ 						$('.page-item').removeClass("active");
+ 						$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
+ 					},
+ 					error:function(){
+ 						console.log("실패");
+ 					}
+ 					});
+ 				
+ 			  });
+  
+    	  
+    	  $(".sidebar-wrapper li").eq(5).addClass('active');
+    	  
     	  
         $sidebar = $('.sidebar');
 
@@ -779,6 +761,16 @@ height:100%;}
         });
       });
     });
+    
+    // x 버튼
+    $(".close")[0].onclick = function(){
+    	info_modal.style.display = "none";
+    }
+    
+    // 확인 버튼
+    $("#confirmation")[0].onclick = function(){
+    	info_modal.style.display = "none";
+     }
   </script>
 </body>
 

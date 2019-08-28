@@ -1,10 +1,13 @@
 
 package com.bbshop.bit.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,9 +21,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bbshop.bit.domain.CommunityVO;
+import com.bbshop.bit.domain.Gd_BallVO;
+import com.bbshop.bit.domain.Gd_BatVO;
+import com.bbshop.bit.domain.Gd_GloveVO;
+import com.bbshop.bit.domain.Gd_ShoesVO;
+import com.bbshop.bit.domain.Gd_UniformVO;
+import com.bbshop.bit.domain.GoodsVO;
 import com.bbshop.bit.domain.PageDTO;
 import com.bbshop.bit.domain.PagingVO;
 import com.bbshop.bit.service.CommunityService;
@@ -49,21 +60,11 @@ public class CommunityController {
 	@RequestMapping("/community_form.do")
 	public String community_form(Model model, @RequestParam("TEAM_NAME") String teamName, HttpSession session) {
 		
-		/*
-		 long user_key = (long)session.getAttribute("user_key");
-		 String nickname = (String)session.getAttribute("nickname");
-		 
-		 // 비회원
-		 if(nickname.substring(0,9).equals("noAccount")) {
-		 	// alert("로그인이 필요합니다.");
-		 }
-		 else{
-		 	long user_key = (long)session.getAttribute("user_key");
-		 	qna.setUser_key(user_key);
-		 	}
-		 */
+		long user_key = (long)session.getAttribute("member");
+		String nickname = (String)session.getAttribute("nickname");
+		
 		System.out.println("등록 폼 진입");
-		model.addAttribute("nickname",communityService.getNickname(1));
+		model.addAttribute("nickname", nickname);
 		model.addAttribute("teamName", teamName);
 		
 		return "shoppingMall/community/community_form";
@@ -71,10 +72,48 @@ public class CommunityController {
 	
 	// 커뮤니티 - 글 상세
 	@RequestMapping("/community_detail.do")
-	public String community_detail(Model model, @RequestParam("BOARD_NUM") long board_num) {
+	public String community_detail(Model model, @RequestParam("BOARD_NUM") long board_num) throws IOException {
 		
 		communityService.updateHit(board_num);		
+		model.addAttribute("post", communityService.getPost((long)board_num));
+
+		String url = "http://mlbpark.donga.com/mp/b.php?b=kbotown";
+        Document doc = null;
+        
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String url1 = "https://sports.media.daum.net/sports/baseball/";
+        Document doc1 = null;
+        
+        try {
+            doc1 = Jsoup.connect(url1).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String url2 = "https://sports.media.daum.net/sports/worldbaseball/";
+        Document doc2 = null;
+        
+        try {
+            doc2 = Jsoup.connect(url2).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+        Elements element = doc.select("div.scoreBoard");
+        Elements element1 = doc1.select("div.news_newest").select("ul.list_news");
+        Elements element2 = doc2.select("div.news_newest").select("ul.list_news");
+        
+		communityService.updateHit(board_num);
+		
 		model.addAttribute("post", communityService.getPost((long) board_num));
+		model.addAttribute("element", element);
+        model.addAttribute("element1", element1);
+        model.addAttribute("element2", element2);
 		
 		return "shoppingMall/community/community_detail";
 	}
@@ -95,6 +134,7 @@ public class CommunityController {
 	public String list(PagingVO pagingvo, Model model, @RequestParam("TEAM_NAME") String teamName) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		pagingvo.setAmount(15);
 		map.put("pagingVO", pagingvo);
 		map.put("teamName", teamName);
 		int total = communityService.getTotal(map);
@@ -109,11 +149,48 @@ public class CommunityController {
 			System.out.println("vo : " + vo.toString());
 		}
 		
+		// 크롤링
+		String url = "http://mlbpark.donga.com/mp/b.php?b=kbotown";
+        Document doc = null;
+        
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String url1 = "https://sports.media.daum.net/sports/baseball/";
+        Document doc1 = null;
+        
+        try {
+            doc1 = Jsoup.connect(url1).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String url2 = "https://sports.media.daum.net/sports/worldbaseball/";
+        Document doc2 = null;
+        
+        try {
+            doc2 = Jsoup.connect(url2).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+        Elements element = doc.select("div.scoreBoard");
+        Elements element1 = doc1.select("div.news_newest").select("ul.list_news");
+        Elements element2 = doc2.select("div.news_newest").select("ul.list_news");
+        		
+		model.addAttribute("element", element);
+        model.addAttribute("element1", element1);
+        model.addAttribute("element2", element2);
+		
 		model.addAttribute("pageMaker", new PageDTO(pagingvo, total));
 		
 		return "shoppingMall/community/community_list";
 	}
 	
+	/*
 	@RequestMapping("/communityWriteAction.do")
 	public String communityWriteAction(CommunityVO community, Model model) throws Exception{
 		
@@ -134,6 +211,55 @@ public class CommunityController {
 		return "redirect:/community_detail.do";
 		
 	}
+	*/
+	
+	@RequestMapping(value="communityWriteAction.do", method=RequestMethod.POST)
+	public String communityWriteAction(MultipartHttpServletRequest request, Model model) throws Exception{
+		
+		long user_key = (long)session.getAttribute("member");
+		
+		CommunityVO community = new CommunityVO();
+		
+		List<MultipartFile> mf = request.getFiles("IMG");
+		
+		String uploadPath="C:\\Users\\angel\\git\\BBSHOP\\src\\main\\webapp\\resources\\community\\img\\upload\\";
+
+		String [] originalFileExtension = new String [mf.size()];
+		String [] storedFileName = new String[mf.size()];
+		for(int i = 0 ; i < mf.size();i++) {
+		originalFileExtension[i] = mf.get(i).getOriginalFilename();
+		storedFileName[i]= UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension[i];
+		
+		}
+		
+		for(int i = 0; i<mf.size();i++) {
+			if(mf.get(i).getSize()!=0)
+				//암호화해서 파일을 저장한다.
+			//mf.get(i).transferTo(new File(uploadPath+storedFileName[i]));
+				mf.get(i).transferTo(new File(uploadPath+originalFileExtension[i]));
+		}
+		
+		community.setBOARD_CONTENT(request.getParameter("BOARD_CONTENT").replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
+		community.setUSER_KEY(user_key);
+		community.setWRITER(request.getParameter("WRITER"));
+		community.setTITLE(request.getParameter("TITLE"));
+		community.setTEAM_NAME(request.getParameter("TEAM_NAME"));
+		community.setUPLOADFILE("resources/community/img/upload/"+originalFileExtension[0]);
+		
+		int res = communityService.insertPost(community);
+		
+		if(res == 1) {
+			System.out.println("글이 등록되었습니다.");
+		} else {
+			System.out.println("글 등록에 실패하였습니다.");
+		}
+		
+		model.addAttribute("BOARD_NUM",communityService.getBoardNum(user_key));
+		
+		return "redirect:/community_detail.do";
+		
+		
+	}
 	
 	@RequestMapping("/communityDeleteAction.do")
 	public String communityDeleteAction(@RequestParam("BOARD_NUM") long board_num, @RequestParam("TEAM_NAME") String teamName) {
@@ -149,6 +275,7 @@ public class CommunityController {
 		return "redirect:/community_list.do?TEAM_NAME="+teamName;
 	}
 	
+	/*
 	@RequestMapping("/communityUpdateAction.do")
 	public String communityUpdateAction(CommunityVO community, Model model) {
 
@@ -168,6 +295,53 @@ public class CommunityController {
 		}
 		
 		return "redirect:/community_detail.do";
+	}
+	*/
+	
+	@RequestMapping("/communityUpdateAction.do")
+	public String communityUpdateAction(MultipartHttpServletRequest request, Model model) throws Exception{
+		
+		long user_key = (long)session.getAttribute("member");
+		
+		CommunityVO community = new CommunityVO();
+		
+		List<MultipartFile> mf = request.getFiles("IMG");
+		
+		String uploadPath="C:\\Users\\angel\\git\\BBSHOP\\src\\main\\webapp\\resources\\community\\img\\upload\\";
+
+		String [] originalFileExtension = new String [mf.size()];
+		String [] storedFileName = new String[mf.size()];
+		for(int i = 0 ; i < mf.size();i++) {
+		originalFileExtension[i] = mf.get(i).getOriginalFilename();
+		storedFileName[i]= UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension[i];
+		
+		}
+		
+		for(int i = 0; i<mf.size();i++) {
+			if(mf.get(i).getSize()!=0)
+				//암호화해서 파일을 저장한다.
+			//mf.get(i).transferTo(new File(uploadPath+storedFileName[i]));
+				mf.get(i).transferTo(new File(uploadPath+originalFileExtension[i]));
+		}
+		
+		community.setBOARD_CONTENT(request.getParameter("BOARD_CONTENT").replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
+		community.setUSER_KEY(user_key);
+		community.setTITLE(request.getParameter("TITLE"));
+		community.setTEAM_NAME(request.getParameter("TEAM_NAME"));
+		community.setUPLOADFILE("resources/community/img/upload/"+originalFileExtension[0]);
+		
+		int res = communityService.updatePost(community);
+		
+		if(res == 1) {
+			System.out.println("글이 수정되었습니다.");
+		} else {
+			System.out.println("글 수정에 실패했습니다.");
+		}
+		
+		model.addAttribute("BOARD_NUM",communityService.getBoardNum(user_key));
+		
+		return "redirect:/community_detail.do";
+	
 	}
 	
 	@RequestMapping(value = "/crawlRank.do", method = RequestMethod.GET)

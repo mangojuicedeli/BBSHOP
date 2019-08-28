@@ -62,26 +62,34 @@
 	    WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount}
 		]]>
 	</select>
-	
-	<select id="getOrdersListStss" resultType="com.bbshop.bit.domain.OrderVO">
-        SELECT *
-        FROM
-            ( SELECT rownum rn, order_num, or_date, items, pymntamnt, stts 
-              FROM shop_order 
-              WHERE user_key = #{key}
-            	  AND cancel = 0
-			<if test='stts_list != null and stts_list.size != 0'>
-				  AND stts IN
-				<foreach item="item" index="index" collection="stts_list" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</if>
-       		  ORDER BY order_num desc )
+
+	<select id="getOrdersListStss"
+		resultType="com.bbshop.bit.domain.OrderVO">
+		SELECT *
+		FROM
+		( SELECT rownum rn, order_num, or_date, items, pymntamnt,
+		pymntmthd, stts
+		FROM shop_order
+		<choose>
+			<when test="key != null and key != ''">
+				WHERE user_key = #{key} AND cancel = 0
+			</when>
+			<otherwise>
+				WHERE cancel = 0
+			</otherwise>
+		</choose>
+		<if test='stts_list != null and stts_list.size != 0'>
+			AND stts IN
+			<foreach item="item" index="index" collection="stts_list"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY order_num desc )
        	<![CDATA[
         WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount}
             AND rn <= #{pagingVO.pageNum} * #{pagingVO.amount}
-		]]>	
+		]]>
 	</select>
 		
 	<select id="getReviewList" resultMap="reviewVO">
@@ -130,10 +138,17 @@
 	</select>
 	
 	<!-- 전체 주문 리스트 -->
-	<select id="getAllOrdersList" resultType="com.bbshop.bit.domain.OrderVO">
+	<select id="getAllOrdersList"
+		resultType="com.bbshop.bit.domain.OrderVO">
 		SELECT savings, stts
 		FROM shop_order
-		WHERE user_key = #{key}
+		<choose>
+			<when test="key != null and key != ''">
+				WHERE user_key = #{key} AND cancel = 0
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 
 	<!-- 주문 취소 -->
@@ -169,10 +184,16 @@
 		WHERE user_key = #{key}
 	</update>
 	
+	<!-- 회원 탈퇴 : 탈퇴 테이블에 회원식별자, 탈퇴날짜 insert -->
+	<insert id="insertWithdrawal">
+		INSERT into withdrawal
+		VALUES (#{key}, sysdate, #{reason})
+	</insert>
+	
 	<!-- 배송지 정보 관련 쿼리 -->
 	<insert id="insertAddrInfo">
-		INSERT into address 
-		VALUES (#{user_key}, #{zc_key}, #{name}, #{addr}, #{contact}, #{num}, #{roadAddress})
+		INSERT into address(user_key, zc_key, num, name, roadAddress, addr, contact)
+		VALUES (#{user_key}, #{zc_key}, #{num}, #{name}, #{roadAddress}, #{addr}, #{contact})
 	</insert>
 
 	<select id="getAddrList" resultType="com.bbshop.bit.domain.AddrVO">

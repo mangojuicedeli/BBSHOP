@@ -65,7 +65,7 @@ function goodsList_Ajax() {
 	if(min_amount === "")
 		min_amount = "1000";
 	if(max_amount === "")
-		max_amount = "500000";
+		max_amount = "200000";
 	
 	var data = {};
 	
@@ -75,6 +75,7 @@ function goodsList_Ajax() {
 	data["sorting"] = $('select.sorting option:selected').val();
 	data["min_amount"] = min_amount;
 	data["max_amount"] = max_amount;
+	console.log(data);
 
 	console.log($('select.sorting option:selected').val());
 	
@@ -88,7 +89,7 @@ function goodsList_Ajax() {
 			
 			search_Modal.style.display = "none";
 			
-			console.log('반환 리스트 : ' + goodsList);
+			console.log(goodsList);
 			
 			var output = "";
 

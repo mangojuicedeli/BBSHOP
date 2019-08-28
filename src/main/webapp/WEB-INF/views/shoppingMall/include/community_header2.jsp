@@ -93,6 +93,10 @@ body {
 	font-size:16px;
 	font-weight:bold;
 }
+
+#nav-tab a{
+	margin-right:0px;
+}
 </style>
 
 </head>
@@ -130,36 +134,66 @@ body {
 							class="icon-bar"></span>
 					</button>
 					
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse offset"
-						id="navbarSupportedContent">
-						<div class="row w-100">
-								<ul class="nav navbar-nav center_nav pull-right">
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=kbo">KBO</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="community_list.do?TEAM_NAME=lg">LG</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=lotte">롯데</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=hanwha">한화</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=kia">기아</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=doosan">두산</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=nc">NC</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=samsung">삼성</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=kiwoom">키움</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=sk">SK</a></li>
-									<li class="nav-item active"><a class="nav-link"
-										href="/community_list.do?TEAM_NAME=kt">KT</a></li>
-								</ul>
-						</div>
+				<nav style="width: 100%; transform: translateX(-25px);">
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+							<a class="nav-item nav-link" id="nav-home-tab" name="kbo"
+							data-toggle="tab" role="tab"
+							aria-controls="nav-home" aria-selected="true" onclick="location.href='/community_list.do?TEAM_NAME=kbo'"> <img
+							src="resources/community/img/kbo_main.png" width="50" height="50"
+							class="img-fluid rounded"></a> <a
+							class="nav-item nav-link link" id="nav-contact-tab" name="lg"
+							data-toggle="tab" href="#nav-contact" role="tab"
+							aria-controls="nav-home" aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=lg'"> <img
+							src="resources/community/img/lgtwins_main.png" width="70"
+							height="70" class="img-fluid rounded"></a> <a
+							class="nav-item nav-link" id="nav-contact-tab" name="lotte" data-toggle="tab"
+							href="#nav-contact" role="tab" aria-controls="nav-contact"
+							aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=lotte'"> <img
+							src="resources/community/img/lottegiants_main.png" width="80"
+							height="70" class="img-fluid rounded">
+						</a> <a class="nav-item nav-link" id="nav-contact-tab" name="hanwha"
+							data-toggle="tab" href="#nav-contact" role="tab"
+							aria-controls="nav-contact" aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=hanwha'"> <img
+							src="resources/community/img/hanwhaeagles_main.png" width="80"
+							height="70" class="img-fluid rounded"></a> <a
+							class="nav-item nav-link" id="nav-contact-tab" name="kia" data-toggle="tab"
+							href="#nav-contact" role="tab" aria-controls="nav-contact"
+							aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=kia'"> <img
+							src="resources/community/img/kiatigers_main.png" width="80"
+							height="70" class="img-fluid rounded">
+						</a> <a class="nav-item nav-link" id="nav-contact-tab" name="doosan"
+							data-toggle="tab" href="#nav-contact" role="tab"
+							aria-controls="nav-contact" aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=doosan'"> <img
+							src="resources/community/img/doosanbears_main.png" width="70"
+							height="70" class="img-fluid rounded"></a> <a
+							class="nav-item nav-link" id="nav-contact-tab" name ="nc" data-toggle="tab"
+							href="#nav-contact" role="tab" aria-controls="nav-contact"
+							aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=nc'"> <img
+							src="resources/community/img/ncdinos_main.png" width="80"
+							height="70" class="img-fluid rounded">
+						</a> <a class="nav-item nav-link" id="nav-contact-tab" name="samsung"
+							data-toggle="tab" href="#nav-contact" role="tab"
+							aria-controls="nav-contact" aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=samsung'"> <img
+							src="resources/community/img/samsunglions_main.png" width="75"
+							height="70" class="img-fluid rounded"></a> <a
+							class="nav-item nav-link" id="nav-contact-tab" name="kiwoom" data-toggle="tab"
+							href="#nav-contact" role="tab" aria-controls="nav-contact"
+							aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=kiwoom'"> <img
+							src="resources/community/img/kiwoomheroes_main.png" width="80"
+							height="70" class="img-fluid rounded">
+						</a> <a class="nav-item nav-link" id="nav-contact-tab" name="sk"
+							data-toggle="tab" href="#nav-contact" role="tab"
+							aria-controls="nav-contact" aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=sk'"> <img
+							src="resources/community/img/skwyverns_main.png" width="70"
+							height="70" class="img-fluid rounded"></a> <a
+							class="nav-item nav-link" id="nav-contact-tab" name="kt" data-toggle="tab"
+							href="#nav-contact" role="tab" aria-controls="nav-contact"
+							aria-selected="false" onclick="location.href='/community_list.do?TEAM_NAME=kt'"> <img
+							src="resources/community/img/ktwiz_main.png" width="70"
+							height="70" class="img-fluid rounded">
+						</a>
 					</div>
+				</nav>
 				</div>
 			</nav>
 		</div>

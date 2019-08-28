@@ -18,21 +18,22 @@
 		<div class="row">
 			<div class="col-lg-6 col-md-6" style="margin-left:auto;margin-right:auto;text-align:center;">
 				<h3 class="mb-30 title_color" style="font-weight:bold;">1대1 문의 수정</h3>
-				<form id="writeForm" action="">
+				<form id="writeForm" action="/onetoone_modifyAction.do">
 					<div class="mt-10">
-						<input type="text" name="writer" value="${nickname}" required class="single-input" readonly>
+						<input type="text" value="${nickname}" required class="single-input" readonly>
+						<input type="hidden" name="one_one_num" value="${board.one_one_num}"/>
 					</div>
 					<div class="mt-10">
-						<input type="text" name="subject" value="${board.one_title}" required class="single-input">
+						<input type="text" name="one_title" value="${board.one_title}" required class="single-input">
 					</div>
 					<div class="input-group-icon mt-10">
 						<div class="icon">
 							<i class="fa fa-thumb-tack" aria-hidden="true"></i>
 						</div>
 						<div class="form-select" id="default-select" >
-							<select name="one_to_one_category">	
+							<select name="one_category">	
 								<option value="--" >--</option>
-								<option value="주문배송">주문배송</option>
+								<option value="주문/배송">주문배송</option>
 								<option value="상품관련">상품관련</option>
 								<option value="결제관련">결제관련</option>
 								<option value="기타">기타</option>
@@ -42,7 +43,7 @@
 					<div class="mt-10">
 						<!-- <textarea name="content" id="ir1" rows="10" cols="100"
 							style="width: 766px; height: 412px; display: none;"></textarea> -->
-						<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;">
+						<textarea name="one_contents" id="ir1" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;">
 						</textarea>
 					</div>
 					<input type='hidden' name='pageNum' value='<c:out value="${pagingVO.pageNum}"/>'>
@@ -87,10 +88,16 @@
 			}, //boolean
 			fOnAppLoad : function() {
 				//예제 코드
-				//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."]);
+				oEditors.getById["ir1"].exec("PASTE_HTML", ["<c:out value='${board.one_contents}'/>"]);
 			},
 			fCreator : "createSEditor2"
 		});
+	</script>
+	
+	<script>
+	// 카테고리 불러와서 select 옵션 적용하는 과정
+	$('select').find("option[value='${board.one_category}']").prop("selected", true);
+	
 	</script>
 </body>
 

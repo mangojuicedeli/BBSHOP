@@ -325,7 +325,7 @@ function reviewList_Ajax() {
 			// 출력할 데이터가 없을 경우, 없다는 글 출력..
 			if(list.length == 0) {
 				var output = "";
-				output += "<tr><td colspan='4'><p><h2 style='color:black;'>REVIEW가 없습니다.</h2></p></td></tr>";
+				output += "<tr><td colspan='5'><p><h2 style='color:black;'>REVIEW가 없습니다.</h2></p></td></tr>";
 				$('#review_list').append(output);
 			}
 			
@@ -334,7 +334,12 @@ function reviewList_Ajax() {
 				var output = "";
 
 				output += "<tr class='table_item'>";
-//				output += "<td>" + data[index].rv_num + "</td>";
+				if(list[index].re_img == null) {
+					output += "<td>일반후기</td>";
+				}
+				else {
+					output += "<td style='color:blue;'>포토후기</td>";
+				}
 				output += "<td>" + list[index].title + "</td>";
 				
 				output += "<td>";
@@ -347,8 +352,13 @@ function reviewList_Ajax() {
 				output += "<td>" + list[index].re_date + "</td></tr>";
 				
 				output += "<tr class='table_content' style='display:none;'>";
-				output += "<td colspan='4'><div class='view'><p>" + list[index].contents + "</p></div></td></tr>";
 				
+				if(list[index].re_img == null) {
+					output += "<td colspan='5'><div class='view'><p>" + list[index].contents + "</p></div></td></tr>";
+				}
+				else {
+					output += "<td colspan='5'><div class='view'><img src='" + list[index].re_img + "' style='width:300px;'><br><br><br><p>" + list[index].contents + "</p></div></td></tr>";
+				}
 				$('#review_list').append(output);
 			});
 			
@@ -486,7 +496,7 @@ function reviewScore_Ajax() {
 									<label for="glove_taming"><span class="option">길들이기</span></label>
 									<select id="glove_taming" class="glove">
 										<option value="0">선택안함</option>
-										<option value="1">볼집+각잡기(+15000)</option>
+										<option value="1">볼집+각잡기</option>
 									</select>
 								</a>
 							</li>
@@ -607,7 +617,7 @@ function reviewScore_Ajax() {
 <!-- #home : 상세 설명 -->
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<!-- DB, 사진3번째컬럼, 상세사진 긴~거 띄우기 -->
-				  	<img class="bbshop-info" src="${goods.dtl_img2 }" alt="" style="max-width: -webkit-fill-available;" >
+				  	<img class="bbshop-info" src=${goods.dtl_img2 } alt="" style="max-width: -webkit-fill-available;" >
 				</div>
 				
 <!-- #profile : 상품 정보 (객체의 속성들? 다 설정) ----------------------------------------------------------------------------------->
@@ -834,7 +844,7 @@ function reviewScore_Ajax() {
 							<table border="0" style="width : -webkit-fill-available;">
 									<thead>
 										<tr>
-<!-- 										<th scope="col" class="review_number">번호</th> -->
+ 											<th scope="col" class="review_number">일반/포토</th>
 											<th scope="col" class="review_title" style="width:50%;">제목</th>
 											<th scope="col" class="review_score">별점</th>
 											<th scope="col" class="review_nickname">닉네임</th>
@@ -873,7 +883,7 @@ function reviewScore_Ajax() {
 								<span class="modal_close close">&times;</span>	<!-- X버튼 -->
 								<h4 align="center">후기 작성하기</h4>
 
-								<form class="row review_form contact_form" action="/registerReview.do" method="post" 
+								<form class="row review_form contact_form" enctype="multipart/form-data" action="/registerReview.do" method="post" 
 									id="reviewForm" novalidate="novalidate" onsubmit="return checkMember();">
 								<div id="star_review" style="width:-webkit-fill-available; text-align:center;">
 									<input type="radio" name="score" value="5" checked>

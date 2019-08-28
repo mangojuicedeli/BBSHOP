@@ -203,26 +203,26 @@
 									<label for="c_fname" class="text-black">주문일자 <span
 										class="text-danger">*</span></label> <input type="text"
 										class="form-control" id="or_date" name="or_date" 
-											value="<fmt:formatDate pattern="yyyy-MM-dd" value="${orderVO.or_date }"/>" readonly>
+											value="<fmt:formatDate pattern="yyyy-MM-dd" value="${orderVO.or_date }"/>">
 								</div>
 								<div class="col-md-6">
 									<label for="orderer" class="text-black">주문자 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="orderer" name="orderer" readonly>
+										class="form-control" id="orderer" name="orderer">
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-md-12">
 									<label for="c_companyname" class="text-black">주문 번호 </label> <input
-										type="text" class="form-control" id="mdl_or_num" name="mdl_or_num" readonly>
+										type="text" class="form-control" id="mdl_or_num" name="mdl_or_num">
 								</div>
 							</div>
 							
 							<div class="form-group">
 								<label for="order_notes" class="text-black">주문 메모</label>
 								<textarea name="order_notes" id="order_notes" cols="30"
-									rows="5" class="form-control" placeholder="" readonly></textarea>
+									rows="5" class="form-control" placeholder=""></textarea>
 							</div>
 
 							<div class="form-group row">
@@ -230,28 +230,28 @@
 									<label for="receiver" class="text-black">수취인 <span
 										class="text-danger">*</span>
 									</label> <input type="text" class="form-control" id="receiver"
-										name="receiver" readonly>
+										name="receiver">
 								</div>
 								<div class="col-md-6">
-									<label for="postal_zip" class="text-black">우편번호 <span
+									<label for="pymntmthd" class="text-black">결제수단 <span
 										class="text-danger">*</span>
-									</label> <input type="text" class="form-control" id="postal_zip"
-										name="postal_zip" readonly>
+									</label> <input type="text" class="form-control" id="pymntmthd"
+										name="pymntmthd">
 								</div>
 							</div>
 
 							<div class="form-group row mb-5">
 								<div class="col-md-6">
-									<label for="email_address" class="text-black">배송번호 <span
+									<label for="phone1" class="text-black">연락처1 <span
 										class="text-danger">*</span>
-									</label> <input type="text" class="form-control" id="email_address"
-										name="email_address" readonly>
+									</label> <input type="text" class="form-control" id="phone1"
+										name="phone1">
 								</div>
 								<div class="col-md-6">
-									<label for="phone" class="text-black">연락처 <span
+									<label for="phone2" class="text-black">연락처2 <span
 										class="text-danger">*</span></label> <input type="text"
-										class="form-control" id="phone" name="phone"
-										placeholder="" readonly>
+										class="form-control" id="phone2" name="phone2"
+										placeholder="">
 								</div>
 							</div>
 
@@ -260,14 +260,9 @@
 									<label for="address" class="text-black">주소 <span
 										class="text-danger">*</span></label> <input type="text"
 										class="form-control" id="address" name="address"
-										placeholder="기본 주소" readonly>
+										placeholder="기본 주소">
 								</div>
 							</div>
-
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="상세 주소" readonly>
-							</div>
-
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -287,13 +282,13 @@
 											<tr>
 												<td id="goods"></td>
 												<td>1</td>
-												<td>￦30,000</td>
+												<td id="per_pymntamnt"></td>
 											</tr>
 											<tr>
 												<td class="text-black font-weight-bold"><strong>주문
 														총합</strong></td>
-												<td></td>
-												<td class="text-black font-weight-bold"><strong>￦30,000</strong></td>
+												<td>1</td>
+												<td class="text-black font-weight-bold" id="pymntamnt"></td>
 											</tr>
 										</tbody>
 									</table>

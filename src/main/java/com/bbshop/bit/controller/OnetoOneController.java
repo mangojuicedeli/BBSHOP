@@ -58,9 +58,9 @@ public class OnetoOneController {
 		long user_key = (long)session.getAttribute("member");
 		
 		board.setUser_key(user_key);
-		board.setSeq((long)1);
-		board.setDep((long)1);
-		board.setLev((long)1);
+		board.setSeq((long)0);
+		board.setDep((long)0);
+		board.setLev((long)0);
 			
 		onetooneservice.OnetoOne_register(board);
 		
@@ -83,20 +83,30 @@ public class OnetoOneController {
 	}
 
 	@RequestMapping("/onetoone_modify.do")
-	public String modify(@RequestParam("one_one_num") Long One_One_NUM, @ModelAttribute("pag") PagingVO pag, Model model, RedirectAttributes rttr) {
+	public String modify(@RequestParam("one_one_num") Long One_One_NUM, Model model, RedirectAttributes rttr) {
 
 		OnetooneVO onetooneVO = onetooneservice.OnetoOne_get(One_One_NUM);
 		
 		log.info("modify:" + onetooneVO);
 
 		model.addAttribute("board", onetooneVO);
-
-		if (onetooneservice.OnetoOne_modify(onetooneVO)) {
-			
-			rttr.addFlashAttribute("result", "success");
-		}
 		
 		return "shoppingMall/customerService/one_to_one_list_modify";
+	}
+	
+	@RequestMapping("/onetoone_modifyAction.do")
+	public String modifyAction(OnetooneVO onetooneVO, @RequestParam("one_one_num") Long One_One_NUM, Model model, RedirectAttributes rttr) {
+
+		String nickname = (String)session.getAttribute("nickname");
+		onetooneservice.OnetoOne_modify(onetooneVO);
+		
+		OnetooneVO board = onetooneservice.OnetoOne_get(onetooneVO.getOne_one_num());
+
+		model.addAttribute("board", board);
+		model.addAttribute("nickname", nickname);
+		model.addAttribute("one_one_num", onetooneVO.getOne_one_num());
+		
+		return "shoppingMall/customerService/one_to_one_list_detail";
 	}
 	
 	@PostMapping("/onetoone_remove.do")

@@ -283,10 +283,10 @@ body{font-family:NanumBarunpen, sans-serif}
 			$('input:checkbox[type=checkbox]:checked').each(function () {
 				listindex.push($('.check').index(this));
 			
-				});
-			var ajaxarr={"listindex":listindex}
-			alert(listindex);
-			$.ajaxSettings.traditional = true;
+			});
+			// var ajaxarr={"listindex":listindex}
+			alert('선택하신 상품이 삭제되었습니다.');
+			/*$.ajaxSettings.traditional = true;
 			$.ajax({
      			url:"selectDelete.do",
      			type:"POST",
@@ -297,7 +297,20 @@ body{font-family:NanumBarunpen, sans-serif}
      				}, error : function() {
 							console.log("실패");
 					}
-				});
+				});*/
+			var formObj = document.createElement("form");
+			var inputObj = document.createElement("input");
+			
+			inputObj.name = "listindex";
+			inputObj.value = listindex;
+			
+			formObj.appendChild(inputObj);
+			document.body.appendChild(formObj);
+			
+			formObj.method = "post";
+			formObj.action = "selectDelete.do";
+			
+			formObj.submit();
 		});
 
 		function getProduct(){

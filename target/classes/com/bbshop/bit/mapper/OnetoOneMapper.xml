@@ -96,8 +96,7 @@
 		SET 
 			ONE_CATEGORY= #{one_category},
 			ONE_TITLE = #{one_title},
-			ONE_CONTENTS = #{one_contents},
-			ONE_FILE = #{one_file}
+			ONE_CONTENTS = #{one_contents}
 		WHERE ONE_ONE_NUM = #{one_one_num}
 	</update>
 	

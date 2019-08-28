@@ -211,6 +211,20 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.insertOrderGD(order_gd);
 	}
 	
+	@Override
+	public int updateSavings_used(long useSavings, long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateSavings_used(useSavings, order_num);
+	}
+	
+	@Override
+	public int update_usedUser_savings(long useSavings, long user_key) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.update_usedUser_savings(useSavings, user_key);
+	}
+	
 	// 의정 단일상품
 	
 	/*

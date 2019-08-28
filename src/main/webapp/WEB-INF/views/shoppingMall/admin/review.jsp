@@ -160,6 +160,8 @@ body {
 					</div>
 				</div>
 			</nav>
+			<!-- end Navbar -->
+			<!-- Content 데이터 뿌려주는 부분 -->
 			<div class="content">
 				<div class="container">
 					<div class="row">
@@ -170,16 +172,17 @@ body {
 									<p class="card-category">각 상품별 후기 목록입니다.</p>
 								</div>
 								<div class="card-body">
+									<!-- 별점 checkbox -->
 									<div class="col-lg-12">
 										<div class="float-right">
 											<div class="input-group">
 												<div class="float-right">
-													<input type="checkbox">전체 <input type="checkbox"
-														style="margin-left: 10px;">★ <input
-														type="checkbox" style="margin-left: 10px;">★★ <input
-														type="checkbox" style="margin-left: 10px;">★★★ <input
-														type="checkbox" style="margin-left: 10px;">★★★★ <input
-														type="checkbox" style="margin-left: 10px;">★★★★★
+													<input type="checkbox" id="checkAll">전체 
+													<input type="checkbox" name="score" value="1" style="margin-left: 10px;">★ 
+													<input type="checkbox" name="score" value="2" style="margin-left: 10px;">★★
+													<input type="checkbox" name="score" value="3" style="margin-left: 10px;">★★★ 
+													<input type="checkbox" name="score" value="4" style="margin-left: 10px;">★★★★ 
+													<input type="checkbox" name="score" value="5" style="margin-left: 10px;">★★★★★
 												</div>
 											</div>
 										</div>
@@ -195,41 +198,8 @@ body {
 												<th style='text-align:center'>별점</th>
 												<th style='text-align:center'>삭제</th>
 											</thead>
-											<tbody>
-												<tr>
-													<td style='text-align:center'><input type="checkbox">126</td>
-													<td style='text-align:center'>12035150</td>
-													<td style='text-align:center'>완전 강추합니다!</td>
-													<td style='text-align:center'>망고주스</td>
-													<td style='text-align:center'>2019-07-08</td>
-													<td style='text-align:center'>★★★★</td>
-													<td style='text-align:center'><a href="#pablo" class="btn btn-danger">삭제</a></td>
-												</tr>
-												<tr>
-													<td style='text-align:center'><input type="checkbox">125</td>
-													<td style='text-align:center'>12035150</td>
-													<td style='text-align:center'>완전 강추합니다!</td>
-													<td style='text-align:center'>망고주스</td>
-													<td style='text-align:center'>2019-07-08</td>
-													<td style='text-align:center'>★★★★</td>
-													<td style='text-align:center'><a href="#pablo" class="btn btn-danger">삭제</a></td>
-												</tr><tr>
-													<td style='text-align:center'><input type="checkbox">124</td>
-													<td style='text-align:center'>12035150</td>
-													<td style='text-align:center'>완전 강추합니다!</td>
-													<td style='text-align:center'>망고주스</td>
-													<td style='text-align:center'>2019-07-08</td>
-													<td style='text-align:center'>★★★★</td>
-													<td style='text-align:center'><a href="#pablo" class="btn btn-danger">삭제</a></td>
-												</tr><tr>
-													<td style='text-align:center'><input type="checkbox">123</td>
-													<td style='text-align:center'>12035150</td>
-													<td style='text-align:center'>완전 강추합니다!</td>
-													<td style='text-align:center'>망고주스</td>
-													<td style='text-align:center'>2019-07-08</td>
-													<td style='text-align:center'>★★★★</td>
-													<td style='text-align:center'><a href="#pablo" class="btn btn-danger">삭제</a></td>
-												</tr>
+											<tbody id="reviewList">
+												<!-- 리뷰 리스트 출력될 부분  -->
 											</tbody>
 										</table>
 									</div>
@@ -240,15 +210,14 @@ body {
                    
                       	<td style='text-align:center'>
                       		<ul class="pagination">
-										<li class="page-item disabled"><a class="page-link"
-											href="#">이전</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">4</a></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">다음</a></li>
-									</ul>
+								<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">4</a></li>
+								<li class="page-item"><a class="page-link" href="#">5</a></li>
+								<li class="page-item"><a class="page-link" href="#">다음</a></li>
+							</ul>
                       	</td>
                       		
                       	<td style='text-align:right;' width=30%>
@@ -353,338 +322,241 @@ body {
 			</ul>
 		</div>
 	</div>
+
+<script>
+//후기 목록 출력 - ajax
+function adminReviewList_Ajax() {
+
+// pageNum값을 받아온다.
+// 	var pageNum = actionForm.find("input[name='pageNum']").val();
+// 	var amount = actionForm.find("input[name='amount']").val();
+	var pageNum = 1;
+	var amount = 5;
+	var score = 0;	// 0은 전체
+
+	var data = {};
+	data["pageNum"] = pageNum;
+	data["amount"] = amount;
+	data["score"] = score;
 	
-	<script>
-		$(document)
-				.ready(
-						function() {
-							$()
-									.ready(
-											function() {
-												
-												$(".sidebar-wrapper li").eq(4).addClass('active');
-												
-												$sidebar = $('.sidebar');
+	$('#reviewList').empty();
+	
+	$.ajax({
+		type : "POST",
+		url : "/adminReviewList_Ajax.do",
+		data : JSON.stringify(data),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(data) {
+			var list = data.reviewList;
+			var total = data.total;
+		
+// 			var start = ${pageMaker.startPage};
+// 			var end = ${pageMaker.endPage};
+// 			var str = '';
+// 			var paging = '';
 
-												$sidebar_img_container = $sidebar
-														.find('.sidebar-background');
+			$.each(list, function(index, review) {
+				var output = "";
+				output += "<tr><td style='text-align:center'><input type='checkbox'>"+list[index].rv_num+"</td>";
+				output += "<td style='text-align:center'>"+list[index].goods_num+"</td>";
+				output += "<td style='text-align:center'>"+list[index].title+"</td>";
+				output += "<td style='text-align:center'>"+list[index].nickname+"</td>";
+				output += "<td style='text-align:center'>"+list[index].re_date+"</td>";
 
-												$full_page = $('.full-page');
+				// 별점
+				output += "<td style='text-align:center'>";
+				for(i=0; i<list[index].score; i++) {
+					output += "<i class='fa fa-star' style='color:rgb(251, 214, 0);'></i>"
+				}
+				output += "</td>";
 
-												$sidebar_responsive = $('body > .navbar-collapse');
+				output += "<td style='text-align:center'><a href='#pablo' class='btn btn-danger'>삭제</a></td></tr>";
+				
+				$('#reviewList').append(output);
+			});
+		
+		},
+		error : function() {alert('admin review ajax 통신 실패!');}
+	});
+}
+$(document).ready(function() {
+	
+	adminReviewList_Ajax();
+	
+	$().ready(function() {
+		
+		$(".sidebar-wrapper li").eq(3).addClass('active');
 
-												window_width = $(window)
-														.width();
+		$sidebar = $('.sidebar');
 
-												fixed_plugin_open = $(
-														'.sidebar .sidebar-wrapper .nav li.active a p')
-														.html();
+		$sidebar_img_container = $sidebar.find('.sidebar-background');
 
-												if (window_width > 767
-														&& fixed_plugin_open == 'Dashboard') {
-													if ($(
-															'.fixed-plugin .dropdown')
-															.hasClass(
-																	'show-dropdown')) {
-														$(
-																'.fixed-plugin .dropdown')
-																.addClass(
-																		'open');
-													}
+		$full_page = $('.full-page');
 
-												}
+		$sidebar_responsive = $('body > .navbar-collapse');
 
-												$('.fixed-plugin a')
-														.click(
-																function(event) {
-																	// Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-																	if ($(this)
-																			.hasClass(
-																					'switch-trigger')) {
-																		if (event.stopPropagation) {
-																			event
-																					.stopPropagation();
-																		} else if (window.event) {
-																			window.event.cancelBubble = true;
-																		}
-																	}
-																});
+		window_width = $(window).width();
 
-												$(
-														'.fixed-plugin .active-color span')
-														.click(
-																function() {
-																	$full_page_background = $('.full-page-background');
+		fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
-																	$(this)
-																			.siblings()
-																			.removeClass(
-																					'active');
-																	$(this)
-																			.addClass(
-																					'active');
+		if (window_width > 767&& fixed_plugin_open == 'Dashboard') {
+			if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+				$('.fixed-plugin .dropdown').addClass('open');
+			}
+		}
 
-																	var new_color = $(
-																			this)
-																			.data(
-																					'color');
+		$('.fixed-plugin a').click(function(event) {
+			// Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+			if ($(this).hasClass('switch-trigger')) {
+				if (event.stopPropagation) {
+					event.stopPropagation();
+				}
+				else if (window.event) {
+					window.event.cancelBubble = true;
+				}
+			}
+		});
 
-																	if ($sidebar.length != 0) {
-																		$sidebar
-																				.attr(
-																						'data-color',
-																						new_color);
-																	}
+		$('.fixed-plugin .active-color span').click(function() {
+			$full_page_background = $('.full-page-background');
 
-																	if ($full_page.length != 0) {
-																		$full_page
-																				.attr(
-																						'filter-color',
-																						new_color);
-																	}
+			$(this).siblings().removeClass('active');
+			$(this).addClass('active');
 
-																	if ($sidebar_responsive.length != 0) {
-																		$sidebar_responsive
-																				.attr(
-																						'data-color',
-																						new_color);
-																	}
-																});
+			var new_color = $(this).data('color');
 
-												$(
-														'.fixed-plugin .background-color .badge')
-														.click(
-																function() {
-																	$(this)
-																			.siblings()
-																			.removeClass(
-																					'active');
-																	$(this)
-																			.addClass(
-																					'active');
+			if ($sidebar.length != 0) {
+				$sidebar.attr('data-color',new_color);
+				
+				if ($full_page.length != 0) {
+					$full_page.attr('filter-color',new_color);
+				}
 
-																	var new_color = $(
-																			this)
-																			.data(
-																					'background-color');
+				if ($sidebar_responsive.length != 0) {
+					$sidebar_responsive.attr('data-color',new_color);
+				}
+			}
 
-																	if ($sidebar.length != 0) {
-																		$sidebar
-																				.attr(
-																						'data-background-color',
-																						new_color);
-																	}
-																});
+			$('.fixed-plugin .background-color .badge').click(function() {
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');
 
-												$('.fixed-plugin .img-holder')
-														.click(
-																function() {
-																	$full_page_background = $('.full-page-background');
+				var new_color = $(this).data('background-color');
 
-																	$(this)
-																			.parent(
-																					'li')
-																			.siblings()
-																			.removeClass(
-																					'active');
-																	$(this)
-																			.parent(
-																					'li')
-																			.addClass(
-																					'active');
+				if ($sidebar.length != 0) {
+					$sidebar.attr('data-background-color',new_color);
+				}
+			});
 
-																	var new_image = $(
-																			this)
-																			.find(
-																					"img")
-																			.attr(
-																					'src');
+			$('.fixed-plugin .img-holder').click(function() {
+				$full_page_background = $('.full-page-background');
 
-																	if ($sidebar_img_container.length != 0
-																			&& $('.switch-sidebar-image input:checked').length != 0) {
-																		$sidebar_img_container
-																				.fadeOut(
-																						'fast',
-																						function() {
-																							$sidebar_img_container
-																									.css(
-																											'background-image',
-																											'url("'
-																													+ new_image
-																													+ '")');
-																							$sidebar_img_container
-																									.fadeIn('fast');
-																						});
-																	}
+				$(this).parent('li').siblings().removeClass('active');
+				$(this).parent('li').addClass('active');
 
-																	if ($full_page_background.length != 0
-																			&& $('.switch-sidebar-image input:checked').length != 0) {
-																		var new_image_full_page = $(
-																				'.fixed-plugin li.active .img-holder')
-																				.find(
-																						'img')
-																				.data(
-																						'src');
+				var new_image = $(this).find("img").attr('src');
 
-																		$full_page_background
-																				.fadeOut(
-																						'fast',
-																						function() {
-																							$full_page_background
-																									.css(
-																											'background-image',
-																											'url("'
-																													+ new_image_full_page
-																													+ '")');
-																							$full_page_background
-																									.fadeIn('fast');
-																						});
-																	}
+				if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+					$sidebar_img_container.fadeOut('fast', function() {
+						$sidebar_img_container.css('background-image', 'url("'+ new_image + '")');
+						$sidebar_img_container .fadeIn('fast');
+					});
+				}
 
-																	if ($('.switch-sidebar-image input:checked').length == 0) {
-																		var new_image = $(
-																				'.fixed-plugin li.active .img-holder')
-																				.find(
-																						"img")
-																				.attr(
-																						'src');
-																		var new_image_full_page = $(
-																				'.fixed-plugin li.active .img-holder')
-																				.find(
-																						'img')
-																				.data(
-																						'src');
+				if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+					var new_image_full_page = $( '.fixed-plugin li.active .img-holder') .find( 'img') .data( 'src');
 
-																		$sidebar_img_container
-																				.css(
-																						'background-image',
-																						'url("'
-																								+ new_image
-																								+ '")');
-																		$full_page_background
-																				.css(
-																						'background-image',
-																						'url("'
-																								+ new_image_full_page
-																								+ '")');
-																	}
+					$full_page_background.fadeOut( 'fast', function() {
+						$full_page_background.css('background-image', 'url("'+ new_image_full_page+ '")');
+						$full_page_background.fadeIn('fast');
+					});
+				}
 
-																	if ($sidebar_responsive.length != 0) {
-																		$sidebar_responsive
-																				.css(
-																						'background-image',
-																						'url("'
-																								+ new_image
-																								+ '")');
-																	}
-																});
+				if ($('.switch-sidebar-image input:checked').length == 0) {
+					var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+					var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
 
-												$('.switch-sidebar-image input')
-														.change(
-																function() {
-																	$full_page_background = $('.full-page-background');
+					$sidebar_img_container.css('background-image','url("'+ new_image+ '")');
+					$full_page_background.css('background-image', 'url("'+ new_image_full_page+ '")');
+				}
 
-																	$input = $(this);
+				if ($sidebar_responsive.length != 0) {
+					$sidebar_responsive.css('background-image', 'url("'+ new_image+ '")');
+				}
+			});
 
-																	if ($input
-																			.is(':checked')) {
-																		if ($sidebar_img_container.length != 0) {
-																			$sidebar_img_container
-																					.fadeIn('fast');
-																			$sidebar
-																					.attr(
-																							'data-image',
-																							'#');
-																		}
+			$('.switch-sidebar-image input').change(function() {
+				$full_page_background = $('.full-page-background');
 
-																		if ($full_page_background.length != 0) {
-																			$full_page_background
-																					.fadeIn('fast');
-																			$full_page
-																					.attr(
-																							'data-image',
-																							'#');
-																		}
+				$input = $(this);
 
-																		background_image = true;
-																	} else {
-																		if ($sidebar_img_container.length != 0) {
-																			$sidebar
-																					.removeAttr('data-image');
-																			$sidebar_img_container
-																					.fadeOut('fast');
-																		}
+				if ($input.is(':checked')) {
+					if ($sidebar_img_container.length != 0) {
+						$sidebar_img_container.fadeIn('fast');
+						$sidebar.attr('data-image', '#');
+					}
 
-																		if ($full_page_background.length != 0) {
-																			$full_page
-																					.removeAttr(
-																							'data-image',
-																							'#');
-																			$full_page_background
-																					.fadeOut('fast');
-																		}
+					if ($full_page_background.length != 0) {
+						$full_page_background.fadeIn('fast');
+						$full_page.attr('data-image', '#');
+					}
 
-																		background_image = false;
-																	}
-																});
+					background_image = true;
+				} 
+				else {
+					if ($sidebar_img_container.length != 0) {
+						$sidebar.removeAttr('data-image');
+						$sidebar_img_container.fadeOut('fast');
+					}
 
-												$('.switch-sidebar-mini input')
-														.change(
-																function() {
-																	$body = $('body');
+					if ($full_page_background.length != 0) {
+						$full_page.removeAttr('data-image', '#');
+						$full_page_background.fadeOut('fast');
+					}
 
-																	$input = $(this);
+					background_image = false;
+				}
+			});
 
-																	if (md.misc.sidebar_mini_active == true) {
-																		$(
-																				'body')
-																				.removeClass(
-																						'sidebar-mini');
-																		md.misc.sidebar_mini_active = false;
+			$('.switch-sidebar-mini input').change(function() {
+				$body = $('body');
 
-																		$(
-																				'.sidebar .sidebar-wrapper, .main-panel')
-																				.perfectScrollbar();
+				$input = $(this);
 
-																	} else {
+				if (md.misc.sidebar_mini_active == true) {
+					$('body').removeClass('sidebar-mini');
+					md.misc.sidebar_mini_active = false;
 
-																		$(
-																				'.sidebar .sidebar-wrapper, .main-panel')
-																				.perfectScrollbar(
-																						'destroy');
+					$('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
-																		setTimeout(
-																				function() {
-																					$(
-																							'body')
-																							.addClass(
-																									'sidebar-mini');
+				} 
+				else {
 
-																					md.misc.sidebar_mini_active = true;
-																				},
-																				300);
-																	}
+					$('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
 
-																	// we simulate the window Resize so the charts will get updated in realtime.
-																	var simulateWindowResize = setInterval(
-																			function() {
-																				window
-																						.dispatchEvent(new Event(
-																								'resize'));
-																			},
-																			180);
+					setTimeout(function() {
+						$('body').addClass('sidebar-mini');
 
-																	// we stop the simulation of Window Resize after the animations are completed
-																	setTimeout(
-																			function() {
-																				clearInterval(simulateWindowResize);
-																			},
-																			1000);
+						md.misc.sidebar_mini_active = true;
+					},300);
+				}
 
-																});
-											});
-						});
-	</script>
+				// we simulate the window Resize so the charts will get updated in realtime.
+				var simulateWindowResize = setInterval(function() {
+					window.dispatchEvent(new Event('resize'));
+				},180);
+
+				// we stop the simulation of Window Resize after the animations are completed
+				setTimeout(function() {
+					clearInterval(simulateWindowResize);
+				},1000);
+
+			});
+		});
+	});
+});
+</script>
 </body>
 
 </html>

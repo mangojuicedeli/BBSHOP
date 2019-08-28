@@ -104,7 +104,7 @@ public class MemberController {
 	
 	//이메일을 받아와서 먼저 아이디 체크를 해보고 없으면 아이디를 넣어준다!
 	@ResponseBody
-	@RequestMapping(value="kakaoLogin.do" , method=RequestMethod.POST)
+	@RequestMapping(value="kakaoLogin.do" , method= {RequestMethod.POST,RequestMethod.GET})
 	public String kakaoLogin(MemberVO vo , HttpServletRequest request,HttpSession session) {
 		vo.setMEMBER_ID(request.getParameter("MEMBER_ID"));
 		String toPage = request.getParameter("toPage");
@@ -122,7 +122,7 @@ public class MemberController {
 		int temp = memberService.getId(vo);
 		if(temp==1) {
 			System.out.println("아이디가 존재 합니다");
-			session.setAttribute("member",vo.getMEMBER_ID());
+			session.setAttribute("member",vo.getUSER_KEY());
 		}
 		else {
 			System.out.println("아이디가 없으니 이쪽으로 들어오니??");
@@ -132,6 +132,7 @@ public class MemberController {
 			vo.setPHONE("kakao");
 			
 			memberService.register(vo);
+			vo.setUSER_KEY(memberService.getUser_key(vo));
 			session.setAttribute("member", vo.getUSER_KEY());
 		}
 		System.out.println(result);

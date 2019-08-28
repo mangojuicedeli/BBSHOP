@@ -49,8 +49,8 @@ label[for="confirm-radio"] {
    margin: 8% auto; /* 15% from the top and centeredl */
    padding: 10px;
    border: 1px solid #888;
-   width: 25%; /* Could be more or less, depending on screen size */
-   height: 65%;
+   width: 75%; /* Could be more or less, depending on screen size */
+   height: 80%;
 }
 /* The Close Button */
 #addressModal #closeModal {
@@ -65,17 +65,13 @@ label[for="confirm-radio"] {
    cursor: pointer;
 }
 #addressModal {
-   opacity: 0.9;
+   opacity: 1;
 }
 #addressModal .modal-footer {
    margin-top: 20px;
 }
 #addressModal .modal-body {
    align: center;
-}
-#addressBtn {
-   opacity: 0.9;
-   border: 1px solid #888;
 }
 .order_box { .list { li{ overflow:hidden;
    text-overflow: ellipsis;
@@ -354,7 +350,7 @@ li, a {
                       <!--  <label><input TYPE='radio' id="new_input"
                           name="addr_input" value='new_addr' />신규 입력</label> <label><input TYPE='radio'
                            id="user_input" name="addr_input" value='user_addr' />사용자 지정</label> --> <input
-                           type="button" id="addressBtn" value="주소록 목록" />
+                           type="button" id="addressBtn" class="genric-btn default radius" value="배송지 목록" style="color: #ffffff; font-weight: bold;"/>
                      </div>
                      <div class="col-md-12 form-group p_star">
                         <table>
@@ -362,7 +358,7 @@ li, a {
                               <td><p style="font-weight:bold; color:black;">주소</p></td>
                            </tr>
                            <tr>
-                              <td><input type="text" class="form-control" id="zipcode_input" style="width: 100px;" readonly></td>
+                              <td><input type="text" class="form-control" id="zipcode_input" style="width: 100px;" placeholder="우편번호" readonly></td>
                               <td><a href="javascript:execDaumPostcode()"
                      class="genric-btn default radius"> <span
                      style="font-weight: bold;">우편번호 검색</span></a></td>
@@ -379,9 +375,7 @@ li, a {
                      <input type="hidden" name="or_addr" id="or_addr"/>
                      <input type="hidden" name="pymntamnt" value="${allPrice}"/>
                      <input type="hidden" name="shipping_fee" value="${shipping_fee}"/>
-<%--                      <input type="hidden" name="from" value="${from }"/> --%>
-<%--                      <input type="hidden" name="qty" value="${qty }"/> --%>
-<%--                      <input type="hidden" name="optionNumber" value="${optionNumber }" /> --%>
+                     <input type="hidden" id="useSavings" name="useSavings"/>
                      <div class="col-md-12 form-group">
                         <textarea class="form-control" name="or_msg" id="msg" rows="1" placeholder="주문메세지"></textarea>
                      </div>
@@ -394,8 +388,8 @@ li, a {
                         <li><p>상품 <span>총합</span></p></li>
                      <c:forEach var="order" items="${orderList}" varStatus="status">
                      <li>
-                        <p class="product_name"><c:out value="${goodsList[status.index].name}" />
-                        <span class="middle"><c:out value="x${order.QNTTY }" /></span>
+                        <p class="product_name" style="color: #777777;"><c:out value="${goodsList[status.index].name}" />
+                        <span class="middle" style="color: #777777;"><c:out value="x${order.QNTTY }" /></span>
                         <span class="last"><c:out value="${order.TOTALPRICE }" /></span></p>
                      </li>
                      </c:forEach>
@@ -406,9 +400,56 @@ li, a {
                         </p></li>
                         <li><p>배송비 <span><c:out value="${shipping_fee}원" /></span>
                         </p></li>
-                        <li><p>총 결제금액 <span><c:out value="${allPrice}원" /></span>
+                        <li><p>적립금사용 <input type="text" id="inputSavings" style="width:15%;height:10%;" value="0">원 
+                        <input type="button" class="main_btn" id="submitPoint" value="사용" style="width:20px;height:30px;color:#ffffff;line-height:10px;
+                        display:inline-block;padding-left:10px;">
+                        <input type="button" class="main_btn" id="submitAllPoint" value="전액사용" style="width:65px;height:30px;color:#ffffff;line-height:10px;
+                        display:inline-block;padding-left:10px;">
+                        <span>(총 사용 가능 적립금: <b>${user.SAVINGS}</b>원)</span> </p></li>
+                        <li><p>총 결제금액 <span id="allPrice"><c:out value="${allPrice}원" /></span>
                         </p></li>
                      </ul>
+                     <script>
+                     // 적립금 사용하는 부분
+						$('#submitPoint').click(function(){
+							var useSavings = $('#inputSavings').val();
+							var mySavings = ${user.SAVINGS};
+							var allPrice = ${allPrice};
+							//get방식을 이용해서 값을 보냄
+							$.ajax({
+				        			url:"useSavings.do?useSavings="+useSavings+"&mySavings="+mySavings+"&allPrice="+allPrice,
+				        			type:"GET",
+				        			dataType:"text",
+				        			success : function(data) {
+				        				var result = data;
+				        				$("#allPrice").html(result+"원");
+									}, error : function() {
+											console.log("실패");
+									}
+								});
+							});
+                     
+                     // 적립금 전액 사용하는 부분
+                       $('#submitAllPoint').click(function(){
+                    	    var allSavings = ${user.SAVINGS};
+                    	    $('#inputSavings').val(allSavings);
+							var useSavings = $('#inputSavings').val();
+							var mySavings = ${user.SAVINGS};
+							var allPrice = ${allPrice};
+							//get방식을 이용해서 값을 보냄
+							$.ajax({
+				        			url:"useSavings.do?useSavings="+useSavings+"&mySavings="+mySavings+"&allPrice="+allPrice,
+				        			type:"GET",
+				        			dataType:"text",
+				        			success : function(data) {
+				        				var result = data;
+				        				$("#allPrice").html(result+"원");
+									}, error : function() {
+											console.log("실패");
+									}
+							});
+					  });
+                     </script>
                      <div class="payment_item">
                         <h3>결제 수단</h3>
                      </div>
@@ -418,7 +459,7 @@ li, a {
                               for="kakaoPay" style="font-size:17px; font-weight:bold;z-index:1; margin-top:-15px;">카카오페이 </label> <img
                               src="resources/shoppingMall/img/product/single-product/kakaopay.jpg"
                               alt="" style="width:70px;height:30px;">
-                           <div class="check"></div>
+                           <div class="check" style="z-index: 1;"></div>
                         </div>
                      </div>
                      <div class="creat_account">
@@ -442,68 +483,118 @@ li, a {
       <div class="modal-content">
          <!-- header -->
          <div class="modal-header">
+         	배송지 목록
             <!-- 닫기(x) 버튼 -->
             <span class="close" id="closeModal">&times;</span>
             <!-- header title -->
             <!-- <h4 class="modal-title" align="left">주소록 목록</h4>-->
          </div>
          <!-- body -->
-         <div class="modal-body">
-
-            <!-- form태그로 한 번에 묶어버리면 모든 주소의 값이 넘어갈 것 같아서 따로 했습니다 -->
-            <!-- 주소 1 -->
-
-            <table>
-               <tr>
-                  <td><p>주소 1 : <c:out value="${userAddr[0].name}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_zipcode" class="modal_addr1"><c:out value="${userAddr[0].zc_key}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_addr" class="modal_addr1"
-                        style="margin-right: 10px;"><c:out value="${userAddr[0].roadAddress}"/></p></td>
-                  <td><p id="modal_detailaddr" class="modal_addr1"><c:out value="${userAddr[0].addr}"/></p></td>
-                  <td><input type="button" value="선택" id="button1"
-                     onclick="putAddress(id)" /></td>
-               </tr>
-            </table>
-
-            <!-- 주소 2 -->
-            <table>
-               <tr>
-                  <td><p>주소 2 : <c:out value="${userAddr[1].name}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_zipcode" class="modal_addr2"><c:out value="${userAddr[1].zc_key}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_addr" class="modal_addr2"
-                        style="margin-right: 10px;"><c:out value="${userAddr[1].roadAddress}"/></p></td>
-                  <td><p id="modal_detailaddr" class="modal_addr2"><c:out value="${userAddr[1].addr}"/></p></td>
-                  <td><input type="button" value="선택" id="button2"
-                     onclick="putAddress(id)" /></td>
-               </tr>
-            </table>
-
-            <!-- 주소 3 -->
-            <table>
-               <tr>
-                  <td><p>주소 3 : <c:out value="${userAddr[2].name}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_zipcode" class="modal_addr3"><c:out value="${userAddr[2].zc_key}"/></p></td>
-               </tr>
-               <tr>
-                  <td><p id="modal_addr" class="modal_addr3"
-                        style="margin-right: 10px;"><c:out value="${userAddr[2].roadAddress}"/></p></td>
-                  <td><p id="modal_detailaddr" class="modal_addr3"><c:out value="${userAddr[2].addr}"/></p></td>
-                  <td><input type="button" value="선택" id="button3"
-                     onclick="putAddress(id)" /></td>
-               </tr>
-            </table>
-         </div>
-         <!-- Footer -->
+			<div class="modal-body">
+				<div class="row">
+					<!-- form태그로 한 번에 묶어버리면 모든 주소의 값이 넘어갈 것 같아서 따로 했습니다 -->
+					<!-- 주소 1 -->
+					<div class="col-lg-4">
+						<div class="contact_info">
+						<h4>배송지 1</h4>
+						<br>
+							<div class="info_item">
+								<i class="lnr lnr-user"></i>
+								<h6>배송지명</h6>
+								<p>
+									<c:out value="${userAddr[0].name}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-home"></i>
+								<h6>주소</h6>
+								<p id="modal_addr" class="modal_addr1">
+									<c:out value="${userAddr[0].roadAddress}" />
+								</p>
+								<p id="modal_detailaddr" class="modal_addr1">
+									<c:out value="${userAddr[0].addr}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-phone-handset"></i>
+								<h6>우편번호</h6>
+								<p id="modal_zipcode" class="modal_addr1">
+									<c:out value="${userAddr[0].zc_key}" />
+								</p>
+							</div>
+							<input type="button" class="genric-btn default radius" value="선택"
+						id="button1" onclick="putAddress(id)" />
+						</div>
+					</div>
+					<!-- 주소 2 -->
+					<div class="col-lg-4">
+						<div class="contact_info">
+						<h4>배송지 2</h4>
+						<br>
+							<div class="info_item">
+								<i class="lnr lnr-user"></i>
+								<h6>배송지명</h6>
+								<p>
+									<c:out value="${userAddr[1].name}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-home"></i>
+								<h6>주소</h6>
+								<p id="modal_addr" class="modal_addr2">
+									<c:out value="${userAddr[1].roadAddress}" />
+								</p>
+								<p id="modal_detailaddr" class="modal_addr2">
+									<c:out value="${userAddr[1].addr}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-phone-handset"></i>
+								<h6>우편번호</h6>
+								<p id="modal_zipcode" class="modal_addr2">
+									<c:out value="${userAddr[1].zc_key}" />
+								</p>
+							</div>
+							<input type="button" class="genric-btn default radius" value="선택"
+						id="button2" onclick="putAddress(id)" />
+						</div>
+					</div>
+					<!-- 주소 3 -->
+					<div class="col-lg-4">
+						<div class="contact_info">
+						<h4>배송지 3</h4>
+						<br>
+							<div class="info_item">
+								<i class="lnr lnr-user"></i>
+								<h6>배송지명</h6>
+								<p>
+									<c:out value="${userAddr[2].name}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-home"></i>
+								<h6>주소</h6>
+								<p id="modal_addr" class="modal_addr3">
+									<c:out value="${userAddr[2].roadAddress}" />
+								</p>
+								<p id="modal_detailaddr" class="modal_addr3">
+									<c:out value="${userAddr[2].addr}" />
+								</p>
+							</div>
+							<div class="info_item">
+								<i class="lnr lnr-phone-handset"></i>
+								<h6>우편번호</h6>
+								<p id="modal_zipcode" class="modal_addr3">
+									<c:out value="${userAddr[2].zc_key}" />
+								</p>
+							</div>
+						</div>
+						<input type="button" class="genric-btn default radius" value="선택"
+						id="button3" onclick="putAddress(id)" />
+					</div>
+				</div>
+			</div>
+			<!-- Footer -->
          <div class="modal-footer">
             <table align="center">
                <tr>
@@ -609,9 +700,6 @@ li, a {
       // 주소록 3의 정보 배열로 받아오기
       var addr_arr3 = document.getElementsByClassName('modal_addr3');
       
-      $(document).ready(function() {
-         $('p.product_name:not(.middle,.last)').css('color','green');
-        });
       // When the user clicks on the button, open the modal 
       btn.onclick = function() {
          modal.style.display = "block";
@@ -643,6 +731,7 @@ li, a {
       function goPay(button) {
         var goods_num = new Array();
         var addrList = new Array();
+        var inputSavings = $("#inputSavings").val();
          
          if (payAgree.checked == false) {
             alert('구매 동의 체크박스가 선택되어야 합니다.');
@@ -659,6 +748,7 @@ li, a {
           addrList.push($("#addr1").val()+" ");
           addrList.push($("#addr2").val());
           $("#or_addr").val(addrList);
+          $("#useSavings").val(inputSavings);
           $("#orderInfo").submit();
          }
       }
@@ -673,18 +763,19 @@ li, a {
       }
       // 주소록 목록 모달에서 주소 값 받아오기
       function putAddress(id) {
+    	  
          if (id.charAt(id.length - 1) == 1) {
-            zipcode_input.value = addr_arr1[0].innerHTML;
-            deli_addr1.value = addr_arr1[1].innerHTML;
-            deli_addr2.value = addr_arr1[2].innerHTML;
+        	 deli_addr1.value = addr_arr1[0].innerHTML.trim();
+        	 deli_addr2.value = addr_arr1[1].innerHTML.trim();
+             zipcode_input.value = addr_arr1[2].innerHTML.trim();
          } else if ((id.charAt(id.length - 1) == 2)) {
-            zipcode_input.value = addr_arr2[0].innerHTML;
-            deli_addr1.value = addr_arr2[1].innerHTML;
-            deli_addr2.value = addr_arr2[2].innerHTML;
+        	 deli_addr1.value = addr_arr2[0].innerHTML.trim();
+        	 deli_addr2.value = addr_arr2[1].innerHTML.trim();
+             zipcode_input.value = addr_arr2[2].innerHTML.trim();
          } else {
-            zipcode_input.value = addr_arr3[0].innerHTML;
-            deli_addr1.value = addr_arr3[1].innerHTML;
-            deli_addr2.value = addr_arr3[2].innerHTML;
+        	 deli_addr1.value = addr_arr3[0].innerHTML.trim();
+        	 deli_addr2.value = addr_arr3[1].innerHTML.trim();
+             zipcode_input.value = addr_arr3[2].innerHTML.trim();
          }
          $('#close_addrModal').trigger('click');
       }

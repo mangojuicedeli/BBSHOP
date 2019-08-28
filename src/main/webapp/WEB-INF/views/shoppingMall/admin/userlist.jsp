@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,8 +100,8 @@ body {
    margin: 8% auto; /* 15% from the top and centered */
    padding: 10px;
    border: 1px solid #888;
-   width: 20%; /* Could be more or less, depending on screen size */
-   height: 72%;
+   width: 30%; /* Could be more or less, depending on screen size */
+   height: 74%;
 }
 /* The Close Button */
 .close {
@@ -148,20 +150,19 @@ body {
                 <div class="card-body">
                 <div class="table-responsive">
                 <table class="category" >
-                    
                   <tr style='text-align:right'>
-                  <td><label for=category>회원 등급</label>
-                  <td><input type="checkbox" id='check_all'>전체</td>
-                  <td><input type="checkbox" id='check_bronze'>브론즈</td>
-                  <td><input type="checkbox" id='check_silver'>실버</td>
-                  <td><input type="checkbox" id='check_gold'>골드</td>
-                  <td><input type="checkbox" id='check_platinum'>플레티넘</td>
+	                  <td><label for=category>회원 등급</label>
+	                  <td><input type="checkbox" id='check_all' checked="checked">전체</td>
+	                  <td><input type="checkbox" id='check_bronze'>브론즈</td>
+	                  <td><input type="checkbox" id='check_silver'>실버</td>
+	                  <td><input type="checkbox" id='check_gold'>골드</td>
+	                  <td><input type="checkbox" id='check_platinum'>다이아</td>
               		<div style='float:right'>    
-                  <select class='form-control'>
+                  	<select class='form-control'>
                       <option> 누적경고 순</option>
                       <option> 가입일자 순</option>
-                  </select>
-              </div>
+                  	</select>
+              		</div>
                   </tr>
                 </table>
               </div>
@@ -169,93 +170,89 @@ body {
               <table class="table" style="background-color: rgba(230, 236, 236, 0.4)">
                       <thead class=" text-primary">
                   
-                   
-                        <th style='text-align:center'>
-                          ID
+                      	<th style='text-align:center'>
+                        	회원번호
                         </th>
                         <th style='text-align:center'>
-                          닉네임
+                        	ID
                         </th>
                         <th style='text-align:center'>
-                          이름
+                      	    닉네임
                         </th>
                         <th style='text-align:center'>
-                          전화번호
+                       		이름
                         </th>
                         <th style='text-align:center'>
-                          등급
+                      		전화번호
                         </th>
                         <th style='text-align:center'>
-                          적립금                   
+                    		등급
                         </th>
                         <th style='text-align:center'>
-                          누적경고
+                    		적립금                   
                         </th>
                         <th style='text-align:center'>
-                          가입일자
+                      	    누적경고
                         </th>
                         <th style='text-align:center'>
-                          주문조회
-                        </th>
-                        <th style='text-align:center'>
-                          문의조회
-                        </th>
-                        <th style='text-align:center'>
-                          삭제
+                     		가입일자
                         </th>
                       </thead>
-                      <tbody>
+                      <tbody id="userListTable">
+                      <c:forEach var="userList" items="${userList}" varStatus="status" begin="${PageMaker.cri.pageNum*5-5 }" end="${PageMaker.cri.pageNum*5-1 }">
                         <tr>
+                        	<td style='text-align:center;width:80px;'>
+                            ${userList.USER_KEY}
+                          </td>
                           <td  class="text-primary" style='text-align:center'>
-                            <button id="modal_id" class='btn btn-link'>user1</button>
+                            <button id="modal_id" class='btn btn-link' onclick="openMemberModal(${userList.USER_KEY})">${userList.MEMBER_ID}</button>
+                          </td>
+                          <td style='text-align:center;width:80px;'>
+                            ${userList.NICKNAME}
+                          </td>
+                          <td style='text-align:center;width:80px;'>
+                          	  ${userList.NAME}
                           </td>
                           <td style='text-align:center'>
-                            nick
+                            ${userList.PHONE}
                           </td>
                           <td style='text-align:center'>
-                            서지훈
+                           	 ${userList.GRADE}
                           </td>
-                          <td style='text-align:center'>
-                            1234
+                          <td style='text-align:center;width:80px;'>
+                            ${userList.SAVINGS}
                           </td>
-                          <td style='text-align:center'>
-                            골드
+                          <td style='text-align:center;width:90px;'>
+                            ${userList.CAUTION}
                           </td>
-                          <td style='text-align:center'>
-                            1000원
-                          </td>
-                          <td style='text-align:center'>
-                            1회
-                          </td>
-                          <td style='text-align:center'>
-                            2019.03.03
-                          </td>
-                          <td style='text-align:center'>
-                            <input type="button" class='btn btn-success btn-sm' value="주문조회">
-                          </td>
-                          <td style='text-align:center'>
-                            <input type="button" class='btn btn-success btn-sm' value="문의조회">
-                          </td>
-                          <td style='text-align:center'>
-                            <input type="button" class='btn btn-danger btn-sm' value="삭제">
-                          </td>
-                          
+                          <td style='text-align:center' id="regdate">
+                            <fmt:formatDate pattern="yyyy-MM-dd" value="${userList.REGDATE}" />
+                          </td>             
                         </tr>
+                        </c:forEach>
                           <table id='table_footer'width="100%">
                       	<tr>
                       	
                    
                       	<td style='text-align:center'>
                       		<ul class="pagination">
+										<c:if test="${PageMaker.prev}">
 										<li class="page-item disabled"><a class="page-link"
-											href="#">이전</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">4</a></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">다음</a></li>
+											href="${PageMaker.startPage -1 }">이전</a></li>
+										</c:if>
+										<c:forEach var="num" begin="${PageMaker.startPage}" end="${PageMaker.endPage}">
+										<li class="page-item ${PageMaker.cri.pageNum==num?"active":"" }" id="btn_${num}">
+										<a class="page-link" href="<c:out value="${num}"/>"><c:out value="${num}"/></a></li>
+										</c:forEach>
+										<c:if test="${PageMaker.next}">
+										<li class="page-item"><a class="page-link"
+											href="${PageMaker.endPage+1 }">다음</a></li>
+										</c:if>
 									</ul>
+							<form id='pageForm' action="goodsList.do" method='POST'>
+								<input type='hidden' name='pageNum' value='${PageMaker.cri.pageNum}'>
+								<input type='hidden' name='amount' value='${PageMaker.cri.amount}'>
+							</form>
                       	</td>
                       		
                       	<td style='text-align:right;' width=30%>
@@ -292,181 +289,158 @@ body {
       
     </div>
   </div>
-  <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-      <a href="#" data-toggle="dropdown">
-        <i class="fa fa-cog fa-2x"> </i>
-      </a>
-      <ul class="dropdown-menu">
-        <li class="header-title"> Sidebar Filters</li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger active-color">
-            <div class="badge-colors ml-auto mr-auto">
-              <span class="badge filter badge-purple" data-color="purple"></span>
-              <span class="badge filter badge-azure" data-color="azure"></span>
-              <span class="badge filter badge-green" data-color="green"></span>
-              <span class="badge filter badge-warning" data-color="orange"></span>
-              <span class="badge filter badge-danger" data-color="danger"></span>
-              <span class="badge filter badge-rose active" data-color="rose"></span>
-            </div>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-1.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-2.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-3.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-4.jpg" alt="">
-          </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-        </li>
-        <!-- <li class="header-title">Want more components?</li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                  Get the pro version
-                </a>
-            </li> -->
-        <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
-            View Documentation
-          </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
-  </div>
+  
+  <!-- ===============================모달================================================ -->
   <!-- The Modal -->
-  <div id="myModal" class="modal">
+  <div id="order_Modal" class="modal">
 
     <!-- Modal content -->
     <div class="modal-content">
        <!-- header -->
        <div class="modal-header">
+       	  <h4 class="text-black" style="font-weight: bold;">회원정보</h4>
           <!-- 닫기(x) 버튼 -->
           <span class="close">&times;</span>
           <!-- header title -->
           <h4 class="modal-title" align="center"></h4>
        </div>
      <!-- body -->
-     <form id="reportForm" name="report" role="form" action="./home.jsp"
-     >
-     <div class="modal-body">
-        <table>
+	 <div class="modal-body">
+        <table style="margin-left:auto; margin-right:auto; width:100%;">
            <tr class="report_content">
               <td><p>ID: </p></td>
-              <td><input type="text" name="writer"
-                 class="form-control"/></td>
+              <td><input type="text" id="id"
+                  class="form-control"/></td>
            </tr>
-           <tr class="report_content">
-             <td><p>PW: </p></td>
-             <td><input type="text" name="writer"
-                class="form-control"/></td>
-          </tr>
           <tr class="report_content">
            <td><p>이름: </p></td>
-           <td><input type="text" name="writer"
+           <td><input type="text" id="name"
+               class="form-control"/></td>
+
+            <tr class="report_content">
+             <td><p>생일: </p></td>
+             <td><input type="text" id="birth"
               class="form-control"/></td>
+        <tr class="report_content">
+            <td><p>수정일자: </p></td>
+            <td><input type="text" id="moddate"
+            class="form-control"/></td>
         </tr>
         <tr class="report_content">
-         <td><p>닉네임: </p></td>
-         <td><input type="text" name="writer"
+            <td><p>선호브랜드1: </p></td>
+            <td><input type="text" id="moredetails1"
             class="form-control"/></td>
-      </tr>
-      <tr class="report_content">
-       <td><p>전화번호: </p></td>
-       <td><input type="text" name="writer"
-          class="form-control"/></td>
-    </tr>
-    <tr class="report_content">
-     <td><p>생일: </p></td>
-     <td><input type="text" name="writer"
-        class="form-control"/></td>
-  </tr>
-  <tr class="report_content">
-   <td><p>등급: </p></td>
-   <td><input type="text" name="writer"
-      class="form-control"/></td>
-</tr>
-<tr class="report_content">
- <td><p>적립금: </p></td>
- <td><input type="text" name="writer"
-    class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>누적경고: </p></td>
-<td><input type="text" name="writer"
-  class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>가입일자: </p></td>
-<td><input type="text" name="writer"
-class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>수정일자: </p></td>
-<td><input type="text" name="writer"
-class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>추가1: </p></td>
-<td><input type="text" name="writer"
-class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>추가2: </p></td>
-<td><input type="text" name="writer"
-class="form-control"/></td>
-</tr>
-<tr class="report_content">
-<td><p>추가3: </p></td>
-<td><input type="text" name="writer"
-class="form-control"/></td>
-</tr>          
+        </tr>
+        <tr class="report_content">
+            <td><p>선호브랜드2: </p></td>
+            <td><input type="text" id="moredetails2"
+            class="form-control"/></td>
+        </tr>
+        <tr class="report_content">
+            <td><p>선호브랜드3: </p></td>
+            <td><input type="text" id="moredetails3"
+            class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><p>선호 구단: </p></td>
+            <td><input type="text" id="team"
+            class="form-control"/></td>
+        </tr>
+        <tr>
+            <td><p>포지션: </p></td>
+            <td><input type="text" id="position"
+            class="form-control"/></td>
+        </tr>
         </table>
      </div>
      <!-- Footer -->
-          <div class="modal-footer">
+          <div class="modal-footer" style="margin-top:0px;">
              <table align="center">
                 <tr>
-                   <td><button type="button" class="btn btn-info btn-block">닫기</button></td>
-                   <td><input type="submit" class="btn btn-info btn-primary" value="제출" /></td>
+                   <td><button type="button" class="btn btn-info btn-block" id="confirmation">확인</button></td>
                 </tr>
              </table>
           </div>
-       </form>
     </div>
  </div>
-  
+
   <script>
     $(document).ready(function() {
       $().ready(function() {
+    	//페이지 이동부분
+   		 var actionForm =$("#pageForm");
+  	
+   		  $(".page-item a").on("click",function(e){
+  				e.preventDefault(); //페이지 이동이없도록 처리한다.
+  				console.log("click");
+  				//FORM에 있는 pageNum값을 클릭한 페이지의 숫자로 바꿔주기 위한 코드.
+  				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+  				var data = {
+  						//form의 페이지 넘과 어마운트를 받아온다(amount는 없어도 상관없다.)
+  						pageNum: actionForm.find("input[name='pageNum']").val(), 
+  						amount: actionForm.find("input[name='amount']").val()
+  					};
+  				console.log("pageNum="+data.pageNum);
+  				var str = '';
+  				var end = ${PageMaker.endPage};
+  				var start = ${PageMaker.startPage};
+  				var paging = '';
+  	
+  				$.ajax({
+  					url:"UserListPaging.do",
+  					type:"GET",
+  					data:data,
+  					dataType:"json",
+  					contentType:"application/json",
+  					success:function(data){
+  						
+  						var count=0;
+  						
+  						//한 페이지당 굿즈 리스트를 5개씩 받기위해 설정. 초기에는 pageNum이 1 이고 ajax가 실행될 시기에는 2부터 시작하기에 가능하게만듬.
+  						for( var i = data.PageMaker.cri.pageNum*5-5;i<data.PageMaker.cri.pageNum*5;i++){
+  						
+  							var values=data.userList[i];
+  							
+  							// 가입날짜
+  							var time1 = new Date(values.regdate).getTime();
+  							var regdate = new Date(time1);
+  							var formatRegdate = regdate.getFullYear()+"-0"+(regdate.getMonth() + 1)+"-"+regdate.getDate();
+  							
+  							str+= "<tr>"
+  								  +"<td style='text-align:center; width:80px;'>"+values.user_KEY+"</td>"
+                            	  +"<td  class='text-primary' style='text-align:center'><button id='modal_id' class='btn btn-link' onclick='openMemberModal("+values.user_KEY+")'' >"+values.member_ID+"</button></td>"
+                          		  +"<td style='text-align:center;width:80px;'>"+values.nickname+"</td>"
+                          		  +"<td style='text-align:center;width:80px;'>"+values.name+"</td>"
+                          		  +"<td style='text-align:center'>"+values.phone+"</td>"
+                          		  +"<td style='text-align:center'>"+values.grade+"</td>"
+                          		  +"<td style='text-align:center;width:80px;'>"+values.savings+"</td>"
+                           	 	  +"<td style='text-align:center;width:90px;'>"+values.caution+"</td>"
+                          		  +"<td style='text-align:center' id='regdate'>" + formatRegdate + "</td></tr>";
+                          		  
+                          		  count++;
+  							//마지막 페이지에서 증가 사이즈를 5의 폭으로 줬는데 마지막페이지가 5가 안될경우에는 오류가 나기 때문에 goodsList[i+1]가 null일경우 포문을 빠져나간다.
+  							if(data.userList[i+1]==null)
+  								break;
+  								
+  							
+  						}
+  						$('#userListTable').empty();
+  						$('#userListTable').append(str);
+  						
+  						// 페이징 버튼 AJAX 처리
+  						
+ 						$('.page-item').removeClass("active");
+ 						$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
+ 					},
+ 					error:function(){
+ 						console.log("실패");
+ 					}
+ 					});
+ 				
+ 			  });
+  
     	  
-    	  $(".sidebar-wrapper li").eq(1).addClass('active');
+    	  $(".sidebar-wrapper li").eq(0).addClass('active');
     	  
         $sidebar = $('.sidebar');
 
@@ -633,35 +607,12 @@ class="form-control"/></td>
           }, 1000);
 
         });
-      });
-    });
+  				});
+   		  });
+   
   </script>
   <script>
-    var modal = document.getElementById('myModal');
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("modal_id");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // 닫기 버튼 불러오기
-    var close = document.getElementsByClassName("btn-block")[0];
-
-    // When the user clicks on the button, open the modal 
-    btn.onclick = function() {
-       modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-       modal.style.display = "none";
-    }
-
-    // 닫기 버튼을 누른 경우 display none.(창 없앰)
-    close.onclick = function() {
-       modal.style.display = "none";
-    }
+    var modal = document.getElementById('order_Modal');;
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
@@ -669,6 +620,70 @@ class="form-control"/></td>
           modal.style.display = "none";
        }
     }
+    
+    // 회원 조회 모달
+    function openMemberModal(num){	
+		$.ajax({
+			url:"getMember.do?user_key="+num,
+			type:"GET",
+			dataType:"json",
+			success : function(data) {
+				var result = data;
+				// 가입날짜
+				var time1 = new Date(result.regdate).getTime();
+				var regdate = new Date(time1);
+				var formatRegdate = regdate.getFullYear()+"년 "+(regdate.getMonth() + 1)+"월 "+regdate.getDate()+"일";
+				
+				// 수정날짜
+				var time2 = new Date(result.moddate).getTime();
+				var moddate = new Date(time2);
+				var formatModdate = moddate.getFullYear()+"년 "+(moddate.getMonth() + 1)+"월 "+moddate.getDate()+"일";
+				
+				$('#id').val(result.member_ID);
+				$('#pw').val(result.member_PW);
+				$('#name').val(result.name);
+				$('#nickname').val(result.nickname);
+				$('#phone').val(result.phone);
+				$('#birth').val(result.birth);
+				$('#grade').val(result.grade);
+				$('#savings').val(result.savings);
+				$('#caution').val(result.caution);
+				$('#regdate').val(formatRegdate);
+				$('#moddate').val(formatModdate);
+			}, error : function() {
+					console.log("실패");
+			}
+		});
+		
+		$.ajax({
+			url:"getDetails.do?user_key="+num,
+			type:"GET",
+			dataType:"json",
+			success : function(data) {
+				var detailResult = data;
+				$('#moredetails1').val(detailResult.brand1);
+				$('#moredetails2').val(detailResult.brand2);
+				$('#moredetails3').val(detailResult.brand3);
+				$('#team').val(detailResult.team);
+				$('#position').val(detailResult.position);
+				
+			}, error : function() {
+					console.log("실패");
+			}
+		});
+		
+		modal.style.display = "block";
+	}
+    
+    // x 버튼
+    $(".close")[0].onclick = function(){
+       modal.style.display = "none";
+    }
+    
+    // 확인 버튼
+    $("#confirmation")[0].onclick = function(){
+        modal.style.display = "none";
+     }
  </script>
 </body>
 

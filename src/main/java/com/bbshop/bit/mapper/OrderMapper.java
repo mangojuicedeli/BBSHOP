@@ -83,6 +83,14 @@ public interface OrderMapper {
 	
 	// 주문_상품별 테이블에 insert
 	public int insertOrderGD(Order_GDVO order_gd);
+	
+	// 사용한 적립금만큼 savings 테이블의 savings_used에 더함
+	public int updateSavings_used(@Param("useSavings") long useSavings,
+			@Param("order_num") long order_num);
+	
+	// 사용한 적립금만큼 sh_user 테이블의 savings에서 뺌
+	public int update_usedUser_savings(@Param("useSavings") long useSavings,
+			@Param("user_key") long user_key);
 
 	// 의정 단일상품
 	public Gd_GloveVO getGloveOption(HashMap<String, Object> map);	

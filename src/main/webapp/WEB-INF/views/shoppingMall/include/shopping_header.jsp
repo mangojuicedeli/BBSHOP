@@ -13,7 +13,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- 수정필요 icon 뭘로할지? -->
 <link rel="icon" href="img/favicon.png" type="image/png">
-<title>야매샵</title>
+<title>BBSHOP</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="resources/shoppingMall/css/bootstrap.css">
 <link rel="stylesheet"
@@ -140,7 +140,7 @@ body {
 }
 /* 모달창 투명도 */
 #search, #searchBig {
-	opacity: 0.9;
+	opacity: 1;
 }
 
 .submenu {
@@ -530,7 +530,8 @@ body {
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<!-- shop_main 경로  + 로고 파일 -->
 					<a class="navbar-brand logo_h" href="/shopping_main.do"> <img
-						src="resources/shoppingMall/img/logo.png" alt="" style="visibility: hidden"> <!-- 일단 로고 안보이게 -->
+						src="resources/shoppingMall/img/BB_SHOP.png" 
+						style="height: -webkit-fill-available;" alt=""> <!-- 일단 로고 안보이게 -->
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent"

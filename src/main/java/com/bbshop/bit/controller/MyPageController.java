@@ -301,13 +301,13 @@ public class MyPageController {
 	
 	// 회원 탈퇴
 	@RequestMapping("/secede.do")
-	public String secede() {
+	public String secede(@RequestParam String reason) {
 		
 		long user_key = (long)session.getAttribute("member");
-
-		myPageService.deleteUserInfo(user_key);
 		
-		return "shoppingMall/main/shopping_main";
+		myPageService.deleteUserInfo(user_key, reason);
+		
+		return "shoppingMall/main/index";
 	}
 	
 	// 추가 사항 수정하기
@@ -392,20 +392,12 @@ public class MyPageController {
 		
 		long total = 0;
 		long user_key = (long)session.getAttribute("member");
-
 		long pageNum = (long)Integer.parseInt((String)map.get("pageNum"));
 		long amount = (long)Integer.parseInt((String)map.get("amount"));
 		
 		List<String> stts_list = new ArrayList<String>();
 		
-		System.out.println("map.get(\"stts\") : " + map.get("stts"));
-		
 		stts_list = (List<String>)map.get("stts");
-		
-		for (String item : stts_list) {
-			
-			System.out.println("item : " + item);
-		}
 		
 		Map<String, Object> listMap = new HashMap<>();
 		
@@ -417,6 +409,8 @@ public class MyPageController {
 			total = myPageService.getTotal(pagingVO, "shop_order", user_key);  // 주문 배송 테이블 데이터 개수 구하기.
 			
 			List<OrderVO> orders_list = myPageService.getOrdersList(pagingVO, user_key);
+			
+			System.out.println(orders_list.toString());
 			
 			listMap.put("orders_list", orders_list);
 			listMap.put("total", total);
@@ -438,8 +432,7 @@ public class MyPageController {
 			}
 		}
 		
-		System.out.println("orders_list : " + orders_list);
-		System.out.println("total : " + total);
+		System.out.println(orders_list.toString());
 		
 		listMap.put("orders_list", orders_list);
 		listMap.put("total", total);

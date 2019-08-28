@@ -26,18 +26,21 @@ border-left: none;
 					<p>저희 쇼핑몰의 부족했던 점과
 					아쉬웠던 점을 적어주시면 감사하겠습니다. 더 좋은 모습으로 발전하도록 최선을 다하겠습니다. 그리하여 더 나은 모습으로
 					고객님을 다시 만날 날을 기다리겠습니다. 그 동안 저희 쇼핑몰을 이용해주신 것을 진심으로 감사드립니다.</p></blockquote>
+				<form action="/secede.do">
 				<div class="mt-10">
-					<textarea class="single-textarea" placeholder="남기시고 싶은 말씀을 적어주세요."
+					<textarea class="single-textarea" name="reason" placeholder="남기시고 싶은 말씀을 적어주세요."
 						onfocus="this.placeholder = ''"
 						onblur="this.placeholder = 'Message'" style="margin-bottom: 20px; height: 200px;" required></textarea>
 				</div>
 				<p style="margin-bottom: 20px">탈퇴하기를 누르시면 1주일 간 계정이 휴면 상태로 전환됩니다. 1주일이 지나면 자동 삭제되고, 그 사이에 계정을 정상 복원할 수 있습니다.</p>
 				<div class="text-center">
-				<a href="/secede.do" class="genric-btn default radius" onclick="alert('계정이 휴면 처리되었습니다. 1주일 뒤 자동 삭제됩니다.');" style="margin-right: 10px;"><span>탈퇴하기</span>
-						</a>
+				<input type="submit" class="genric-btn default radius" onclick="alert('계정이 휴면 처리되었습니다. 1주일 뒤 자동 삭제됩니다.');" style="margin-right: 10px;" value="탈퇴하기">
+<!-- 				<a href="/secede.do" class="genric-btn default radius" onclick="alert('계정이 휴면 처리되었습니다. 1주일 뒤 자동 삭제됩니다.');" style="margin-right: 10px;"><span>탈퇴하기</span> -->
+<!-- 						</a> -->
 				<a href="/modify_info.do" class="genric-btn default radius"><span>취소하기</span>
 						</a>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>

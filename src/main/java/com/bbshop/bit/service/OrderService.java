@@ -76,6 +76,12 @@ public interface OrderService {
 	// 주문_상품별 테이블에 insert
 	public int insertOrderGD(Order_GDVO order_gd);
 	
+	// 사용한 적립금만큼 savings 테이블의 savings_used에 더함
+	public int updateSavings_used(long useSavings, long order_num);
+	
+	// 사용한 적립금만큼 sh_user 테이블의 savings에서 뺌
+	public int update_usedUser_savings(long useSavings, long user_key);
+	
 	// 의정 단일상품
 
 //	public GoodsVO getGoodsInfo(Long goods_num);

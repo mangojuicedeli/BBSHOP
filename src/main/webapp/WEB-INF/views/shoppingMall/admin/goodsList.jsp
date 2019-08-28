@@ -69,19 +69,12 @@ th{
                   
                     <table class="table" style="background-color: rgba(230, 236, 236, 0.4)">
                       <thead class=" text-primary">
-                          <th style="text-align: center">
-                          <!-- 
-                          <div class="form-check">
-                          	<label class="form-check-label">
-                            <input class="form-check-input" id='check_all' type="checkbox" value="">
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                  </label>
-                                  </div> -->
-                         <input type='checkbox' id='check_all' class="form-check-input">
+                            <th style="text-align: center"  width=4%>
+                    
+                         <input type='checkbox' id='check_all'>
                           
                         </th>
+                        
                                <th style="text-align: center">
                           상품번호
                         </th>
@@ -433,9 +426,6 @@ th{
 			goodsnum.push($('#modifygoods_numbtn'+listindex[index]).text());
 			});
 		var ajaxarr={"goodsnum":goodsnum}
-		alert(listindex);
-		alert(goodsnum);
-		alert(ajaxarr);
 		$.ajaxSettings.traditional = true;
 		$.ajax({
 			url:"selectGoodsDelete.do",
@@ -541,8 +531,8 @@ th{
 			             	 +"<td  style='text-align: center'>"+values.regdate+"</td>"
 			               	 +"<td  style='text-align: center'>일반</td>"
 			               	 +"<td  style='text-align: center'>"+values.discount+"</td>"
-			                 +"<td  style='text-align: center'>X</td>"
-			                 +"<td  style='text-align: center'><button class='btn btn-danger btn-sm'>삭제</button></td></tr>";
+			                 +"<td  style='text-align: center'>X</td>";
+			                 
 							//마지막 페이지에서 증가 사이즈를 5의 폭으로 줬는데 마지막페이지가 5가 안될경우에는 오류가 나기 때문에 goodsList[i+1]가 null일경우 포문을 빠져나간다.
 							if(data.goodsList[i+1]==null)
 								break;
@@ -571,7 +561,7 @@ th{
     	   
     	  
     	  
-    	  $(".sidebar-wrapper li").eq(2).addClass('active');
+    	  $(".sidebar-wrapper li").eq(1).addClass('active');
     	 
        	
     	    

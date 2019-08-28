@@ -366,8 +366,6 @@ h3, h4, h6 {
 	
 	function submit(team, position, brand1, brand2, brand3) {
 		
-		alert('submit 함수 진입');
-		
 		console.log(team);
 		console.log(position);
 		console.log(brand1);

@@ -1,61 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/img/favicon.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Material Dashboard by Creative Tim
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- CSS Files -->
-  <link href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-  
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <!-- 스마트 에디터 -->
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/smarteditor/js/HuskyEZCreator.js"></script>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/img/apple-icon.png">
+<link rel="icon" type="image/png"
+	href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Material Dashboard by Creative Tim</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link
+	href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1"
+	rel="stylesheet" />
 
-  <!--   Core JS Files   -->
-  
-   <link href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" /> 
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/core/popper.min.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/moment.min.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.validate.min.js"></script>
-  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-selectpicker.js"></script>
-  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.dataTables.min.js"></script>
-  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-tagsinput.js"></script>
-  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jasny-bootstrap.min.js"></script>
-  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/fullcalendar.min.js"></script>
-  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery-jvectormap.js"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/nouislider.min.js"></script>
-  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  <!-- Library for adding dinamically elements -->
-  <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/arrive.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- 스마트 에디터 -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/smarteditor/js/HuskyEZCreator.js"></script>
+
+<!--   Core JS Files   -->
+
+<link
+	href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1"
+	rel="stylesheet" />
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/core/popper.min.js"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/core/bootstrap-material-design.min.js"></script>
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Plugin for the momentJs  -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/moment.min.js"></script>
+<!--  Plugin for Sweet Alert -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/sweetalert2.js"></script>
+<!-- Forms Validations Plugin -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.validate.min.js"></script>
+<!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-selectpicker.js"></script>
+<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery.dataTables.min.js"></script>
+<!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/bootstrap-tagsinput.js"></script>
+<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jasny-bootstrap.min.js"></script>
+<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/fullcalendar.min.js"></script>
+<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/jquery-jvectormap.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/nouislider.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+<!-- Library for adding dinamically elements -->
+<script
+	src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/plugins/arrive.min.js"></script>
 <style>
 @font-face {
 	font-family: 'NanumBarunpen';
@@ -78,6 +105,7 @@
 body {
 	font-family: NanumBarunpen, sans-serif
 }
+
 .input-group.no-border {
 	margin-left: 50px;
 }
@@ -90,166 +118,122 @@ body {
 .pagination {
 	margin-left: 450px;
 }
+
+.addr_chk {
+	color: black;
+}
 </style>
 </head>
 
 <body>
-	<%@include file='sidebar.jsp' %>
-		<div class="main-panel">
-			<!-- Navbar -->
-			<%@include file='top_nav.jsp' %>
-			<!-- End Navbar -->
-			<div class="content">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card">
-								<div class="card-header card-header-primary">
-									<h4 class="card-title ">주문 목록</h4>
-									<p class="card-category">주문 상태에 따른 주문 목록입니다.</p>
-								</div>
-								<div class="card-body">
-									<div class="col-lg-12">
-										<div class="float-right">
-											<div class="input-group">
-												<div class="float-right">
-													<input type="checkbox">전체 <input type="checkbox"
-														style="margin-left: 10px;">결제 완료 <input
-														type="checkbox" style="margin-left: 10px;">배송 준비중
-													<input type="checkbox" style="margin-left: 10px;">배송중
-													<input type="checkbox" style="margin-left: 10px;">배송완료
-												</div>
+	<%@include file='sidebar.jsp'%>
+	<div class="main-panel">
+		<!-- Navbar -->
+		<%@include file='top_nav.jsp'%>
+		<!-- End Navbar -->
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header card-header-primary">
+								<h4 class="card-title ">주문 목록</h4>
+								<p class="card-category">주문 상태에 따른 주문 목록입니다.</p>
+							</div>
+							<div class="card-body">
+								<div class="col-lg-12">
+									<div class="float-right">
+										<div class="input-group">
+											<div class="float-right">
+												<input type="checkbox" name="stts" value="0" id="paid"
+													onclick="showOrderList()"> <label for="paid"
+													class="addr_chk">결제완료</label>&nbsp;&nbsp; <input
+													type="checkbox" name="stts" value="1" id="deliverPre"
+													onclick="showOrderList()"> <label for="deliverPre"
+													class="addr_chk">배송준비중</label>&nbsp;&nbsp; <input
+													type="checkbox" name="stts" value="2" id="delivering"
+													onclick="showOrderList()"> <label for="delivering"
+													class="addr_chk">배송중</label>&nbsp;&nbsp; <input
+													type="checkbox" name="stts" value="3" id="deliverFin"
+													onclick="showOrderList()"> <label for="deliverFin"
+													class="addr_chk">배송완료</label>&nbsp;&nbsp; <input
+													type="checkbox" name="stts" value="4" id="cancel"
+													onclick="showOrderList()"> <label for="cancel"
+													class="addr_chk">주문취소</label>
 											</div>
 										</div>
 									</div>
-									<div class="table-responsive">
-										<table class="table table-hover">
-											<thead class=" text-primary">
-												<th>주문일자</th>
-												<th>주문번호</th>
-												<th>회원 ID</th>
-												<th>총 결제금액</th>
-												<th>결제방법</th>
-												<th>총 적립금</th>
-												<th>주문상태</th>
-												<th>송장번호</th>
-											</thead>
-											<tbody>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-												<tr>
-													<td>2019-07-08</td>
-													<td>12035150</td>
-													<td>mingu</td>
-													<td>￦36,000</td>
-													<td>카카오페이</td>
-													<td>￦1,000</td>
-													<td>배송준비중</td>
-													<td>15654811</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<table id='table_footer'width="100%">
-                      	<tr>
-                      	 
-                      
-                   
-                      	<td style='text-align:center'>
-                      		<ul class="pagination">
-										<li class="page-item disabled"><a class="page-link"
-											href="#">이전</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">4</a></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">다음</a></li>
-									</ul>
-                      	</td>
-                      		
-                      	<td style='text-align:right;' width=30%>
-                      <div class="input-group no-border" style="margin-left: 0px;">
-							<!-- Small button group -->
-							<div class="btn-group" style='float:right'>
-								<button class="btn btn-default btn-sm dropdown-toggle"
-									type="button" data-toggle="dropdown" aria-expanded="false">
-									검색 기준 <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">회원ID</a></li>
-									<li><a href="#">주문상태</a></li>
-									<li><a href="#">송장번호</a></li>
-									<li><a href="#">주문일자</a></li>
-								</ul>
-							</div>
-							<input type="text" value="" class="form-control"
-								style="margin-top: 5px">
-							<button type="submit"
-								class="btn btn-white btn-round btn-just-icon">
-								<i class="material-icons">search</i>
-								<div class="ripple-container"></div>
-							</button>
-						</div>
-                      	 
-                      	</tr>
-                      </table>
 								</div>
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead class=" text-primary" style="text-align: center;">
+											<th>주문일자</th>
+											<th>주문번호</th>
+											<th>회원 ID</th>
+											<th>총 결제금액</th>
+											<th>결제방법</th>
+											<th>총 적립금</th>
+											<th>주문상태</th>
+											<th>송장번호</th>
+										</thead>
+										<tbody id="order_table"></tbody>
+									</table>
+								</div>
+								<table id='table_footer' width="100%">
+									<tr>
+										<td style='text-align: center'>
+											<ul class="pagination">
+												<!-- 페이지 목록 버튼 -->
+												<c:forEach var="num" begin="${pageMaker.startPage}"
+													end="${pageMaker.endPage}">
+													<li
+														class="page-item ${pageMaker.pagingVO.pageNum == num ? 'active' : ''}"
+														id="btn_${num }"><a href="${num}" class="page-link">${num}</a>
+													</li>
+												</c:forEach>
+											</ul>
+										</td>
+										<!-- 검색 -->
+										<td style='text-align: right;' width=30%>
+											<div class="input-group no-border" style="margin-left: 0px;">
+												<!-- Small button group -->
+												<div class="btn-group" style='float: right'>
+													<button class="btn btn-default btn-sm dropdown-toggle"
+														type="button" data-toggle="dropdown" aria-expanded="false">
+														검색 기준 <span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li><a href="#">회원ID</a></li>
+														<li><a href="#">주문상태</a></li>
+														<li><a href="#">송장번호</a></li>
+														<li><a href="#">주문일자</a></li>
+													</ul>
+												</div>
+												<input type="text" value="" class="form-control"
+													style="margin-top: 5px">
+												<button type="submit"
+													class="btn btn-white btn-round btn-just-icon">
+													<i class="material-icons">search</i>
+													<div class="ripple-container"></div>
+												</button>
+											</div>
+									</tr>
+								</table>
+								<!-- 페이징 버튼 처리를 위한 히든 폼 -->
+								<form id="actionForm" action="admin_order.do">
+									<input type="hidden" name="pageNum"
+										value="${pageMaker.pagingVO.pageNum }"> <input
+										type="hidden" name="amount"
+										value="${pageMaker.pagingVO.amount }">
+								</form>
 							</div>
 						</div>
-						
 					</div>
+
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<div class="fixed-plugin">
@@ -318,7 +302,7 @@ body {
 			</ul>
 		</div>
 	</div>
-	
+
 	<script>
 		$(document)
 				.ready(
@@ -326,8 +310,9 @@ body {
 							$()
 									.ready(
 											function() {
-												
-												  $(".sidebar-wrapper li").eq(3).addClass('active');
+
+												$(".sidebar-wrapper li").eq(2)
+														.addClass('active');
 												$sidebar = $('.sidebar');
 
 												$sidebar_img_container = $sidebar
@@ -648,6 +633,288 @@ body {
 																});
 											});
 						});
+	</script>
+	
+	<script>
+	
+	var actionForm = $("#actionForm");
+	var user_id_list = new Array();
+	
+	// 유저 id를 배열에 받음
+	$(document).ready(function() {
+		
+		<c:forEach items="${user_id_list}" var="user_id" varStatus="status">
+			user_id_list['${status.index}'] = '${user_id}';
+		</c:forEach>
+	})
+
+	// 페이지가 로드되면 주문/배송 전체 리스트 불러오는 부분
+	$(document).ready(function() {
+		
+		var data = {
+			pageNum: actionForm.find("input[name='pageNum']").val(), 
+			amount: actionForm.find("input[name='amount']").val()
+		};
+		
+		$.ajax({
+			type: "POST",
+			url: "/admin_orderListPaging.do",
+			data : JSON.stringify(data),
+			dataType : "json",
+			contentType: "application/json",
+			success : function(result) {
+				
+				var start = ${pageMaker.startPage};
+				var end = ${pageMaker.endPage};
+				var str = '';
+				var paging = '';
+								
+				$.each(result, function(index, value){
+										
+					str += '<tr><td>' + result[index].or_date + '</td><td>' + result[index].order_num + '</td><td>';
+					str += user_id_list[index] + '</td><td>';
+					str += '￦ ' + result[index].pymntamnt + '</td><td>';
+					str += result[index].pymntmthd + '</td><td>';
+					str += '￦ ' + result[index].savings + '</td><td>';
+						
+					switch(result[index].stts) {
+					
+						case 0 : str += '<span style="color: blue;">결제완료</span>'; break;
+						case 1 : str += '배송준비중'; break;
+						case 2 : str += '배송중'; break;
+						case 3 : str += '배송완료'; break;
+						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
+					}
+					
+					str += '</td><td>';
+					str += result[index].ship_nmbr + '</td><td>';
+				});
+				
+				$('#order_table').empty();
+				$('#order_table').append(str);
+				
+				// 페이징 버튼 AJAX 처리
+				for (var i = start; i <= end; i++) {
+					
+					paging += '<li class="page-item ';
+					
+					if (${pageMaker.pagingVO.pageNum} == i)
+						paging += 'active';
+					
+					paging += '" id="btn_' + i + '">';
+					paging += '<a href="' + i + '" class="page-link">' + i + '</a></li>';
+				}
+				
+				$('.pagination').empty();
+				$('.pagination').append(paging);
+				
+				$('.page-item').removeClass("active");
+				$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
+			},
+			error : function() {
+				
+				alert('AJAX 요청 실패!');
+			}
+		});
+	})
+	
+	// 페이징 버튼 클릭시 페이징 함수
+	$(document).on("click", ".page-item a", function(e) {
+
+		e.preventDefault();
+		
+		var checkValues = new Array();
+		
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		
+		if ($("input[name='stts']:checked").length == 0) {
+			
+			checkValues.push('5'); // 체크된 버튼이 없을시에 전체 주문을 불러온다.
+			
+		} else {
+		
+			$("input[name='stts']:checked").each(function(){
+		    				
+				checkValues.push($(this).val());
+			});
+		}
+		
+		var pageNum = actionForm.find("input[name='pageNum']").val();
+		var amount = actionForm.find("input[name='amount']").val();
+		
+		var data = {};  
+		data["stts"] = checkValues;
+		data["pageNum"] = pageNum;
+		data["amount"] = amount;
+		
+		$.ajax({
+			type: "POST",	    
+			url : "/admin_orderListCheck.do",
+			data : JSON.stringify(data),    
+			dataType: "json",			
+			contentType:"application/json",			
+			success : function(result) {
+							
+				var str = '';
+				var end = (Math.ceil(pageNum / 10.0)) * 10;
+				var start = end - 9;
+				var total = result.length;
+				var paging = '';
+
+				var realEnd = (Math.ceil((result.total * 1.0) / amount));
+				
+				if (realEnd < end) {
+					end = realEnd;
+				}
+																		
+				var values = result.orders_list;
+					
+				$.each(values, function(index, value){
+					
+					str += '<tr><td>' + values[index].or_date + '</td><td>' + values[index].order_num + '</td><td>';
+					str += user_id_list[index] + '</td><td>';
+					str += '￦ ' + values[index].pymntamnt + '</td><td>';
+					str += values[index].pymntmthd + '</td><td>';
+					str += '￦ ' + values[index].savings + '</td><td>';
+						
+					switch(values[index].stts) {
+					
+						case 0 : str += '<span style="color: blue;">결제완료</span>'; break;
+						case 1 : str += '배송준비중'; break;
+						case 2 : str += '배송중'; break;
+						case 3 : str += '배송완료'; break;
+						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
+					}
+					
+					str += '</td><td>';
+					str += values[index].ship_nmbr + '</td><td>';
+				});
+				
+				$('#order_table').empty();
+				$('#order_table').append(str);
+				
+				// 페이징 버튼 AJAX 처리
+				for (var i = start; i <= end; i++) {
+					
+					paging += '<li class="page-item ';
+					
+					if (${pageMaker.pagingVO.pageNum} == i)
+						paging += 'active';
+					
+					paging += '" id="btn_' + i + '">';
+					paging += '<a href="' + i + '" class="page-link">' + i + '</a></li>';
+				}
+				
+				$('.pagination').empty();
+				$('.pagination').append(paging);
+				
+				$('.page-item').removeClass("active");
+				$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
+			},
+			error: function() {
+			
+				alert("error = " + errorThrown);
+			}
+		});
+	});
+	
+	// 주문 배송 상태에 따른 체크박스 클릭시의 함수
+	function showOrderList(checkbox) {
+		
+		var checkValues = new Array();
+		
+		actionForm.find("input[name='pageNum']").val(1); // 어떠한 카테고리든 선택시에는 1페이지부터 보이게 고정한다.
+		
+		if ($("input[name='stts']:checked").length == 0) {
+			
+			checkValues.push('5'); // 체크된 버튼이 없을시에 전체 주문을 불러온다.
+			
+		} else {
+		
+			$("input[name='stts']:checked").each(function(){
+				
+				checkValues.push($(this).val());
+			});
+		}
+		
+		var pageNum = actionForm.find("input[name='pageNum']").val();
+		var amount = actionForm.find("input[name='amount']").val();
+		
+		var data = {};	  
+		data["stts"] = checkValues;
+		data["pageNum"] = pageNum;
+		data["amount"] = amount;
+		
+		$.ajax({
+			type: "POST",	    
+			url : "/admin_orderListCheck.do",
+			data : JSON.stringify(data),    
+			dataType: "json",			
+			contentType:"application/json",			
+			success : function(result) {
+							
+				var str = '';
+				var end = (Math.ceil(pageNum / 10.0)) * 10;
+				var start = end - 9;
+				var total = result.length;
+				var paging = '';
+
+				var realEnd = (Math.ceil((result.total * 1.0) / amount));
+				
+				if (realEnd < end) {
+					end = realEnd;
+				}
+																		
+				var values = result.orders_list;
+					
+				$.each(values, function(index, value){
+					
+					str += '<tr><td>' + values[index].or_date + '</td><td>' + values[index].order_num + '</td><td>';
+					str += user_id_list[index] + '</td><td>';
+					str += '￦ ' + values[index].pymntamnt + '</td><td>';
+					str += values[index].pymntmthd + '</td><td>';
+					str += '￦ ' + values[index].savings + '</td><td>';
+						
+					switch(values[index].stts) {
+					
+						case 0 : str += '<span style="color: blue;">결제완료</span>'; break;
+						case 1 : str += '배송준비중'; break;
+						case 2 : str += '배송중'; break;
+						case 3 : str += '배송완료'; break;
+						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
+					}
+					
+					str += '</td><td>';
+					str += values[index].ship_nmbr + '</td><td>';
+				});
+				
+				$('#order_table').empty();
+				$('#order_table').append(str);
+				
+				// 페이징 버튼 AJAX 처리
+				for (var i = start; i <= end; i++) {
+					
+					paging += '<li class="page-item ';
+					
+					if (${pageMaker.pagingVO.pageNum} == i)
+						paging += 'active';
+					
+					paging += '" id="btn_' + i + '">';
+					paging += '<a href="' + i + '" class="page-link">' + i + '</a></li>';
+				}
+				
+				$('.pagination').empty();
+				$('.pagination').append(paging);
+				
+				$('.page-item').removeClass("active");
+				$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
+			},
+			error: function() {
+			
+				alert("error = " + errorThrown);
+			}
+		});
+	}
 	</script>
 </body>
 

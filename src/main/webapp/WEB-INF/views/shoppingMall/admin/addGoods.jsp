@@ -169,13 +169,13 @@ label{
 
 																<td width=33% height=33%><label for="goodsImage2">추가
 																		이미지</label>&nbsp;&nbsp;&nbsp;&nbsp; <img
-																	style="width: 33%; height: 33%;" id="image_section2"
+																	style="width: 33%; height: 33%; max-height: 20%;" id="image_section2"
 																	style='text-align:center'> <input type="file"
 																	id="imgInput2" name="IMG"> <br></td>
 
 																<td width=33% height=33%><label for="goodsImage3">추가
 																		이미지</label>&nbsp;&nbsp;&nbsp;&nbsp; <img
-																	style="width: 33%; height: 33%;" id="image_section3"
+																	style="width: 33%; height: 33%; max-height: 5%;" id="image_section3"
 																	style='text-align:center'> <input type="file"
 																	id="imgInput3" name="IMG"> <br></td>
 
@@ -250,7 +250,7 @@ label{
    
     $(document).ready(function() {
     	
-    	  $(".sidebar-wrapper li").eq(2).addClass('active');
+    	  $(".sidebar-wrapper li").eq(1).addClass('active');
     	
     	function readURL(input) {
    		 

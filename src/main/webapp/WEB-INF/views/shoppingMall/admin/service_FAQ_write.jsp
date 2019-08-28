@@ -173,7 +173,7 @@ label{
 $(document).ready(function(){
 	$().ready(function() {
 		
-		$(".sidebar-wrapper li").eq(6).addClass('active');
+		$(".sidebar-wrapper li").eq(4).addClass('active');
 	
 });
 	});

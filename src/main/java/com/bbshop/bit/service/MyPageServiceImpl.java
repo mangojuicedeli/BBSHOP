@@ -1,6 +1,8 @@
 package com.bbshop.bit.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,8 @@ import com.bbshop.bit.domain.MoreDetailsVO;
 import com.bbshop.bit.domain.OnetooneVO;
 import com.bbshop.bit.domain.OrderVO;
 import com.bbshop.bit.domain.PagingVO;
-import com.bbshop.bit.domain.SavingsVO;
 import com.bbshop.bit.domain.ReviewVO;
+import com.bbshop.bit.domain.SavingsVO;
 import com.bbshop.bit.mapper.MyPageMapper;
 
 @Service("myPageService")
@@ -96,11 +98,12 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public void deleteUserInfo(long key) {
+	public void deleteUserInfo(long key, String reason) {
 
 		MyPageMapper myPageMapper = sqlSession.getMapper(MyPageMapper.class);
 
 		myPageMapper.deleteUserInfo(key);
+		myPageMapper.insertWithdrawal(key, reason);
 	}
 
 	@Override
@@ -149,8 +152,11 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<OrderVO> getAllOrdersList(long key) {
 
 		MyPageMapper myPageMapper = sqlSession.getMapper(MyPageMapper.class);
+		
+		Map<String, Object> map = new HashMap<>();
+		if (key != 0) { map.put("key", key); }
 
-		return myPageMapper.getAllOrdersList(key);
+		return myPageMapper.getAllOrdersList(map);
 	}
 
 	@Override
@@ -174,7 +180,12 @@ public class MyPageServiceImpl implements MyPageService {
 
 		MyPageMapper myPageMapper = sqlSession.getMapper(MyPageMapper.class);
 		
-		return myPageMapper.getOrdersListStss(pagingVO, key, stts_list);
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagingVO", pagingVO);
+		if (key != 0) { map.put("key", key); }
+		map.put("stts_list", stts_list);
+		
+		return myPageMapper.getOrdersListStss(map);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +19,7 @@
   <!-- CSS Files -->
   <link href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <!-- 스마트 에디터 -->
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/smarteditor/js/HuskyEZCreator.js"></script>
+
   <!--   Core JS Files   -->
    <link href="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" /> 
   <script src="${pageContext.request.contextPath }/resources/admin_bootstrap/assets/js/core/popper.min.js"></script>
@@ -92,7 +92,7 @@ body{font-family:NanumBarunpen, sans-serif}
 			
         }
     #info_modal {
-            opacity: 0.9;
+            opacity: 1;
         }
     .close {
             color: #aaa;
@@ -108,6 +108,12 @@ body{font-family:NanumBarunpen, sans-serif}
         }
      .pagination {
 	margin-left: 300px;
+}
+label{
+	font-weight:bold;
+	font-size:large;
+	color:#50bcdf;
+	
 }
 </style>
 </head>
@@ -130,96 +136,101 @@ body{font-family:NanumBarunpen, sans-serif}
                   <p class="card-category">신고 내용을 볼수있습니다.</p>
                 </div>
                 <div class="card-body">
-                  <table id='categoryList'>
-						<form>
+						<form action=searchReportCategory.do>
+                  <table id='categoryList' align=right>
 							<tr>
 								<td><label for="category">카테고리</label> &nbsp; &nbsp;</td>
-								<td><input type='checkbox' id='Report_all' name='Report_category'>전체 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_abuse' name='Report_category'>욕설 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_spread' name='Report_category'>도배&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_ad' name='Report_category'>광고&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_sex' name='Report_category'>음란물&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='submit' id='Report_submit' name='Report_category_submit' value='조회' class='btn btn-info'>
+								<td><input type='checkbox' id='Report_all' name='category' value='Report_all'>전체 &nbsp;&nbsp;&nbsp;</td>
+								<td><input type='checkbox' id='Report_abuse' name='category' value='욕설'>욕설 &nbsp;&nbsp;&nbsp;</td>
+								<td><input type='checkbox' id='Report_spread' name='category' value='도배'>도배&nbsp;&nbsp;&nbsp;</td>
+								<td><input type='checkbox' id='Report_ad' name='category' value='광고'>광고&nbsp;&nbsp;&nbsp;</td>
+								<td><input type='checkbox' id='Report_sex' name='category' value='음란물'>음란물&nbsp;&nbsp;&nbsp;</td>
+								<td><input type='submit' id='Report_submit' name='Report_category_submit' value='조회' class='btn btn-info btn-sm'>
 								
-						</form>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<form>
-							
-								<td><label for="category">구단 게시판 분류</label> &nbsp; &nbsp;</td>
-								<td><input type='checkbox' id='Report_all' name='Team_Notice_category'>전체 &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_LG' name='LG_category'>LG &nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Doosan' name='Doosan_category'>두산&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Hanwha' name='Hanwha_category'>한화&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Samsung' name='Samsung_category'>삼성&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Kia' name='Kia_category'>기아&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_NC' name='NC_category'>NC&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_SK' name='SK_category'>SK&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_KT' name='KT_category'>KT&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Lotte' name='Lotte_category'>롯데&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='checkbox' id='Report_Kiwoom' name='Kiwoom_category'>키움&nbsp;&nbsp;&nbsp;</td>
-								<td><input type='submit' id='notice_submit' name='notice_category_submit' value='조회' class='btn btn-info'>
-							</form>	
-						
 							</tr>
 				  </table>
+						</form>
                  
                   <div class="table-responsive">
       			   	<table class="table" style="background-color: rgba(230, 236, 236, 0.4)">
                       <thead class=" text-primary">
                     <th style="text-align: center"  width=2%>
-                         <input type='checkbox' id='allcheck'>
+                         <input type='checkbox' id='check_all'>
+                        </th>
+                        <th style="text-align: center">
+                          글번호
                         </th>
                         
+                        <th style="text-align: center">
+                          글제목
+                        </th>
                         <th style="text-align: center"  width=10%>
                          신고 사유
                         </th>
-                        <th  style="text-align:center" width=10%>
-                         카테고리
-                        </th>
-                        <th style="text-align: center">
-                          글번호(구단)
-                        </th>
-                        <th style="text-align: center">
-                          글제목(구단)
-                        </th>
 					   <th style="text-align: center">
-                          회원 ID
+                          글 작성자
                         </th>                
-				        <th style="text-align: center;" width=5%>
-                삭제          
-                        </th>
+				      
                         
                       </thead>	
                       <tbody>
+                     <c:forEach var='report' items="${reportList}" varStatus="status">
                       	<tr>
+                      		<td style='text-align:center'><input type='checkbox' class='check'>
                       		
-                      		<td style='text-align:center'><input type='checkbox' id='check'>
-                      		<td style='text-align:center'>욕설</td>
-                      		<td style='text-align:center'>LG</td>
-                      		<td style='text-align:center'>1351</td>
-                      		<td style='text-align:center'><Button id="info_Report" type="button" class="btn btn-link" align=center>신고신고신고신고신고신고신고신고신고신고신고신고신고신고신고신고신고신고신고</Button></td>
-                      		<td style='text-align:center'>user2</td>
-                      		<td style='text-align:center'><button id="ReportDelete" class="btn btn-danger">삭제</button>
-                      	</tr>
+                      		<td style='text-align:center'>
+	                      			${boardList[status.index].BOARD_NUM}
+
+                      		</td>
+                      		<td style='text-align:center'><Button id="info_Report${status.index}" type="button" class="btn btn-link" align=center>
+	                      				${boardList[status.index].TITLE}
+                      		</Button></td>
+                      		<td style='text-align:center'>
+                      			<c:choose>
+	                      			<c:when test="${report.RE_CATEGORY eq 'swear' }">
+	                      				욕설
+	                      			</c:when>
+	         	                    <c:when test="${report.RE_CATEGORY eq 'flood' }">
+	                      				도배
+	                      			</c:when>
+	                      			<c:when test="${report.RE_CATEGORY eq 'advertisement' }">
+	                      				광고
+	                      			</c:when>
+	                      			<c:when test="${report.RE_CATEGORY eq 'pornography' }">
+	                      				음란물
+	                      			</c:when>
+                      			</c:choose>
+                      		</td>
+                      		<td style='text-align:center'>${report.WRITER}</td>
+                      		
+                       	</tr>
                      	
-                      	
+                      	</c:forEach>
                       </tbody>
                       <table id='table_footer'width="100%">
                       	<tr>
-                      	 	<td align=left><button class='btn btn-dark btn-sm'>선택 삭제</button></td>
+                      	 	<td align=left><button class="btn btn-danger btn-sm">선택 삭제</button></td>
                       
                    
                       	<td style='text-align:center'>
                       		<ul class="pagination">
+										<c:if test="${PageMaker.prev}">
 										<li class="page-item disabled"><a class="page-link"
-											href="#">이전</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">4</a></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">다음</a></li>
+											href="${PageMaker.startPage -1 }">이전</a></li>
+										</c:if>
+										<c:forEach var="num" begin="${PageMaker.startPage}" end="${PageMaker.endPage}">
+										<li class="page-item ${PageMaker.cri.pageNum==num?"active":"" }" id="btn_${num}">
+										<a class="page-link" href="<c:out value="${num}"/>"><c:out value="${num}"/></a></li>
+										</c:forEach>
+										<c:if test="${PageMaker.next}">
+										<li class="page-item"><a class="page-link"
+											href="${PageMaker.endPage+1 }">다음</a></li>
+										</c:if>
 									</ul>
+							<form id='pageForm' action="goodsList.do" method='POST'>
+								<input type='hidden' name='pageNum' value='${PageMaker.cri.pageNum}'>
+								<input type='hidden' name='amount' value='${PageMaker.cri.amount}'>
+							</form>
                       	</td>
                       		
                       	<td style='text-align:right;' width=30%>
@@ -264,30 +275,43 @@ body{font-family:NanumBarunpen, sans-serif}
 			<span class='close'>&times;</span>
 			<h4 align =center>글조회</h4>
 			<div class='modal_body' style='padding:40px 50px;'>
-			<table width=100%>
+			<table width=100% style="text-align:center">
 				<tr>
 					<td>
-						<label for='category'>카테고리</label><input type='text' class=form-control id='report_category' name='report_category'></td> 
+						<label for='category'>글 번호</label></td>
+					<td><text id='board_num'></text></td> 
 				</tr>
 				<tr>
 					<td>
-						<label for='title'>제목</label><input type='text' class=form-control id='content_title' name='content_title'></td>
+						<label for='title'>제목</label></td>
+						<td><text id='title'></text></td>
 				</tr>
-				<tr>
-					<td>
-						<label for='content'>신고 내용</label>
 				
-														</td>
+				<tr>
+					<td>
+						<label for='content'>글쓴이</label></td>
+						<td><text id='writer'></text></td>
 				</tr>
 				<tr>
 					<td>
-						<textarea id='report_contents'></textarea>
-						</td>
+						<label for='content'>신고 사유</label></td>
+						<td><text id='re_category'></text></td>
 				</tr>
+				<tr>
+					<td>
+						<label for='contents'>신고 내용</label></td>
+						<td><textarea id='contents' rows="10" cols="40"></textarea></td>
+				</tr>
+			
 				
 			</table>
 			<table width=100%>
-				<tr><td style='text-align:center'><button class='btn btn-info'>확인</button>
+				<tr>
+				<td style='text-align:center'>
+				<button id="confirmation" class='btn btn-info'>확인</button>
+				<Button id='sanctions' class="btn btn-danger" onclick="updateTitle($('#board_num')[0].textContent)">제재</Button>
+				</td>
+				</tr>
 			</table>
 			
 			
@@ -295,122 +319,53 @@ body{font-family:NanumBarunpen, sans-serif}
 		</div>
 	 </div>
 
-
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="https://creative-tim.com/presentation">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license">
-                  Licenses
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-        </div>
-      </footer>
-    </div>
-  </div>
-  <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-      <a href="#" data-toggle="dropdown">
-        <i class="fa fa-cog fa-2x"> </i>
-      </a>
-      <ul class="dropdown-menu">
-        <li class="header-title"> Sidebar Filters</li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger active-color">
-            <div class="badge-colors ml-auto mr-auto">
-              <span class="badge filter badge-purple" data-color="purple"></span>
-              <span class="badge filter badge-azure" data-color="azure"></span>
-              <span class="badge filter badge-green" data-color="green"></span>
-              <span class="badge filter badge-warning" data-color="orange"></span>
-              <span class="badge filter badge-danger" data-color="danger"></span>
-              <span class="badge filter badge-rose active" data-color="rose"></span>
-            </div>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-1.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-2.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-3.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-4.jpg" alt="">
-          </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-        </li>
-        <!-- <li class="header-title">Want more components?</li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                  Get the pro version
-                </a>
-            </li> -->
-        <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
-            View Documentation
-          </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-  
   <script type="text/javascript">
+  
     var info = document.getElementById('info_modal');
     var span = document.getElementsByClassName('close')[0];
 
-    $('#info_Report').click(function(){
-      info.style.display = "block";
-    })
-
+    $('#info_Report0').click(function(){
+	      info.style.display = "block";
+	      $('#board_num').html("${reportList[0].BOARD_NUM}")
+	      $('#writer').html("${reportList[0].WRITER}")
+	      $('#title').html("${boardList[0].TITLE}");
+	      $('#re_category').html("${reportList[0].RE_CATEGORY}")
+	      $('#contents').html("${boardList[0].BOARD_CONTENT}");
+	 });
+    $('#info_Report1').click(function(){
+	      info.style.display = "block";
+	      $('#board_num').html("${reportList[1].BOARD_NUM}")
+	      $('#writer').html("${reportList[1].WRITER}")
+	      $('#title').html("${boardList[1].TITLE}");
+	      $('#re_category').html("${reportList[1].RE_CATEGORY}")
+	      $('#contents').html("${boardList[1].BOARD_CONTENT}");
+	 });
+    $('#info_Report2').click(function(){
+		      info.style.display = "block";
+		      $('#board_num').html("${reportList[2].BOARD_NUM}")
+		      $('#writer').html("${reportList[2].WRITER}")
+		      $('#title').html("${boardList[2].TITLE}");
+		      $('#re_category').html("${reportList[2].RE_CATEGORY}")
+		      $('#contents').html("${boardList[2].BOARD_CONTENT}");
+    }); 
+    $('#info_Report3').click(function(){
+			      info.style.display = "block";
+			      $('#board_num').html("${reportList[3].BOARD_NUM}")
+			      $('#writer').html("${reportList[3].WRITER}")
+			      $('#title').html("${boardList[3].TITLE}");
+			      $('#re_category').html("${reportList[3].RE_CATEGORY}")
+			      $('#contents').html("${boardList[3].BOARD_CONTENT}");   
+    }); 
+    $('#info_Report4').click(function(){
+				      info.style.display = "block";
+				      $('#board_num').html("${reportList[4].BOARD_NUM}")
+				      $('#writer').html("${reportList[4].WRITER}")
+				      $('#title').html("${boardList[4].TITLE}");
+				      $('#re_category').html("${reportList[4].RE_CATEGORY}")
+				      $('#contents').html("${boardList[4].BOARD_CONTENT}");
+	 });
+    
+    
     window.onclick = function (event){
       if(event.target == info){
         info.style.display="none";
@@ -422,38 +377,11 @@ body{font-family:NanumBarunpen, sans-serif}
   <script>
     $(document).ready(function() {
     	
-    	 var editor_object=[];
-    		
-    		nhn.husky.EZCreator.createInIFrame({
-    			oAppRef:editor_object,
-    			elPlaceHolder: "report_contents",
-    			sSkinURI:"${pageContext.request.contextPath}/resources/smarteditor/SmartEditor2Skin.html",
-    			fCreator: "createSEditor2",
-    			htParams:{
-    				//툴바 사용 여부 true는 사용,false는 사용하지 않음.
-    				bUseToolbar:true,
-    				//입력창 크기 조절바 사용 여부 true는 사용 false는 사용하지 않음.
-    				bUserVerticalResizer:true,
-    				//모드 탭(editor/html/text) 사용여부 (true사용 false는 사용하지 않음)
-    				bUserModeChanger:true,	
-    			}
-    		});
+    
     	 
-    		
-    		$('#anserSubmit').click(function(){
-    			//id가 contents인 textarea에 에디터에서 대입해온다
-    			editor_object.getById['contents'].exec("UPDATE_CONTENTS_FILED",[]);
-    			//이부분에서 서브밋발생
-    			$('answerForm').submit();
-    			
-    			
-    		});
-    	 
-    	 
-    	
       $().ready(function() {
     	
-    	  $(".sidebar-wrapper li").eq(7).addClass('active');
+    	$(".sidebar-wrapper li").eq(5).addClass('active');
     	  
         $sidebar = $('.sidebar');
 
@@ -623,6 +551,28 @@ body{font-family:NanumBarunpen, sans-serif}
       });
     });
   </script>
+  <script>
+  function updateTitle(num){
+      $.ajax({
+          url:"updateTitle.do?board_num="+num,
+          type:"GET",
+          dataType:"text",
+          success : function(data) {
+             var result = data;
+             alert('게시글이 삭제되었습니다.');
+             $('#title').html(result);
+
+           }, error : function() {
+             console.log("실패");
+              }
+      });
+  }
+  
+  $("#confirmation")[0].onclick = function(){
+	  location.reload(true);
+	  info_modal.style.display = "none";
+   }
+   </script>
 </body>
 
 </html>

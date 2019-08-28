@@ -117,36 +117,47 @@ body {
 							</tr>
 						</c:forEach>
 							<tr>
-								<td>
-									<p>총 상품 금액</p>
+								<td style="border-top: 2px solid #c7c8c9;">
+									<p style="color: #565656;">총 상품 금액</p>
 								</td>
-								<td>
+								<td style="border-top: 2px solid #c7c8c9;">
 									<h5></h5>
 								</td>
-								<td>
-									<p style="text-align:center;">${totalPrice}</p>
+								<td style="border-top: 2px solid #c7c8c9;">
+									<p style="text-align:center;color: #565656;">${totalPrice}</p>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p>배송비(5만원 이상 구매 시 무료)</p>
+									<p style="color: #565656;">배송비(5만원 이상 구매 시 무료)</p>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">${shipping_fee}</p>
+									<p style="text-align:center;color: #565656;">${shipping_fee}</p>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p>총 결제금액</p>
+									<p style="color: #565656;">사용 적립금</p>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">${order.pymntamnt}</p>
+									<p style="text-align:center;color: #565656;">${useSavings}</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p style="color: #565656;">총 결제금액</p>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p style="text-align:center;color: #565656;">${order.pymntamnt}</p>
 								</td>
 							</tr>
 						</tbody>

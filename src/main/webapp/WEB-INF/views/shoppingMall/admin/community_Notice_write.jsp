@@ -58,7 +58,7 @@
  <script>
  $(document).ready(function() {  
 	 
-	 $(".sidebar-wrapper li").eq(7).addClass('active');
+	 $(".sidebar-wrapper li").eq(5).addClass('active');
 	 
  var editor_object=[];
 	

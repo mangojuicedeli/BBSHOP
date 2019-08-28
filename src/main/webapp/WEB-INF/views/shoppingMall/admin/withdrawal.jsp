@@ -183,32 +183,33 @@ body {
                           탈퇴처리                   
                         </th>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td style='text-align:center'>
-                            <input type='checkbox' id='check'>
-                          </td>
+                      <tbody id="WithdrawalList">
+<!--                         <tr> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             <input type='checkbox' id='check'> -->
+<!--                           </td> -->
                         
-                          <td style='text-align:center'>
-                            <button id="modal_id" class='btn btn-link'>user1</button>
-                          </td>
-                          <td style='text-align:center'>
-                            졸리고 피곤함
-                          </td>
-                          <td style='text-align:center'>
-                            골드
-                          </td>
-                          <td style='text-align:center'>
-                            2019.03.03
-                          </td>
-                          <td style='text-align:center'>
-                            휴면
-                          </td>
-                          <td style='text-align:center'>
-                            <button class='btn btn-danger btn-sm'>탈퇴</button>
-                          </td>
+<!--                           <td style='text-align:center'> -->
+<!--                             <button id="modal_id" class='btn btn-link'>user1</button> -->
+<!--                           </td> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             졸리고 피곤함 -->
+<!--                           </td> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             골드 -->
+<!--                           </td> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             2019.03.03 -->
+<!--                           </td> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             휴면 -->
+<!--                           </td> -->
+<!--                           <td style='text-align:center'> -->
+<!--                             <button class='btn btn-danger btn-sm'>탈퇴</button> -->
+<!--                           </td> -->
                            
-                        </tr>
+<!--                         </tr> -->
+                      </tbody>
                           <table id='table_footer'width="100%">
                       	<tr>
                       	 	<td align=left><button class='btn btn-dark btn-sm'>선택 삭제</button></td>
@@ -252,117 +253,14 @@ body {
                       	 
                       	</tr>
                       </table>
-                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="https://creative-tim.com/presentation">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license">
-                  Licenses
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
-  <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-      <a href="#" data-toggle="dropdown">
-        <i class="fa fa-cog fa-2x"> </i>
-      </a>
-      <ul class="dropdown-menu">
-        <li class="header-title"> Sidebar Filters</li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger active-color">
-            <div class="badge-colors ml-auto mr-auto">
-              <span class="badge filter badge-purple" data-color="purple"></span>
-              <span class="badge filter badge-azure" data-color="azure"></span>
-              <span class="badge filter badge-green" data-color="green"></span>
-              <span class="badge filter badge-warning" data-color="orange"></span>
-              <span class="badge filter badge-danger" data-color="danger"></span>
-              <span class="badge filter badge-rose active" data-color="rose"></span>
-            </div>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-1.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-2.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-3.jpg" alt="">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="../assets/img/sidebar-4.jpg" alt="">
-          </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-        </li>
-        <!-- <li class="header-title">Want more components?</li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                  Get the pro version
-                </a>
-            </li> -->
-        <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
-            View Documentation
-          </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
-  </div>
+ 
      <!-- The Modal -->
      <div id="myModal" class="modal">
 
@@ -508,11 +406,77 @@ body {
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
   <script>
+//탈퇴 신청 목록 출력 - ajax
+  function adminWithdrawalList_Ajax() {
 
+  // pageNum값을 받아온다.
+//   	var pageNum = actionForm.find("input[name='pageNum']").val();
+//   	var amount = actionForm.find("input[name='amount']").val();
+  	var pageNum = 1;
+  	var amount = 5;
+
+  	var data = {};
+  	data["pageNum"] = pageNum;
+  	data["amount"] = amount;
+  	
+  	$('#WithdrawalList').empty();
+  	
+  	$.ajax({
+  		type : "POST",
+  		url : "/adminWithdrawalList_Ajax.do",
+  		data : JSON.stringify(data),
+  		dataType : "json",
+  		contentType : "application/json",
+  		success : function(data) {
+  			var list = data.withdrawalList;
+  			var total = data.total;
+  		
+//   			var start = ${pageMaker.startPage};
+//   			var end = ${pageMaker.endPage};
+//   			var str = '';
+//   			var paging = '';
+
+  			$.each(list, function(index, withdrawal) {
+  				console.log(list[index]);
+  				var output = "";
+  				output += "<tr>";
+  				output += "<td style='text-align:center'><input type='checkbox' id='check'></td>";
+  				output += "<td style='text-align:center'><button id='modal_id' class='btn btn-link'>"+list[index].member_ID+"</button></td>";
+  				output += "<td style='text-align:center'>"+list[index].reason+"</td>";
+  				output += "<td style='text-align:center'>"+list[index].grade+"</td>";
+  				output += "<td style='text-align:center'>"+list[index].wi_DATE+"</td>";
+  				
+  				if(list[index].flag == 1) {
+  					output += "<td style='text-align:center'>휴면</td>";
+  				}
+  				else {
+  					output += "<td style='text-align:center'>탈퇴</td>";
+  				}
+
+  				output += "<td style='text-align:center'>";
+  				output += "<form action='/adminApprovalWithdraw.do'><input type='hidden' name='user_key' value='" + list[index].user_KEY + "'>";
+  				
+  				if(list[index].flag == 1) {
+  					output += "<input type='submit' class='btn btn-danger btn-sm' value='탈퇴' onclick='alert(\"탈퇴처리 하시겠습니까?\");'></form></td></tr>";
+  				}
+  				else {
+  					output += "</form><input type='submit' class='btn btn-danger btn-sm' value='완료' style='background-color:gray;'></td></tr>";
+  				}
+  				
+  				$('#WithdrawalList').append(output);
+  			});
+  		
+  		},
+  		error : function() {alert('admin withdrawal ajax 통신 실패!');}
+  	});
+  }
     
     $(document).ready(function() {
+    	
+    	adminWithdrawalList_Ajax();
+    	
       $().ready(function() {
-    	  $(".sidebar-wrapper li").eq(1).addClass('active');
+    	  $(".sidebar-wrapper li").eq(0).addClass('active');
     	  
         $sidebar = $('.sidebar');
 

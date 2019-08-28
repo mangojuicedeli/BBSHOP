@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bbshop.bit.domain.Cart_GDVO;
 import com.bbshop.bit.domain.GoodsVO;
 import com.bbshop.bit.service.CartService;
+import com.bbshop.bit.service.GoodsService;
 
 @Controller
 @RequestMapping("*.do")
@@ -29,6 +30,9 @@ public class CartController {
 	
 	@Autowired(required=true)
 	CartService cartService;
+	
+	@Autowired(required=true)
+	GoodsService goodsService;
 	
 	@Autowired
 	private HttpSession session;
@@ -67,6 +71,7 @@ public class CartController {
 		}
 		
 		shipping_fee=calcShipping_fee(allPrice);
+		allPrice += shipping_fee;
 		model.addAttribute("shipping_fee", shipping_fee);
 		model.addAttribute("allPrice", allPrice);
 		
@@ -86,6 +91,11 @@ public class CartController {
 		System.out.println(qnt);
 		temp.setQNTTY(qnt);		
 		temp.setTOTALPRICE(temp.getPRICE()*qnt);
+		
+		// 적립금도 다시 계산 - 의정추가
+		long user_key = (long)session.getAttribute("member");
+		int savings = goodsService.getSavings(temp.getTOTALPRICE(), user_key);
+		temp.setSAVINGS(savings);
 		
 		System.out.println(temp.getTOTALPRICE());
 		cartService.modify(temp);
@@ -110,21 +120,26 @@ public class CartController {
 		temp.setQNTTY(qnt);
 		temp.setTOTALPRICE(temp.getPRICE()*qnt);
 		
-		cartList.set(index, temp);
-		shipping_fee=calcShipping_fee(allPrice);
+		// 적립금도 다시 계산 - 의정추가
+		long user_key = (long)session.getAttribute("member");
+		int savings = goodsService.getSavings(temp.getTOTALPRICE(), user_key);
+		temp.setSAVINGS(savings);
 		
 		cartService.modify(temp);
+		cartList.set(index, temp);
+		
 		System.out.println(temp);
 		for(int i = 0 ; i<cartList.size();i++) {
 			allPrice +=cartList.get(i).getTOTALPRICE(); 
 		}
+		shipping_fee=calcShipping_fee(allPrice);
 
 		return ""+temp.getTOTALPRICE()+","+allPrice+","+shipping_fee;
 	}
 	
 	public int calcShipping_fee(int allPrice) {
 		int shipping_fee=0;
-		if(allPrice>=2000000) {
+		if(allPrice>=50000) {
 			shipping_fee=0;
 		}
 		else {
@@ -157,7 +172,7 @@ public class CartController {
 		else {
 			cartService.deleteAll();
 		}
-		return "cart.do";
+		return "redirect:/cart.do";
 	}
 	
 	// 헤더의 장바구니 버튼을 클릭시 ajax 요청을 응답하는 컨트롤러

@@ -51,7 +51,7 @@ public interface MyPageService {
 	public void updateUserInfo(MemberVO memberVO);
 	
 	// 회원 정보 삭제
-	public void deleteUserInfo(long key);
+	public void deleteUserInfo(long key, String reason);
 	
 
 	// 배송지 조회

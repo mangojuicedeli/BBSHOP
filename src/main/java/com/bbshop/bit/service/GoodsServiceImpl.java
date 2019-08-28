@@ -42,7 +42,7 @@ public class GoodsServiceImpl implements GoodsService {
 			List<String> positions, List<String> colors, List<String> brands) {
 		
 		log.info("getGoodsList...Ajax..With Paging................");
-		
+		log.info(category);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("category", category);

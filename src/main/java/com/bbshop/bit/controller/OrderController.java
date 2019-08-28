@@ -3,6 +3,7 @@ package com.bbshop.bit.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bbshop.bit.domain.AddrVO;
 import com.bbshop.bit.domain.Cart_GDVO;
@@ -149,107 +151,128 @@ public class OrderController {
 	}
 	
 	// 쇼핑몰 - 주문 - 주문하기
-		@RequestMapping("/order_cart.do")
-		public String order_cart(Model model, @RequestParam("GOODS_NUM_LIST") String list, 
-				 @RequestParam("SHIPPING_FEE") int shipping_fee) {
+	@RequestMapping("/order_cart.do")
+	public String order_cart(Model model, @RequestParam("GOODS_NUM_LIST") String list, 
+			 @RequestParam("SHIPPING_FEE") int shipping_fee) {
+		
+		String[] goods_num_list = list.split(",");
+		
+		long user_key = (long)session.getAttribute("member");
+		MemberVO user = memberService.getMemberInfo(user_key);
+		
+		goodsList = new ArrayList<GoodsVO>();
+		List<Object> optionList = new ArrayList<Object>();
+		int totalPrice = 0, allPrice = 0;
+		
+		// jsp에서 구매 체크한 goods_num을 불러와 해당 cartList에 입력
+		cartList = orderService.getCheckedCartList(goods_num_list, user_key);
+		
+		// totalPrice 넣어주는 과정
+		for(int i=0;i<cartList.size();i++) {
+			Cart_GDVO temp = cartList.get(i);
+			temp.setTOTALPRICE(temp.getPRICE()*temp.getQNTTY());
+			cartList.set(i, temp);
+			totalPrice += cartList.get(i).getTOTALPRICE();
+		}
+		
+		allPrice = totalPrice + shipping_fee;
+		
+		// goods 가져와서 goodsList에 넣어주는 부분
+		 for (String goods_num : goods_num_list ){
+			 goodsList.add(cartService.getGoods(Long.parseLong(goods_num)));
+		 }
+		 
+		// 상품 옵션 불러오는 부분
+		for(int i=0; i<goodsList.size();i++) {
+			switch(goodsList.get(i).getCategory()) {
 			
-			String[] goods_num_list = list.split(",");
+			// 글러브
+			case 1 : 
+				optionList.add(orderService.getOptionListGlove(cartList.get(i).getGD_DETAILS()));
+				break;
 			
-			long user_key = (long)session.getAttribute("member");
-			MemberVO user = memberService.getMemberInfo(user_key);
+			// 배트
+			case 2 : 
+				optionList.add(orderService.getOptionListBat(cartList.get(i).getGD_DETAILS()));
+				break;
 			
-			goodsList = new ArrayList<GoodsVO>();
-			List<Object> optionList = new ArrayList<Object>();
-			int totalPrice = 0, allPrice = 0;
-			
-			// jsp에서 구매 체크한 goods_num을 불러와 해당 cartList에 입력
-			cartList = orderService.getCheckedCartList(goods_num_list, user_key);
-			
-			// totalPrice 넣어주는 과정
-			for(int i=0;i<cartList.size();i++) {
-				Cart_GDVO temp = cartList.get(i);
-				temp.setTOTALPRICE(temp.getPRICE()*temp.getQNTTY());
-				cartList.set(i, temp);
-				totalPrice += cartList.get(i).getTOTALPRICE();
-			}
-			
-			allPrice = totalPrice + shipping_fee;
-			
-			// goods 가져와서 goodsList에 넣어주는 부분
-			 for (String goods_num : goods_num_list ){
-				 goodsList.add(cartService.getGoods(Long.parseLong(goods_num)));
-			 }
-			 
-			// 상품 옵션 불러오는 부분
-			for(int i=0; i<goodsList.size();i++) {
-				switch(goodsList.get(i).getCategory()) {
+			// 유니폼
+			case 3 : 
+				optionList.add(orderService.getOptionListUniform(cartList.get(i).getGD_DETAILS()));
+				break;
 				
-				// 글러브
-				case 1 : 
-					optionList.add(orderService.getOptionListGlove(cartList.get(i).getGD_DETAILS()));
-					break;
+			// 야구화
+			case 4 : 
+				optionList.add(orderService.getOptionListShoes(cartList.get(i).getGD_DETAILS()));
+				break;
 				
-				// 배트
-				case 2 : 
-					optionList.add(orderService.getOptionListBat(cartList.get(i).getGD_DETAILS()));
-					break;
-				
-				// 유니폼
-				case 3 : 
-					optionList.add(orderService.getOptionListUniform(cartList.get(i).getGD_DETAILS()));
-					break;
-					
-				// 야구화
-				case 4 : 
-					optionList.add(orderService.getOptionListShoes(cartList.get(i).getGD_DETAILS()));
-					break;
-					
-				// 야구공
-				case 5 : 
-					optionList.add(orderService.getOptionListBall(cartList.get(i).getGD_DETAILS()));
-					break;
-				}
-
+			// 야구공
+			case 5 : 
+				optionList.add(orderService.getOptionListBall(cartList.get(i).getGD_DETAILS()));
+				break;
 			}
 
-			List<AddrVO> userAddr = mypageService.getAddrList(user_key);
-			System.out.println("userAddr.toString() : " + userAddr.toString());
-			
-			model.addAttribute("goodsList",goodsList);
-			model.addAttribute("orderList",cartList);
-			model.addAttribute("optionList", optionList);
-			model.addAttribute("totalPrice",totalPrice);
-			model.addAttribute("allPrice",allPrice);
-			model.addAttribute("shipping_fee", shipping_fee);
-			model.addAttribute("userAddr", userAddr);
-			model.addAttribute("user", user);
-//			model.addAttribute("from", "cart");
-//			model.addAttribute("qty", "");
-//			model.addAttribute("optionNumber", "");
-			
-			return "shoppingMall/order/order";
-	}
+		}
+
+		List<AddrVO> userAddr = mypageService.getAddrList(user_key);
+		System.out.println("userAddr.toString() : " + userAddr.toString());
+		
+		model.addAttribute("goodsList",goodsList);
+		model.addAttribute("orderList",cartList);
+		model.addAttribute("optionList", optionList);
+		model.addAttribute("totalPrice",totalPrice);
+		model.addAttribute("allPrice",allPrice);
+		model.addAttribute("shipping_fee", shipping_fee);
+		model.addAttribute("userAddr", userAddr);
+		model.addAttribute("user", user);
+//		model.addAttribute("from", "cart");
+//		model.addAttribute("qty", "");
+//		model.addAttribute("optionNumber", "");
+		
+		return "shoppingMall/order/order";
+}
+	
     
     @RequestMapping(value="/kakaoPay.do", method=RequestMethod.GET)
     public void kakaoPayGet() {
         
     }
     
-    //orderInfo form에서 파라미터를 전달받는다.
     @RequestMapping(value="/kakaoPay.do", method=RequestMethod.POST)
     public String kakaoPay(Model model, OrderVO order, @RequestParam("GOODS_NUM_LIST") String list, 
-    		@RequestParam("shipping_fee") int shipping_fee) {
+    		@RequestParam("shipping_fee") int shipping_fee, @RequestParam("useSavings") long useSavings) {
     	System.out.println("kakaoPay post............................................");
 
+    	System.out.println("kakaoPay.do 컨트롤러에 들어올 때의 OrderVO : " + order.getSavings());
+    	
     	long user_key = (long)session.getAttribute("member");
+
+    	MemberVO user = memberService.getMemberInfo(user_key);
     	String nickname = (String)session.getAttribute("nickname");
 
     	String[] goods_num_list = list.split(",");
+    	order.setPymntamnt(order.getPymntamnt() - useSavings);
     	int allPrice = (int)order.getPymntamnt();
 
     	order.setUser_key(user_key);
+    	
+    	long savings_curr = 0;
+    	String grade_curr = user.getGRADE();
 
     	goodsList = new ArrayList<GoodsVO>();
+    	
+    	// 등급에 따른 적립금 업데이트
+    	if (grade_curr.equals("bronze")) {
+    		savings_curr = ((long)allPrice / 100) * 3;
+    	} else if (grade_curr.equals("silver")) {
+    		savings_curr = ((long)allPrice / 100) * 5;
+    	} else if (grade_curr.equals("gold")) {
+    		savings_curr = ((long)allPrice / 100) * 7;
+    	} else {
+    		savings_curr = ((long)allPrice / 100) * 10;
+    	}
+
+    	order.setSavings(savings_curr);
 
     	// jsp에서 구매 체크한 goods_num을 불러와 해당 cartList에 입력
     	cartList = orderService.getCheckedCartList(goods_num_list, user_key);
@@ -280,28 +303,31 @@ public class OrderController {
 
     	// 방금 order테이블에 insert한 order_num
     	long order_num = orderService.getLastOrderNum(order.getUser_key());
-
+    	
 //    	// 단일상품 일 경우, order_gd테이블도 insert
 //    	if(from.equals("good")) {
 //    		order_gd.setOrder_num(order_num);
 //    		orderService.insertOrderGD(order_gd);
 //    	}
-    	
-    	return "redirect:" + kakaopay.kakaoPayReady(goodsList, cartList, allPrice, list, order_num, shipping_fee, order.getUser_key());
+
+    	return "redirect:" + kakaopay.kakaoPayReady(goodsList, cartList, allPrice, list, order_num, shipping_fee, order.getUser_key(),useSavings);
     }
     
     @RequestMapping(value="/kakaoPaySuccess.do", method=RequestMethod.GET)
     public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,
     		@RequestParam("allPrice") int allPrice, @RequestParam("list") String list, 
-    		@RequestParam("order_num") long order_num, @RequestParam("shipping_fee") int shipping_fee) {
+    		@RequestParam("order_num") long order_num, @RequestParam("shipping_fee") int shipping_fee,
+    		@RequestParam("useSavings") long useSavings) {
     	System.out.println("kakaoPaySuccess get............................................");
-
-    	long user_key = (long)session.getAttribute("member");
     	
+    	long user_key = (long)session.getAttribute("member");
+
     	String[] goods_num_list = list.split(",");
 
     	goodsList = new ArrayList<GoodsVO>();
     	int totalPrice = 0;
+    	
+//    	if(from.equals("cart")) {
 
     	// jsp에서 구매 체크한 goods_num을 불러와 해당 cartList에 입력
     	cartList = orderService.getCheckedCartList(goods_num_list, user_key);
@@ -355,7 +381,6 @@ public class OrderController {
     	}
 
     	// 주문 성공시, 적립금 추가 및 누적 금액 변화, 그에 따른 등급 변화
-   
     	MemberVO user = memberService.getMemberInfo(user_key);
 
     	// 주문한 상품의 이름 바인딩
@@ -399,8 +424,9 @@ public class OrderController {
     	}
 
     	memberService.updateMemberInfoAfterOrder(user);
-
+    	
 //    	if(from.equals("cart")) {
+
     	// order_gd 테이블에 insert!
     	for(int i=0;i<cartList.size();i++) {
     		Order_GDVO order_gd = new Order_GDVO();
@@ -422,6 +448,14 @@ public class OrderController {
     	} else {
     		System.out.println("tid 업데이트에 실패했습니다.");
     	}
+    	
+    	// 적립금을 사용한 경우
+    	if(useSavings != 0) {
+    		// savings 테이블 -> savings_used 업데이트
+    		orderService.updateSavings_used(useSavings, order_num);
+    		// sh_user 테이블 -> savings 업데이트
+    		orderService.update_usedUser_savings(useSavings, user_key);
+    	}
 
     	model.addAttribute("goodsList",goodsList);
     	model.addAttribute("orderList",cartList);
@@ -429,6 +463,7 @@ public class OrderController {
     	model.addAttribute("addr_list",addr_list);
     	model.addAttribute("shipping_fee",shipping_fee);
     	model.addAttribute("totalPrice",totalPrice);
+    	model.addAttribute("useSavings", useSavings);
 
     	return "shoppingMall/order/order_confirmation";
     }
@@ -539,5 +574,31 @@ public class OrderController {
     	model.addAttribute("addr_list",addr_list);
     	
     	return "shoppingMall/order/order_cancellation";  
+
     }
+    
+	@ResponseBody
+	@RequestMapping(value="useSavings.do" , method=RequestMethod.GET)
+	public String useSavings(@RequestParam("useSavings") long useSavings, @RequestParam("mySavings") long mySavings,
+			@RequestParam("allPrice") int allPrice, Model model, HttpServletRequest request) {
+		
+		// 1. 총 사용 가능 적립금을 불러온다
+		// 2. 1 - useSavings < 0 -> fail
+		// 3. 사용 가능 시 총 결제금액 - useSavings의 값을 리턴해준다
+		int success = 0;
+		
+		if(mySavings - useSavings < 0) {
+			success = 0;
+		}
+		else {
+			success = 1;
+		}
+		
+		allPrice -= useSavings;
+		
+		if(success == 1) {
+			return Integer.toString(allPrice);
+		} else
+			return Integer.toString(0);
+	}
 }

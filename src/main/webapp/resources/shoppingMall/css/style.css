@@ -1557,7 +1557,6 @@ a:hover, a:focus {
 	background: #fafaff;
 	border: 1px solid #eee;
 	padding: 50px 30px;
-	margin-top: 50px;
 }
 
 @media ( max-width : 414px) {
@@ -2641,10 +2640,12 @@ h6 {
 	/* */
 }
 
-.genric-btn.default:hover {
+/* 민구 - #fff */
+/* .genric-btn.default:hover {
 	border: 1px solid #f9f9ff;
-	background: #caff5f;	/* 민구 - #fff */
+	background: #caff5f;	
 }
+*/
 
 .genric-btn.default-border {
 	border: 1px solid #f9f9ff;

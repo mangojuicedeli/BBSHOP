@@ -37,7 +37,7 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>service_FAQ.do</welcome-file>
+		<welcome-file>index.do</welcome-file>
 	</welcome-file-list>
 	
 	<!--  the definition of the Root spring container shared by all servlets and filters -->

@@ -1,5 +1,7 @@
 package com.bbshop.bit.domain;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -10,6 +12,6 @@ public class ReportBoardVO {
 	private long BOARD_NUM;
 	private String WRITER;
 	private String URI;
-	private int SEQ_REPORTBOARD;
+	private Date REGDATE;
 
 }

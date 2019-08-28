@@ -5,8 +5,14 @@
 
 <style>
 .genric-btn.primary:hover{
-color: #ffffff;
-border: 1px solid #ffffff;
+	color: #a0a0a0;
+	border: 1px solid #e3e3e3;
+	background-color : #e3e3e3;
+}
+.genric-btn.primary.active:hover{
+	color: #a0a0a0;
+	border: 1px solid #e3e3e3;
+	background-color : #e3e3e3;
 }
 .page-item.active .page-link{
 background-color: #57c051;
@@ -51,6 +57,23 @@ a{
 
 .nice-select {
 	width: 110px;
+}
+
+/* 추가 */
+a.genric-btn.primary {
+	background-color : #a0a0a0;
+	color : #ffffff; 
+	font-weight: bold; 
+	width:19.6%;
+	padding-right: 0px;
+	margin-right: 0px;
+	border-right-width: 0px;
+	padding-left: 0px; 
+	border-left-width: 0px; 
+	margin-left: 0px;
+}
+a.genric-btn.primary.active {
+	background-color : #57c051;
 }
 </style>
 <script type="text/javascript">
@@ -128,8 +151,8 @@ $(document).ready(function(){
 				<div class="banner_content text-center">
 					<h2 style="color: white;">고객센터</h2>
 					<div class="page_link">
-						<a href="/shopping_main" style="color: white;">Home</a> <a
-							href="/faq" style="color: white;">FAQ</a>
+						<a href="/shopping_main.do" style="color: white;">Home</a> <a
+							href="/faq_list.do" style="color: white;">FAQ</a>
 					</div>
 				</div>
 			</div>
@@ -138,29 +161,19 @@ $(document).ready(function(){
 	<!--================End Home Banner Area =================-->
 	<div class="container">
 	<div class="button-group-area mt-40" style="margin-bottom: 30px; text-align:right;">
-		<a href="/faq.do" class="genric-btn primary e-large"
+		<a href="/faq_list.do" class="genric-btn primary e-large"
 			style="background: #57c051; font-size: 30px; font-weight: bold; width:15%;">FAQ</a>
-		<a href="/one_to_one_list.do" class="genric-btn primary e-large"
+		<a href="/onetoonelist.do" class="genric-btn primary e-large"
 			style="background: #a0a0a0; font-size: 30px; font-weight: bold; width:15%;">1:1문의</a>
 	</div>
 	
-	<div class="button-group-area" style="text-align: center;">
+	<div class="button-group-area" id="category_area" style="text-align: center;">
 		
-		<a href="#" class="genric-btn primary radius"
-			style="background: #57c051; color: #ffffff; font-weight: bold; width:19.6%;
-			padding-right: 0px;margin-right: 0px;border-right-width: 0px;padding-left: 0px; border-left-width: 0px; margin-left: 0px;" >전체보기</a>
-		<a href="#" class="genric-btn primary radius"
-			style="background: #57c051; color: #ffffff; font-weight: bold; width:19.6%;
-			padding-right: 0px;margin-right: 0px;border-right-width: 0px;padding-left: 0px; border-left-width: 0px; margin-left: 0px;">변경/취소</a>
-		<a href="#" class="genric-btn primary radius"
-			style="background: #57c051; color: #ffffff; font-weight: bold; width:19.6%;
-			padding-right: 0px;margin-right: 0px;border-right-width: 0px;padding-left: 0px; border-left-width: 0px; margin-left: 0px;">교환/반품</a>
-		<a href="#" class="genric-btn primary radius"
-			style="background: #57c051; color: #ffffff; font-weight: bold; width:19.6%;
-			padding-right: 0px;margin-right: 0px;border-right-width: 0px;padding-left: 0px; border-left-width: 0px; margin-left: 0px;">주문/조회</a>
-		<a href="#" class="genric-btn primary radius"
-			style="background: #57c051; color: #ffffff; font-weight: bold; width:19.6%;
-			padding-right: 0px;margin-right: 0px;border-right-width: 0px;padding-left: 0px; border-left-width: 0px; margin-left: 0px;">상품문의</a>
+		<a href="javascript:faqList_Ajax()" class="genric-btn primary active">전체보기</a>
+		<a href="javascript:faqList_Ajax()" class="genric-btn primary">변경/취소</a>
+		<a href="javascript:faqList_Ajax()" class="genric-btn primary">교환/반품</a>
+		<a href="javascript:faqList_Ajax()" class="genric-btn primary">주문/조회</a>
+		<a href="javascript:faqList_Ajax()" class="genric-btn primary">상품문의</a>
 	</div>
 	
 	<div class="button-group-area" style="margin-bottom: 20px; text-align: center; margin-top:10px;">
@@ -175,15 +188,15 @@ $(document).ready(function(){
 						<th style="width: 60%; text-align: center" scope="col">제목</th>
 					</tr>
 				</thead>
-				<tbody>
-				<c:forEach items="${list}" var="FAQ">
-				<tr>
-					<td><c:out value="${FAQ.FAQ_NUM}" /></td>
-					<td><c:out value="${FAQ.FAQ_CATEGORY}" /></td>
-					<td><a class='move' href='<c:out value="${FAQ.FAQ_NUM}"/>'>
-					<c:out value="${FAQ.SUBJECT}" /></a></td>
-				</tr>
-				</c:forEach>
+				<tbody id="faqList">
+<%-- 				<c:forEach items="${list}" var="FAQ"> --%>
+<!-- 				<tr> -->
+<%-- 					<td><c:out value="${FAQ.FAQ_NUM}" /></td> --%>
+<%-- 					<td><c:out value="${FAQ.FAQ_CATEGORY}" /></td> --%>
+<%-- 					<td><a class='move' href='<c:out value="${FAQ.FAQ_NUM}"/>'> --%>
+<%-- 					<c:out value="${FAQ.SUBJECT}" /></a></td> --%>
+<!-- 				</tr> -->
+<%-- 				</c:forEach> --%>
 				</tbody>
 			</table>
 		</div>
@@ -196,33 +209,33 @@ $(document).ready(function(){
          
             <nav class="cat_page mx-auto" aria-label="Page navigation example">
             
-               <ul class="pagination" style="float: right;">
+               <ul class="pagination" id="pagination" style="float: right;">
 
-          	  <c:if test="${pageMaker.prev}">	
-              <li class="page-item"><a class="page-link" href="${pageMaker.startPage -1}">
-              <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                  </a></li>
-              </c:if>
+<%--           	  <c:if test="${pageMaker.prev}">	 --%>
+<%--               <li class="page-item"><a class="page-link" href="${pageMaker.startPage -1}"> --%>
+<!--               <i class="fa fa-chevron-left" aria-hidden="true"></i> -->
+<!--                   </a></li> -->
+<%--               </c:if> --%>
                  
-                 <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                 <li class="page-item ${pageMaker.pagingVO.pageNum == num ? "active":""} ">
-                 <a class="page-link" href="${num}">${num}</a></li>
-                 </c:forEach>
+<%--                  <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}"> --%>
+<%--                  <li class="page-item ${pageMaker.pagingVO.pageNum == num ? 'active':''}"> --%>
+<%--                  <a class="page-link" href="${num}">${num}</a></li> --%>
+<%--                  </c:forEach> --%>
 
-                <c:if test="${pageMaker.next}">
-                 	<li class="page-item"><a class="page-link" href="${pageMaker.endPage +1 }">
-                 	<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
-                 </c:if>
+<%--              <c:if test="${pageMaker.next}"> --%>
+<%--                  	<li class="page-item"><a class="page-link" href="${pageMaker.endPage +1 }"> --%>
+<!--                  	<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li> -->
+<%--              </c:if> --%>
                  
            
                </ul>
             </nav>
-            	<form id='actionForm' action="/faq_list.do" method='get'>	
-          			<input type='hidden' name='pageNum' value = '${pageMaker.pagingVO.pageNum}'>
-          			<input type='hidden' name='amount' value = '${pageMaker.pagingVO.amount}'>
+            	<form id='actionForm'>	
+          			<input type='hidden' name='pageNum' value = '1'>
+          			<input type='hidden' name='amount' value = '10'>
           			<input type='hidden' name='type' value ='<c:out value="${pageMaker.pagingVO.type}"/>'>
           			<input type='hidden' name='keyword' value ='<c:out value="${pageMaker.pagingVO.keyword}"/>'>
-          			<input type='hidden' name='category' value='<c:out value="${page}"/>'>
+<!--           			<input type='hidden' name='faq_category' value=''> -->
           	   </form>	
          </td>
      
@@ -270,4 +283,115 @@ $(document).ready(function(){
    </div>
    </div>
 
+<script>
+//상품 REVIEW 리스트 출력
+function faqList_Ajax() {
+	
+	var actionForm = $('#actionForm');
+	
+	/* form 에서 데이터 불러오기 */
+ 	var pageNum = actionForm.find("input[name='pageNum']").val();
+ 	var amount = actionForm.find("input[name='amount']").val();
+ 	var keyword = actionForm.find("input[name='keyword']").val();
+ 	var type = actionForm.find("input[name='type']").val();
+ 	
+ 	if(pageNum === undefined)
+ 		pageNum = 1;
+	
+ 	var amount = ${pageMaker.pagingVO.amount};
+	var faq_category = $('a.genric-btn.primary.active')[0].innerHTML;
+	
+//  	var form_category = actionForm.find("input[name='faq_category']").val();
+// 	if(score === undefined)
+// 		score = 0;
+	
+	
+	var data = {};
+	data["pageNum"] = pageNum * 1;
+	data["amount"] = amount;
+	data["keyword"] = keyword;
+	data["type"] = type;
+	data["faq_category"] = faq_category;
+	
+	// 상품 목록이 들어갈 div 클래스 이름 - 초기화
+	$('#faqList').empty();
+	
+	$.ajax({
+		type : "POST",
+		url : "/faqList_Ajax.do",
+		data : JSON.stringify(data),
+		dataType: "json",
+		contentType : "application/json",
+		success : function(data) {
+			var list = data.faqList;
+			var total = data.total;
+			
+			// faq 리스트 출력
+			$.each(list, function(index, faq) {
+				var output = "";
+				output += "<tr><td>" + list[index].faq_NUM + "</td>";
+				output += "<td>" + list[index].faq_CATEGORY + "</td>";
+				output += "<td><a class='move' href='/faq_get.do?FAQ_NUM=" + list[index].faq_NUM + "'>";
+				output += list[index].subject + "</a></td></tr>"
+				
+				$('#faqList').append(output);
+			});
+			
+			
+			// 페이징 버튼 AJAX 처리
+			var end = Math.ceil(pageNum / 10.0) * 10.0;
+			var start = end - 9;
+			var realEnd = Math.ceil((total * 1.0) / amount);
+			
+			if(realEnd < end) {
+				end = realEnd;
+			}
+			
+			var paging = '';
+			for(var i=start; i<=end; i++) {
+				paging += "<li class='page-item review-page-item ";
+				
+				if (pageNum == i)
+					paging += "active";
+				
+				paging += "'>";
+				paging += "<a href='" + i + "' class='page-link'>" + i + "</a></li>";
+			}
+			
+			$('ul#pagination').empty();
+			$('ul#pagination').append(paging);
+
+		},
+		error : function() {alert('faq ajax 통신 실패!');}
+	});
+}
+$(document).on("click", ".page-item a", function(e) {
+	e.preventDefault();
+});
+$(document).on("click", ".page-item", function(e) {
+	
+	e.preventDefault();	// a태그를 클릭해도 페이지이동이 없도록,
+	
+	$('.page-item').removeClass("active");
+	$(this).addClass("active");
+	
+	var page = $('.page-item.active a').text();
+	var actionForm = $('#actionForm');
+	actionForm.find("input[name='pageNum']").val(page);
+	
+	faqList_Ajax();
+});
+
+$(document).ready(function() {
+	
+	$('#category_area .genric-btn.primary').on("click", function(e) {
+		$('#category_area .genric-btn.primary').removeClass("active");
+		$(this).addClass("active");
+		
+		$('#actionForm').find("input[name='pageNum']").val('1');
+	});
+	
+	faqList_Ajax();
+});
+</script>
 <%@ include file="../include/shopping_footer.jsp" %>

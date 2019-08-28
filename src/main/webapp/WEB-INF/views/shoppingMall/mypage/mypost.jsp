@@ -4,7 +4,7 @@
 <%@ include file="../include/mypage_header.jsp"%>
 <style>
 .default-select .nice-select{
-background: #ffffff
+background: #f7f7f7;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
 	.table>thead>tr>td, .table>thead>tr>th {

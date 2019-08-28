@@ -1,10 +1,12 @@
 package com.bbshop.bit.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bbshop.bit.domain.Cart_GDVO;
 import com.bbshop.bit.domain.Gd_BallVO;
@@ -78,9 +82,10 @@ public class GoodsController {
 	@RequestMapping(value="/getGoodsList_Ajax.do", consumes="application/json")
 	@ResponseBody
 	public List<GoodsVO> getGoodsList_Ajax(@RequestBody Map<String, Object> map){
-		log.info("Controller...goods_list.jsp...goodsListAjax");
+		log.info("Controller...goods_list.jsp...goodsListAjax11111");
 		
 		System.out.println("컨트롤러에서의 map : " + map.toString());
+		System.out.println("하이하이1");
 		
 		String sorting = "";
 		String min_amount = "";
@@ -94,7 +99,6 @@ public class GoodsController {
 		PagingVO pagingVO = new PagingVO();
 		pagingVO.setPageNum((int) map.get("pageNum"));
 		pagingVO.setAmount((int) map.get("amount"));
-		
 		
 		// 상품 상세인 경우 해당 값들이 전부 들어오지 않으므로 null 체크를 해준다.
 		if (map.get("sorting") != null) {
@@ -145,7 +149,7 @@ public class GoodsController {
 			
 			System.out.println("db에서 불러온 goodsList : " + goods.toString());
 		}
-
+		System.out.println("하이하이");
 		return goodsList;
 	}
 	
@@ -214,19 +218,46 @@ public class GoodsController {
 	
 	/* 상품 REVIEW 등록 */
 	@RequestMapping(value="/registerReview.do", method=RequestMethod.POST)
-	public String registerReview(ReviewVO review, int category, HttpSession session, Model model) {
+	public String registerReview(MultipartHttpServletRequest request, Model model) throws Exception {
 		log.info("Controller..insertReview...!");
+		
+		// ReviewVO를 새로 만들어서, request에서 받아온 값들을 하나하나 넣어준다.
+		ReviewVO review = new ReviewVO();
+		review.setTitle(request.getParameter("title"));
+		review.setContents(request.getParameter("contents"));
+		review.setScore(Long.parseLong(request.getParameter("score")));
+		review.setGoods_num(Long.parseLong(request.getParameter("goods_num")));
 		
 		// 회원일 경우, (비회원은 뷰단에서 js로 막아놓음!), ReviewVO에 user_key 초기화
 		long user_key = (long)session.getAttribute("member");
-
 		review.setUser_key(user_key);
+		
+		// 파일 불러오기
+		MultipartFile file = request.getFile("re_img");
+		
+		// 실제 경로
+		String uploadPath = "C:\\Users\\nej96\\Desktop\\GitClone\\BBSHOP\\src\\main\\webapp\\resources\\shoppingMall\\img\\review\\";
+		
+		String originalFileExtension = file.getOriginalFilename();
+		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension;
 
-		// insert
+		// 암호화해서 파일을 저장한다.
+		if(file.getSize() != 0)
+			file.transferTo(new File(uploadPath + originalFileExtension));
+		
+		// img를 vo에 넣어주기
+		if(originalFileExtension.equals("")) {
+			review.setRe_img("");
+		}
+		else {
+			review.setRe_img("resources/shoppingMall/img/review/" + originalFileExtension);
+		}
+		
+		// 후기 테이블에 insert!
 		service.insertReview(review);
 		
 		model.addAttribute("goods_num", review.getGoods_num());
-		model.addAttribute("category", category);
+		model.addAttribute("category", request.getParameter("category"));
 		
 		return "redirect:goods_info.do";
 	}
@@ -335,9 +366,9 @@ public class GoodsController {
 		// 상품 상세 번호를 구할 때 필요한 변수들
 		int category = (int)map.get("category");
 		int option1 = Integer.parseInt((String)map.get("option1"));
-		int option2 = Integer.parseInt((String)map.get("option2"));
 		
 		if (category == 1) {
+			int option2 = Integer.parseInt((String)map.get("option2"));
 			Gd_GloveVO gd_GloveVO = orderService.getGloveOption(goods_num, option1, option2);
 			goods_detail_num = gd_GloveVO.getGLOVE_NUM();
 		}
@@ -350,6 +381,7 @@ public class GoodsController {
 			goods_detail_num = gd_UniformVO.getUNIFORM_NUM();
 		}
 		else if(category == 4) {
+			int option2 = Integer.parseInt((String)map.get("option2"));
 			Gd_ShoesVO gd_ShoesVO = orderService.getShoesOption(goods_num, option1, option2);
 			goods_detail_num = gd_ShoesVO.getSHOES_NUM();
 		}

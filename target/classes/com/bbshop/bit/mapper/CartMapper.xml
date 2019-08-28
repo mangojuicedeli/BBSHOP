@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 <update id="modify" parameterType="com.bbshop.bit.domain.Cart_GDVO">
 	update cart_gd
-	set QNTTY =${QNTTY} ,PRICE=${PRICE}
+	set QNTTY =${QNTTY} ,PRICE=${PRICE}, SAVINGS=${SAVINGS}
 	where gd_ct_key=${GD_CT_KEY}
 
 </update>
