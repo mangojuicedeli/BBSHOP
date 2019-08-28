@@ -4,16 +4,48 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.bbshop.bit.domain.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
- 	List<GoodsVO> goodsList= (List<GoodsVO>)request.getAttribute("goodsList");
-  List<Cart_GDVO> cartList= (List<Cart_GDVO>)request.getAttribute("cartList");
-  int allPrice = (int)request.getAttribute("allPrice");
-  int shipping_fee = (int)request.getAttribute("shipping_fee");
- %>
+	List<GoodsVO> goodsList = (List<GoodsVO>) request.getAttribute("goodsList");
+	List<Cart_GDVO> cartList = (List<Cart_GDVO>) request.getAttribute("cartList");
+	int allPrice = (int) request.getAttribute("allPrice");
+	int shipping_fee = (int) request.getAttribute("shipping_fee");
+%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
 <style>
+.main_btn{
+background: #57c051;
+color: #ffffff;
+border: 1px solid #57c051;
+}
+
+.main_btn:hover{
+background: #57c051;
+}
+.genric-btn.danger:hover{
+color:#ffffff;
+background: #f44a40;
+border: 1px solid #f44a40;
+}
+a{
+color: #ffffff;
+}
+.genric-btn.default-border{
+border: 1px solid #a0a0a0;
+background: #a0a0a0;
+}
+.genric-btn.default-border:hover{
+color: #ffffff;
+background: #a0a0a0;
+border:  1px solid #a0a0a0;
+}
+.cart_area{
+padding-top: 0px;
+}
+.banner_area .banner_inner{
+background-color: #57c051;
+}
 @font-face{font-family:'NanumBarunpen
 ';font-weight:normal;src:local(NanumBarunpen);src:url("resources/shoppingMall/fonts/nanumbarunpenR.eot");src:url("resources/shoppingMall/fonts/nanumbarunpenR.woff") format("woff"), url("resources/shoppingMall/fonts/nanumbarunpenR.woff2") format("woff2")}
 @font-face{font-family:'NanumBarunpen';font-weight:bold;src:local(NanumBarunpen);src:url("resources/shoppingMall/fonts/nanumbarunpenB.eot");src:url("resources/shoppingMall/fonts/nanumbarunpenB.woff") format("woff"), url("resources/shoppingMall/fonts/nanumbarunpenB.woff2") format("woff2")}
@@ -67,13 +99,13 @@ body{font-family:NanumBarunpen, sans-serif}
 	</script>
 	<!--================Home Banner Area =================-->
 	<section class="banner_area">
-		<div class="banner_inner d-flex align-items-center">
-			<div class="container">
+		<div class="banner_inner d-flex align-items-center"style="background-color: #57c051;">
+			<div class="container"> 
 				<div class="banner_content text-center">
-					<h2>Shopping Cart</h2>
+					<h2>장바구니</h2>
 					<div class="page_link">
 						<a href="/shopping_main">쇼핑몰</a>
-						<a href="/cart.do">Cart</a>
+						<a href="/cart.do">장바구니</a>
 					</div>
 				</div>
 			</div>
@@ -90,7 +122,7 @@ body{font-family:NanumBarunpen, sans-serif}
 					<table class="table">
 						<thead>
 							<tr>
-								<th width="4%"><input type='checkbox' class='check' id='check_all'></th>
+								<th width="4%"><input type='checkbox' class='check' id='check_all' checked="checked"></th>
 								<th scope="col" >GoodsNum</th>
 								<th scope="col" style="width:4%" >Photo</th>
 								<th style='text-align:center' scope="col">Product</th>
@@ -105,7 +137,7 @@ body{font-family:NanumBarunpen, sans-serif}
 				
 							<tr>
 								<td>
-								<input type='checkbox' class='check' name='checking' id='pd_check${status.index}'>
+								<input type='checkbox' class='check' name='checking' id='pd_check${status.index}' checked="checked">
 								</td>
 								
 								<td><h5>${goodsList[status.index].goods_num}</h5>
@@ -231,21 +263,15 @@ body{font-family:NanumBarunpen, sans-serif}
 							
 							
 							<div style="float:left">
-							<button style="width:100%" class="genric-btn danger radius e-large" id="selectDelete">선택삭제</button>
+							<button style="width:100%; font-size: 14px" class="genric-btn danger radius e-large" id="selectDelete">선택삭제</button>
 								</div>				
 							
 							
 							
 							<div style="float:right" class="checkout_btn_inner">
-											<a class="main_btn" onclick="getProduct(${status.index})">결제하기</a>
-											
-											<a class="genric-btn default-border radius e-large" href="/goods_list.do">계속 쇼핑하기</a>
-										</div>
-											
-								
-							
-							
-							
+								<a class="main_btn" onclick="getProduct(${status.index})" style="width: 136.89px; color:#ffffff;">결제하기</a>
+								<a class="genric-btn default-border radius e-large" href="/goods_list.do" style="color:#ffffff;">계속 쇼핑하기</a>
+							</div>
 				</div>
 			</div>
 		</div>
@@ -257,10 +283,10 @@ body{font-family:NanumBarunpen, sans-serif}
 			$('input:checkbox[type=checkbox]:checked').each(function () {
 				listindex.push($('.check').index(this));
 			
-				});
-			var ajaxarr={"listindex":listindex}
-			alert(listindex);
-			$.ajaxSettings.traditional = true;
+			});
+			// var ajaxarr={"listindex":listindex}
+			alert('선택하신 상품이 삭제되었습니다.');
+			/*$.ajaxSettings.traditional = true;
 			$.ajax({
      			url:"selectDelete.do",
      			type:"POST",
@@ -271,29 +297,39 @@ body{font-family:NanumBarunpen, sans-serif}
      				}, error : function() {
 							console.log("실패");
 					}
-				});
+				});*/
+			var formObj = document.createElement("form");
+			var inputObj = document.createElement("input");
+			
+			inputObj.name = "listindex";
+			inputObj.value = listindex;
+			
+			formObj.appendChild(inputObj);
+			document.body.appendChild(formObj);
+			
+			formObj.method = "post";
+			formObj.action = "selectDelete.do";
+			
+			formObj.submit();
 		});
 
 		function getProduct(){
 			var product = new Array();
 			
-		    $("input[name='checking']:checked").each(function() {
-		          var num = $(this).attr('id').split('check');
-		          var id = $("#GOODS_NUM"+num[1]).val();
-		          product.push(id);
-		    });
-		    
-		    // 상품 체크 하지 않았을 시 경고창
-		    if (!product[0]) {
-		    	
-		    	alert('결제하실 상품을 선택해주세요.');
-		    	return false;
-		    }
-		    
-		    console.log('product : ' + product);
-		    
-		    $("#GOODS_NUM_LIST").val(product);
-		    $("#orderForm").submit();
+			if($("input:checkbox[name='checking']").is(":checked") == false){
+				alert('구매하실 상품을 체크해주세요.')
+				return false;
+			} else{
+			
+		  	  $("input[name='checking']:checked").each(function() {
+			          var num = $(this).attr('id').split('check');
+			          var id = $("#GOODS_NUM"+num[1]).val();
+			          product.push(id);
+			    });
+
+			    $("#GOODS_NUM_LIST").val(product);
+			    $("#orderForm").submit();
+				}
 		}
 		
 		// 상품 금액 * 수량을 계산한 totalPrice를 controller에 배열 형태로 보내준다.

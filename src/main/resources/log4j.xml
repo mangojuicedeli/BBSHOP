@@ -11,6 +11,10 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+<!-- 의정 -->
+<!-- 	<logger name="com.bbshop.bit.mapper"> -->
+<!-- 		<level value="debug" /> -->
+<!-- 	</logger> -->
 	<logger name="com.bbshop.bit">
 		<level value="info" />
 	</logger>

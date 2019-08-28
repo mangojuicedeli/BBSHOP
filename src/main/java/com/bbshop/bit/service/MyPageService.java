@@ -28,10 +28,13 @@ public interface MyPageService {
 	public List<OrderVO> getOrdersListStss(PagingVO pagingVO, long total, List<String> stts_list);
 	
 	// 리뷰 내역 가지고 오기
-	public List<ReviewVO> getReviewList(PagingVO pagingVO, long total, long key);
+	public List<ReviewVO> getReviewList(PagingVO pagingVO, long key);
+	
+	// Qna 내역 가져 오기
+	public List<GoodsQnaVO> getQnaList(PagingVO pagingVO, long key);
 	
 	// 1:1 문의 내역 가지고 오기
-	public List<OnetooneVO> getOnetooneList(PagingVO pagingVO, long total, long key);
+	public List<OnetooneVO> getOnetooneList(PagingVO pagingVO, long key);
 
 	
 	// 주문 전체 불러 오기
@@ -48,7 +51,7 @@ public interface MyPageService {
 	public void updateUserInfo(MemberVO memberVO);
 	
 	// 회원 정보 삭제
-	public void deleteUserInfo(long key);
+	public void deleteUserInfo(long key, String reason);
 	
 
 	// 배송지 조회
@@ -73,9 +76,6 @@ public interface MyPageService {
 	// 닉네임 중복 확인
 	public int nickCheck(String nickname);
 	
-
-	// Qna 내역 가져 오기
-	public List<GoodsQnaVO> getQnaList(PagingVO pagingVO, long total, long key);
 
 	// 적립금 인서트
 	public void insertSavings(SavingsVO savings, long user_key);

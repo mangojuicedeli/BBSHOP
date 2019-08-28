@@ -4,6 +4,30 @@
 <%@ include file="../include/mypage_header.jsp"%>
 
 <style>
+.genric-btn.default:hover{
+border: 1px solid #57c051;
+background: #57c051;
+color: #ffffff;
+}
+.genric-btn.default{
+background: #57c051;
+color: #ffffff;
+}
+.genric-btn.danger{
+font-size: 14px;
+borer: 1px solid #f44a40;
+}
+.genric-btn.danger:hover{
+color:#ffffff;
+background: #f44a40;
+}
+.page-item.active .page-link{
+background-color: #57c051;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+background-color: #57c051;
+border-color: #57c051;
+}
 .goods {
 	width: 50px;
 	height: 30px;
@@ -80,16 +104,16 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 10%; font-weight: bold;">주문번호</th>
-					<th scope="col" style="width: 10%; font-weight: bold;">주문일자</th>
-					<th scope="col" style="font-weight: bold;">주문목록</th>
-					<th scope="col" style="width: 10%; font-weight: bold;">결제금액</th>
-					<th scope="col" style="width: 10%; font-weight: bold;">주문상태</th>
-					<th scope="col" style="width: 15%; font-weight: bold;">배송현황</th>
-					<th scope="col" style="width: 15%; font-weight: bold;">주문취소</th>
+					<th scope="col" style="width: 10%; font-weight: bold; text-align: center;">주문번호</th>
+					<th scope="col" style="width: 10%; font-weight: bold; text-align: center;">주문일자</th>
+					<th scope="col" style="font-weight: bold; text-align: center;">주문목록</th>
+					<th scope="col" style="width: 10%; font-weight: bold; text-align: center;">결제금액</th>
+					<th scope="col" style="width: 10%; font-weight: bold; text-align: center;">주문상태</th>
+					<th scope="col" style="width: 15%; font-weight: bold; text-align: center;">주문현황</th>
+					<th scope="col" style="width: 15%; font-weight: bold; text-align: center;">주문취소</th>
 				</tr>
 			</thead>
-			<tbody id="order_table">
+			<tbody id="order_table" style="text-align: center;">
 			</tbody>
 		</table>
 		<div class="text-center">
@@ -121,6 +145,11 @@
 	var order_msg = '';
 	var receiver = '';
 	var or_addr = '';
+	var pymntamnt = '';
+	var phone1 = '';
+	var phone2 = '';
+	var per_pymntamnt = '';
+	var pymntmthd = '';
 
 	// 주문 취소
 	function fn_cancel_order(order_num) {
@@ -141,7 +170,7 @@
 			document.body.appendChild(formObj);
 
 			formObj.method = "post";
-			formObj.action = "/order_cancel.do";
+			formObj.action = "/kakaoPayCancelOrder.do";
 
 			formObj.submit();
 		}
@@ -163,6 +192,10 @@
 				list.push('${orderVO.or_msg}')
 				list.push('${orderVO.receiver}');
 				list.push('${orderVO.or_addr}');
+				list.push('${orderVO.pymntamnt }');
+				list.push('${orderVO.phone1 }');
+				list.push('${orderVO.phone2 }');
+				list.push('${orderVO.pymntmthd}');
 			}
 			
 		</c:forEach>
@@ -174,6 +207,11 @@
 		order_msg = list[4];
 		receiver = list[5];
 		or_addr = list[6];
+		pymntamnt = list[7];
+		per_pymntamnt = list[7];
+		phone1 = list[8];
+		phone2 = list[9];
+		pymntmthd = list[10];
 	}
 	
 	// 주문 목록 모달 처리
@@ -188,6 +226,11 @@
 			$('#order_notes').html(order_msg);
 			$('#receiver').val(receiver);
 			$('#address').val(or_addr);
+			$('#pymntamnt').html('￦' + pymntamnt);
+			$('#per_pymntamnt').html('￦' + per_pymntamnt);
+			$('#phone1').val(phone1);
+			$('#phone2').val(phone2);
+			$('#pymntmthd').val(pymntmthd);
 		});
 
 	});
@@ -219,8 +262,6 @@
 		data["pageNum"] = pageNum;
 		data["amount"] = amount;
 		
-		console.log('ajax에서 컨트롤러로 보낼 데이터 : ' + data);
-		
 		$.ajax({
 			type: "POST",	    
 			url : "/orderListCheck.do",
@@ -245,16 +286,12 @@
 				var values = result.orders_list;
 					
 				$.each(values, function(index, value) {
-										
+					
 					str += '<tr><td><h5>' + values[index].order_num + '</h5></td><td><h5>' + values[index].or_date;
 					str += '</h5></td><td><h5>';
-					str += '<a href="' + values[index].items + '" data-toggle="modal" data-target="#modal_order_detail" style="color: #222222;"';
-					str += ' onclick="showModal(' + cnt + ');">';
-					str += values[index].items + '</a></h5></td><td><h5>';
+					str += values[index].items + '</h5></td><td><h5>';
 					str += '￦ ' + values[index].pymntamnt + '</h5></td><td><h5>';
-							
-					cnt = cnt + 1;
-					
+												
 					switch(values[index].stts) {
 						
 						case 0 : str += '결제완료'; break;
@@ -264,17 +301,21 @@
 						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
 					}
 						
-					str += '</h5></td><td>' + '<button type="button" id="see_order" class="genric-btn default radius"><span>배송 조회</span></button></td><td>';
+					str += '</h5></td><td><button type="button" data-toggle="modal" class="genric-btn default radius" data-target="#modal_order_detail" style="color: #222222;"';
+					str += ' onclick="showModal(' + cnt + ');">';
+					str += '주문 조회</button></td>';
+					
+					cnt = cnt + 1;
 					
 					if (values[index].stts == 0) {
 							
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + values[index].order_num + ')">'
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + values[index].order_num + ')">'
 						+ '<span>주문 취소</span></button></td></tr>';
 							
 					} else {
 							
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #5b5656;">'
-						+ '<span>주문 취소</span></button></td></tr>';
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #b3a9a9;">'
+							+ '<span>주문 취소</span></button></td></tr>';
 					}
 				});
 				
@@ -339,9 +380,7 @@
 										
 					str += '<tr><td><h5>' + result[index].order_num + '</h5></td><td><h5>' + result[index].or_date;
 					str += '</h5></td><td><h5>';
-					str += '<a href="' + result[index].items + '" data-toggle="modal" data-target="#modal_order_detail" style="color: #222222;"';
-					str += ' onclick="showModal(' + index + ');">';
-					str += result[index].items + '</a></h5></td><td><h5>';
+					str += result[index].items + '</h5></td><td><h5>';
 					str += '￦ ' + result[index].pymntamnt + '</h5></td><td><h5>';
 						
 					switch(result[index].stts) {
@@ -353,16 +392,18 @@
 						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
 					}
 					
-					str += '</h5></td><td>' + '<button type="button" id="see_order" class="genric-btn default radius"><span>배송 조회</span></button></td><td>';
+					str += '</h5></td><td><button type="button" data-toggle="modal" class="genric-btn default radius" data-target="#modal_order_detail" style="color: #222222;"';
+					str += ' onclick="showModal(' + index + ');">';
+					str += '주문 조회</button></td>';
 					
 					if (result[index].stts == 0) {
 						
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + result[index].order_num + ')">'
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + result[index].order_num + ')">'
 						+ '<span>주문 취소</span></button></td></tr>';
 						
 					} else {
 						
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #5b5656;" disabled>'
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #b3a9a9;" disabled>'
 						+ '<span>주문 취소</span></button></td></tr>';
 					}
 				});
@@ -448,19 +489,12 @@
 				var values = result.orders_list;
 					
 				$.each(values, function(index, value) {
-					
-					console.log(index);
-					
 										
 					str += '<tr><td><h5>' + values[index].order_num + '</h5></td><td><h5>' + values[index].or_date;
 					str += '</h5></td><td><h5>';
-					str += '<a href="' + values[index].items + '" data-toggle="modal" data-target="#modal_order_detail" style="color: #222222;"';
-					str += ' onclick="showModal(' + cnt + ');">';
-					str += values[index].items + '</a></h5></td><td><h5>';
+					str += values[index].items + '</h5></td><td><h5>';
 					str += '￦ ' + values[index].pymntamnt + '</h5></td><td><h5>';
-					
-					cnt = cnt + 1;
-							
+												
 					switch(values[index].stts) {
 						
 						case 0 : str += '결제완료'; break;
@@ -470,16 +504,20 @@
 						case 4 : str += '<span style="color: red;">주문취소</span>'; break;
 					}
 						
-					str += '</h5></td><td>' + '<button type="button" id="see_order" class="genric-btn default radius"><span>배송 조회</span></button></td><td>';
+					str += '</h5></td><td><button type="button" data-toggle="modal" class="genric-btn default radius" data-target="#modal_order_detail" style="color: #222222;"';
+					str += ' onclick="showModal(' + cnt + ');">';
+					str += '주문 조회</button></td>';
+					
+					cnt = cnt + 1;
 					
 					if (values[index].stts == 0) {
 							
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + values[index].order_num + ')">'
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" onClick="fn_cancel_order(' + values[index].order_num + ')">'
 						+ '<span>주문 취소</span></button></td></tr>';
 							
 					} else {
 							
-						str += 	'<button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #5b5656;">'
+						str += '<td><button type="button" id="cancel_order" class="genric-btn danger radius" style="background: #b3a9a9;">'
 							+ '<span>주문 취소</span></button></td></tr>';
 					}
 				});
@@ -511,9 +549,7 @@
 				
 				$('.page-item').removeClass("active");
 				$('#btn_' + actionForm.find("input[name='pageNum']").val()).addClass("active");
-			    
 			},
-			
 			error: function() {
 			
 				alert("error = " + errorThrown);

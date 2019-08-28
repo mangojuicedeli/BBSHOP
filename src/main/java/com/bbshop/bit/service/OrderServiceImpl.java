@@ -14,6 +14,7 @@ import com.bbshop.bit.domain.Gd_GloveVO;
 import com.bbshop.bit.domain.Gd_ShoesVO;
 import com.bbshop.bit.domain.Gd_UniformVO;
 import com.bbshop.bit.domain.OrderVO;
+import com.bbshop.bit.domain.Order_GDVO;
 import com.bbshop.bit.mapper.GoodsMapper;
 import com.bbshop.bit.mapper.OrderMapper;
 
@@ -31,10 +32,10 @@ public class OrderServiceImpl implements OrderService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<Cart_GDVO> getCheckedCartList(String[] goods_num_list){
+	public List<Cart_GDVO> getCheckedCartList(String[] goods_num_list, long user_key){
 		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
 		
-		List<Cart_GDVO> cartList = mapper.getCheckedCartList(goods_num_list);
+		List<Cart_GDVO> cartList = mapper.getCheckedCartList(goods_num_list, user_key);
 		
 		return cartList;
 	}
@@ -96,6 +97,132 @@ public class OrderServiceImpl implements OrderService {
 		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
 		
 		return mapper.getLastOrderNum(user_key);
+	}
+	
+	@Override
+	public OrderVO getOrderList(long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.getOrderList(order_num);
+	}
+	
+	@Override
+	public int deleteOrder(long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.deleteOrder(order_num);
+	}
+	
+	@Override
+	public int updateCancelStts(long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancelStts(order_num);
+	}
+	
+	@Override
+	public int updateGloveStock(int qntty, long glove_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateGloveStock(qntty, glove_num);
+	}
+	
+	@Override
+	public int updateBatStock(int qntty, long bat_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateBatStock(qntty, bat_num);
+	}
+	
+	@Override
+	public int updateUniformStock(int qntty, long uniform_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateUniformStock(qntty, uniform_num);
+	}
+	
+	@Override
+	public int updateShoesStock(int qntty, long shoes_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateShoesStock(qntty, shoes_num);
+	}
+	
+	@Override
+	public int updateBallStock(int qntty, long ball_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateBallStock(qntty, ball_num);
+	}
+	
+	@Override
+	public int updateCancledGloveStock(int qntty, long glove_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancledGloveStock(qntty, glove_num);
+	}
+	
+	@Override
+	public int updateCancledBatStock(int qntty, long bat_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancledBatStock(qntty, bat_num);
+	}
+	
+	@Override
+	public int updateCancledUniformStock(int qntty, long uniform_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancledUniformStock(qntty, uniform_num);
+	}
+	
+	@Override
+	public int updateCancledShoesStock(int qntty, long shoes_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancledShoesStock(qntty, shoes_num);
+	}
+	
+	@Override
+	public int updateCancledBallStock(int qntty, long ball_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateCancledBallStock(qntty, ball_num);
+	}
+	
+	@Override
+	public int updateGoodsSales(int qntty, long goods_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateGoodsSales(qntty, goods_num);
+	}
+	
+	@Override
+	public int updateTid(String tid, long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateTid(tid, order_num);
+	}
+	
+	@Override
+	public int insertOrderGD(Order_GDVO order_gd) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.insertOrderGD(order_gd);
+	}
+	
+	@Override
+	public int updateSavings_used(long useSavings, long order_num) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.updateSavings_used(useSavings, order_num);
+	}
+	
+	@Override
+	public int update_usedUser_savings(long useSavings, long user_key) {
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		
+		return mapper.update_usedUser_savings(useSavings, user_key);
 	}
 	
 	// 의정 단일상품

@@ -3,7 +3,6 @@ package com.bbshop.bit.service;
 import java.util.List;
 
 import com.bbshop.bit.domain.FAQVO;
-import com.bbshop.bit.domain.PageDTO;
 import com.bbshop.bit.domain.PagingVO;
 
 public interface FAQService {

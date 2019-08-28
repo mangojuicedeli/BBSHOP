@@ -13,270 +13,310 @@
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
     <style>
-        /*바디태그에 폰트넣기*/
-        @font-face{font-family:'NanumBarunpen';font-weight:normal;src:local(NanumBarunpen);src:url("resources/shoppingMall/fonts/NanumBarunpenR.eot");src:url("resources/shoppingMall/fonts/NanumBarunpenR.woff") format("woff"), url("resources/shoppingMall/fonts/NanumBarunpenR.woff2") format("woff2")}
-	@font-face{font-family:'NanumBarunpen';font-weight:bold;src:local(NanumBarunpen);src:url("resources/shoppingMall/fonts/NanumBarunpenB.eot");src:url("resources/shoppingMall/fonts/NanumBarunpenB.woff") format("woff"), url("resources/shoppingMall/fonts/NanumBarunpenB.woff2") format("woff2")}
+/*바디태그에 폰트넣기*/
+@font-face {
+	font-family: 'NanumBarunpen';
+	font-weight: normal;
+	src: local(NanumBarunpen);
+	src: url("resources/shoppingMall/fonts/NanumBarunpenR.eot");
+	src: url("resources/shoppingMall/fonts/NanumBarunpenR.woff")
+		format("woff"),
+		url("resources/shoppingMall/fonts/NanumBarunpenR.woff2")
+		format("woff2")
+}
 
-	body{font-family:NanumBarunpen, sans-serif}
-        /*
+@font-face {
+	font-family: 'NanumBarunpen';
+	font-weight: bold;
+	src: local(NanumBarunpen);
+	src: url("resources/shoppingMall/fonts/NanumBarunpenB.eot");
+	src: url("resources/shoppingMall/fonts/NanumBarunpenB.woff")
+		format("woff"),
+		url("resources/shoppingMall/fonts/NanumBarunpenB.woff2")
+		format("woff2")
+}
+
+body {
+	font-family: NanumBarunpen, sans-serif
+}
+/*
         body {
             font-family: 'Sunflower', sans-serif;
         }*/
 
-        /* Shop,Go Cummunity 눌렀을때 뜨는 모달(로그인모달) */
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
-		/*로그인 화면에서  회원가입 버튼을 눌렀을때 나오는 모달창*/
-        .sign_up_Modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
-        /*아이디,비밀번호찾기 누르면 나오는 모달창*/
-        .findinfo_Modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
-   
-        /*이메일 인증눌렀을때 나오는 모달창*/
-        .emailcheck_Modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 2;
-            /* Sit on top */
-            left: 10%;
-            top: 10%;
-            width: 40%;
-            height: 40%; 
-            overflow: auto;
-            /* Enable scroll if needed */
-       	    background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: #fefefe;
-            /* Black w/ opacity */
-        }
-   		/*추가사항을 눌렀을시 나오는 모달창*/
-        .moredetails_Modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 3;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
+/* Shop,Go Cummunity 눌렀을때 뜨는 모달(로그인모달) */
+.modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+/*로그인 화면에서  회원가입 버튼을 눌렀을때 나오는 모달창*/
+.sign_up_Modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+/*아이디,비밀번호찾기 누르면 나오는 모달창*/
+.findinfo_Modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
-        /* 로그인 모달의 내용*/
-        .modal-content {
-            background-color: #fefefe;
-            margin: 8% auto;
-            /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 30%;
-            /* Could be more or less, depending on screen size */
-			
-        }
-        /*아이디 찾기 모달에 나오는 내용*/
-        .findinfo-content {
-            background-color: #fefefe;
-            margin: 8% auto;
-            /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 30%;
-            /* Could be more or less, depending on screen size */
-			
-			
-        }
-        
-		/*회원가입 모달의 내용*/
-        .sign_up_content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 35%;
-            
-            /* Could be more or less, depending on screen size */
-        }
-        /*이메일 인증 모달에 나오는 내용*/
-         .emailcheck_content {
-            background-color: #fefefe;
-            margin: 8% auto;
-            /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 10%;
-            /* Could be more or less, depending on screen size */
-        }
-    	/*추가사항 모달에 나오는 내용*/
-        .moredetails_content {
-            background-color: #fefefe;
-            margin: 8% auto;
-            /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 30%;
-            /* Could be more or less, depending on screen size */
-        }
-        
+/*이메일 인증눌렀을때 나오는 모달창*/
+.emailcheck_Modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 2;
+	/* Sit on top */
+	left: 10%;
+	top: 10%;
+	width: 40%;
+	height: 40%;
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: #fefefe;
+	/* Black w/ opacity */
+}
+/*추가사항을 눌렀을시 나오는 모달창*/
+.moredetails_Modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 3;
+	/* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
-        /* The Close Button 스판 태그로 넣어주는 클로우즈 버튼*/
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+/* 로그인 모달의 내용*/
+.modal-content {
+	background-color: #fefefe;
+	margin: 8% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	/* Could be more or less, depending on screen size */
+}
+/*아이디 찾기 모달에 나오는 내용*/
+.findinfo-content {
+	background-color: #fefefe;
+	margin: 8% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 30%;
+	/* Could be more or less, depending on screen size */
+}
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+/*회원가입 모달의 내용*/
+.sign_up_content {
+	background-color: #fefefe;
+	margin: 5% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 35%;
 
-        /*체크박스에 넣어줄 style checked+label은 체크가 되고 라벨태그가 바로 붙었을때  밑에도 같은식 */
-        input[type="checkbox"]:checked+label {
-            background-position: 0 -15px;
-        }
+	/* Could be more or less, depending on screen size */
+}
+/*이메일 인증 모달에 나오는 내용*/
+.emailcheck_content {
+	background-color: #fefefe;
+	margin: 8% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 10%;
+	/* Could be more or less, depending on screen size */
+}
+/*추가사항 모달에 나오는 내용*/
+.moredetails_content {
+	background-color: #fefefe;
+	margin: 8% auto;
+	/* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 30%;
+	/* Could be more or less, depending on screen size */
+}
 
-        input[type="checkbox"] {
-            display: none;
-        }
+/* The Close Button 스판 태그로 넣어주는 클로우즈 버튼*/
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
 
-        input[type="checkbox"]+label {
-            color: black;
-        }
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
 
-        input[type="checkbox"]+label span {
-            display: inline-block;
-            width: 19px;
-            height: 19px;
-            margin: -2px 10px 0 0;
-            vertical-align: middle;
-            background:
-                url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
-            cursor: pointer;
-        }
+/*체크박스에 넣어줄 style checked+label은 체크가 되고 라벨태그가 바로 붙었을때  밑에도 같은식 */
+input[type="checkbox"]:checked+label {
+	background-position: 0 -15px;
+}
 
-        input[type="checkbox"]:checked+label span {
-            background:
-                url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
-        }
+input[type="checkbox"] {
+	display: none;
+}
 
-        /*동영상 내용*/
-        #index-back {
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1000;
-            overflow: hidden;
-        }
+input[type="checkbox"]+label {
+	color: black;
+}
 
-        /*버튼 메뉴(shop,gocommunity)의 색상. */
-        .BBSHOP {
-            background-color: #57c051;
-        }
+input[type="checkbox"]+label span {
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+	margin: -2px 10px 0 0;
+	vertical-align: middle;
+	background:
+		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png)
+		left top no-repeat;
+	cursor: pointer;
+}
 
-        /*모달창 투명도*/
-        #loginModal {
-            opacity: 1;
-        }
+input[type="checkbox"]:checked+label span {
+	background:
+		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png)
+		-19px top no-repeat;
+}
 
-        #sign_up {
-            opacity: 0.9;
-        }
-        #findinfo{
-        	opacity: 0.9;
-        }
-        #emailcheck{
-        	opacity: 0.9;
-        }
-        #moredetails{
-        	opacity:0.9;
-        }
-        
-    </style>
+/*동영상 내용*/
+#index-back {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -1000;
+	overflow: hidden;
+}
+
+/*버튼 메뉴(shop,gocommunity)의 색상. */
+.button {
+	display: inline-block;
+	padding: 15px 25px;
+	font-size: 24px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: #4CAF50;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 9px #999;
+}
+
+.button:hover {
+	background-color: #3e8e41
+}
+
+.button:active {
+	background-color: #3e8e41;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
+
+/*모달창 투명도*/
+#loginModal {
+	opacity: 1;
+}
+
+#sign_up {
+	opacity: 0.9;
+}
+
+#findinfo {
+	opacity: 0.9;
+}
+
+#emailcheck {
+	opacity: 0.9;
+}
+
+#moredetails {
+	opacity: 0.9;
+}
+</style>
 
    
 </head>
 
 <body>
     <!-- Index Background Video -->
-    <video id="index-back" preload="auto" loop autoplay muted>
-        <source src="resources/shoppingMall/img/indexmedia.mp4" type="video/mp4">
-        <source src="resources/shoppingMall/img/indexmedia.ogg" type="video/ogg">
-    </video>
-
+	    <video id="index-back" preload="auto" style="opacity: 0.5;" loop autoplay muted>
+	        <source src="resources/shoppingMall/img/indexmedia.mp4" type="video/mp4">
+	        <source src="resources/shoppingMall/img/indexmedia.ogg" type="video/ogg">
+	    </video>
 
     <div id="index">
 
@@ -290,43 +330,35 @@
                             <tbody>
                                <tr align = center>
                                 	<img style ="background-color:rgba(255, 255, 255, 0); border: none " src ="${pageContext.request.contextPath }/resources/shoppingMall/img/logo.png">
-                                    <br><br><br><br><br><br>
+                                    <br><br><br><br><br><br><br><br>
                                 </tr>
                                 <tr>
-
-                                    <td style="text-align: center" class="BBSHOP" width="1000" height="100">
-                                       
-										<!-- 여기서 버튼을 누르면 로그인 창이 뜬다. -->
-										<button id="goShop"
-                                            style="background-color: rgba(255, 255, 255, 0); border: none ; border-width: 2000px "  >
-                                            <p align="center">
-                                                <font color="white"> <span style="font-size: 24pt;">SHOP</span></font>
-                                                <br> <br>
-                                                <font color="white"><span style="font-size: 14pt;">Go Shop</span></font>
-
-                                            </p>
-                                        </button>
-                                    </td>
-
-                                    <td width="1500"></td>
-                                    <td style="text-align: center" class="BBSHOP" width="500" height="120">
-                                        <button id="goCommunity"
-                                            style="background-color: rgba(255, 255, 255, 0); border: none">
-                                            <p align="center">
-                                                <font color="white"> <span style="font-size: 22pt;">COMMUNITY</span>
-                                                </font><br> <br>
-                                                <font color="white"><span style="font-size: 12pt;">Go Community</span>
-                                                </font>
-
-                                            </p>
-                                        </button>
-                                    </td>
-                                </tr>
+	                                    <td style="text-align: center" width="1000" height="100">
+											<!-- 여기서 버튼을 누르면 로그인 창이 뜬다. -->
+											<button id="goShop" class="button" style="width: 100%;">
+	                                            <p align="center">
+	                                                <font color="white"> <span style="font-size: 24pt;">SHOP</span></font>
+	                                                <br> <br>
+	                                                <font color="white"><span style="font-size: 14pt;">Go Shop</span></font>
+	
+	                                            </p>
+	                                        </button>
+	                                    </td>
+									<td width="1500"></td>
+									<td style="text-align: center" width="500" height="120">
+											<button id="goCommunity" class="button">
+												<p align="center">
+													<font color="white"> <span style="font-size: 22pt;">COMMUNITY</span>
+													</font><br> <br> <font color="white"><span
+														style="font-size: 12pt;">Go Community</span> </font>
+												</p>
+											</button>
+									</td>
+								</tr>
                             </tbody>
                         </table>
                     </td>
                 </tr>
-
             </tbody>
         </table>
 
@@ -361,8 +393,11 @@
                     <!--여기에 비회원 로그인할 컨트롤러 설정을 해야함.-->
                     <br>
                     <!-- 카카오 api 버튼 -->
-                    <div align="center">
-                    <Button id="kakao-login-btn" style="width:100% auto" onclick="location.href='http://developers.kakao.com/logout'"></Button>
+                    <div align="center" style="display: flex;">
+                    <Button id="kakao-login-btn" style="width:100% auto; background: transparent; border: 0;" onclick="location.href='http://developers.kakao.com/logout'"></Button>
+                    <Button id="naver-login-btn" style="width:100% auto; background: transparent; border: 0;">
+                    	<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/naver_login.PNG" width="222px" height="49px">
+                    </Button>					
 					</div>
 					<br>
 
@@ -742,7 +777,6 @@
     	
     	$("#noAccount").click(function(){
     		var toPage = $("#toPage").val();
-    		alert(toPage);
     		location.href="noAccount.do?toPage="+toPage;
     	})
     		
@@ -760,13 +794,13 @@
         			console.log("1: 중복이란다  0: 없는 아이디 란다 ="+data);
         			
         			if(data=='success'){
-        				$("#id_check").text("사용중이란다");
+        				$("#id_check").text("사용중입니다.");
         				$("#id_check").css("color","red");
         				$("#auth_Email").attr("disabled",true);
         				$("#sign_id").focus();
         				
         			}else {
-						$("#id_check").text("사용 가능하단다");
+						$("#id_check").text("사용 가능합니다.");
 						$("#id_check").css("color","green");
 						$("#auth_Email").attr("disabled",false);
 					}
@@ -801,12 +835,12 @@
     			console.log("success: 중복이란다  false: 없는 닉네임 이란다 ="+data);
     			
     			if(data=='success'){
-    				$("#nick_check").text("사용중이란다");
+    				$("#nick_check").text("사용중입니다.");
     				$("#nick_check").css("color","red");
     				$("#sign_nickname").focus();
     				
     			}else {
-					$("#nick_check").text("사용 가능하단다");
+					$("#nick_check").text("사용 가능합니다.");
 					$("#nick_check").css("color","green");
 					
 				}
@@ -824,7 +858,6 @@
     	if($('#sign_id').val()!=null &&$('#sign_pwd').val()!=null &&$('#sign_nickname').val()!=null && $('#sign_phone').val()!=null){
     		 
     		$('#sign_birth').blur(function(){
-    			 
     		
     			$sign_btn = $('#sign_btn').attr('disabled',false);
     		
@@ -846,7 +879,7 @@
     var emailcheck_Modal = document.getElementById('emailcheck');
         var emailAvailCheck = function () {
             var userid = $('input[id=sign_id]').val();
-            alert(userid);
+          
             if (userid == '') {
                 alert("메일 주소를 정확히 입력 해 주십시오");
                 return false;
@@ -870,7 +903,6 @@
     			data : {MEMBER_ID:userid},    			
     			dataType : "text",
     			success : function(authkey_rand){
-    				alert(authkey_rand);
     				//인증키를 authkey 변수에 넣어줌.
     				authkey=authkey_rand;
     			},
@@ -884,7 +916,7 @@
         var checkAuthkey = function(){
         	var insertkey = $('input[id=insertkey]').val();
         	if(authkey==insertkey){
-        		alert("인증키가 일치합니다OOOOOOOOO.")
+        		alert("인증키가 일치합니다.")
         		       		
         		emailcheck_Modal.style.display="none";
         		
@@ -977,7 +1009,7 @@
     			dataType : "text",
     			success : function(){
     				
-    				alert("통신완료!");
+    				alert("회원가입이 완료되었습니다!");
     			},
     			error:function(){
     				

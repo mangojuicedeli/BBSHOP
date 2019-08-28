@@ -1,9 +1,12 @@
 package com.bbshop.bit.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,9 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bbshop.bit.domain.Cart_GDVO;
+import com.bbshop.bit.domain.Gd_BallVO;
+import com.bbshop.bit.domain.Gd_BatVO;
 import com.bbshop.bit.domain.Gd_GloveVO;
+import com.bbshop.bit.domain.Gd_ShoesVO;
+import com.bbshop.bit.domain.Gd_UniformVO;
 import com.bbshop.bit.domain.GoodsQnaVO;
 import com.bbshop.bit.domain.GoodsVO;
 import com.bbshop.bit.domain.MoreDetailsVO;
@@ -52,19 +61,16 @@ public class GoodsController {
 	
 	// 상품 목록 페이지
 	@RequestMapping(value="/goods_list.do", method=RequestMethod.GET)
-	public String goods_list(@RequestParam(required=false, defaultValue="1") int category, PagingVO pagingVO, Model model) {
+	public String goods_list(@RequestParam(required=false, defaultValue="1") int category, Model model) {
 		
 		log.info("Controller...goods_list.jsp");
 		
 		System.out.println("컨트롤러에서의 category : " + category);
 		
-		// String id = (String)session.getAttribute("id");
-		
-		// id = "noAccount";
-		
 		model.addAttribute("categoryInt", category);
 		model.addAttribute("categoryString", service.category(category));
 		
+		PagingVO pagingVO = new PagingVO(1,8);
 		int total = service.getTotalCount(category);
 		
 		model.addAttribute("pageMaker", new PageDTO(pagingVO, total));
@@ -76,9 +82,10 @@ public class GoodsController {
 	@RequestMapping(value="/getGoodsList_Ajax.do", consumes="application/json")
 	@ResponseBody
 	public List<GoodsVO> getGoodsList_Ajax(@RequestBody Map<String, Object> map){
-		log.info("Controller...goods_list.jsp...goodsListAjax");
+		log.info("Controller...goods_list.jsp...goodsListAjax11111");
 		
 		System.out.println("컨트롤러에서의 map : " + map.toString());
+		System.out.println("하이하이1");
 		
 		String sorting = "";
 		String min_amount = "";
@@ -93,7 +100,6 @@ public class GoodsController {
 		pagingVO.setPageNum((int) map.get("pageNum"));
 		pagingVO.setAmount((int) map.get("amount"));
 		
-		
 		// 상품 상세인 경우 해당 값들이 전부 들어오지 않으므로 null 체크를 해준다.
 		if (map.get("sorting") != null) {
 			sorting = (String)map.get("sorting");
@@ -107,10 +113,6 @@ public class GoodsController {
 			max_amount = (String)map.get("max_amount");
 		}
 		
-		if (map.get("search") != null) {
-			search = (String)map.get("search");
-		}
-		
 		List<String> positions_list = new ArrayList<String>();
 		List<String> colors_list = new ArrayList<String>();
 		List<String> brands_list = new ArrayList<String>();
@@ -122,8 +124,8 @@ public class GoodsController {
 			pagingVO.setKeyword(search);
 		}
 		
-		if (map.get("postions") != null) {
-			positions_list = (List<String>)map.get("postions");
+		if (map.get("positions") != null) {
+			positions_list = (List<String>)map.get("positions");
 		}
 		
 		if (map.get("colors") != null) {
@@ -134,8 +136,9 @@ public class GoodsController {
 			brands_list = (List<String>)map.get("brands");
 		}
 		
-		int total = service.getTotalCountAjax(category, pagingVO, sorting, min_amount, max_amount, 
-				positions_list, colors_list, brands_list);
+// 구현은 민구님이 하셨으나, total을 쓰는곳이 없어서 노란줄떠있길래 주석처리 하였습니다.
+//		int total = service.getTotalCountAjax(category, pagingVO, sorting, min_amount, max_amount, 
+//				positions_list, colors_list, brands_list);
 		
 		
 		// 상세 검색이 아니면 빈 배열을 넘긴다.
@@ -146,7 +149,7 @@ public class GoodsController {
 			
 			System.out.println("db에서 불러온 goodsList : " + goods.toString());
 		}
-
+		System.out.println("하이하이");
 		return goodsList;
 	}
 	
@@ -161,7 +164,7 @@ public class GoodsController {
 		
 		PagingVO pagingVO = new PagingVO();
 		int qnaTotal = service.getQnaCount(goods_num);
-		int reviewTotal = service.getReviewCount(goods_num);
+		int reviewTotal = service.getReviewCount(goods_num, 0);
 
 		model.addAttribute("qnaPageMaker", new PageDTO(pagingVO, qnaTotal));
 		model.addAttribute("reviewPageMaker", new PageDTO(pagingVO, reviewTotal));
@@ -173,29 +176,14 @@ public class GoodsController {
 	
 	/* 상품 QNA 등록 */
 	@RequestMapping(value="/registerGoodsQna.do", method=RequestMethod.POST)
-	public String registerGoodsQna(GoodsQnaVO qna, int category, HttpSession session, Model model) {
+	public String registerGoodsQna(GoodsQnaVO qna, int category, HttpSession session, Model model) throws IOException {
 		log.info("Controller..insertGoodsQna...!");
 		
-		/* 세션 user_key 값 받아오기 
-		long user_key = (long)session.getAttribute("user_key");
-		String nickname = (String)session.getAttribute("nickname");
-		
-		// 비회원일 경우, 
-		if(nickname.substring(0,9).equals("noAccount")) {
-			// alert("로그인이 필요합니다") or 로그인모달 or 인덱스로 날려
-		}
-		// 회원일 경우,.
-		else {
-			long user_key = (long)session.getAttribute("user_key");
-			qna.setUser_key(user_key);
-		}			
-		*/
-		
-		// 합치기 전 임시 user_key
-		long user_key = 950131l;
+		// 회원일 경우, (비회원은 뷰단에서 js로 막아놓음!), QnaVO에 user_key 초기화
+		long user_key = (long)session.getAttribute("member");
 		qna.setUser_key(user_key);
 		
-		// qna insert
+		// insert
 		service.insertGoodsQna(qna);
 		
 		model.addAttribute("goods_num", qna.getGoods_num());
@@ -208,48 +196,68 @@ public class GoodsController {
 	// 상품QNA 목록 페이지 - ajax 데이터 뿌려주기 
 	@RequestMapping(value="/getQnaList_Ajax.do", consumes="application/json")
 	@ResponseBody
-	public List<GoodsQnaVO> getQnaList_Ajax(@RequestBody Map<String, Object> map){
+	public Map<String, Object> getQnaList_Ajax(@RequestBody Map<String, Object> map){
 		log.info("Controller...QNA_list.jsp...qnaListAjax");
 		
 		PagingVO pagingVO = new PagingVO();
 		pagingVO.setPageNum((int) map.get("pageNum"));
 		pagingVO.setAmount((int) map.get("amount"));
 		
-		long goods_num = (long) ((int)map.get("goods_num") * 1.0);
+		long goods_num = (int)map.get("goods_num");
+		
+		Map<String,Object> qnaMap = new HashMap<>();
 		
 		List<GoodsQnaVO> qnaList = service.getQnaList(pagingVO, goods_num);
+		qnaMap.put("qnaList", qnaList);
+		
+		int total = service.getQnaCount(goods_num);
+		qnaMap.put("total", total);
 
-		return qnaList;
+		return qnaMap;
 	}
 	
 	/* 상품 REVIEW 등록 */
 	@RequestMapping(value="/registerReview.do", method=RequestMethod.POST)
-	public String registerReview(ReviewVO review, int category, HttpSession session, Model model) {
-		log.info("Controller..insertGoodsQna...!");
+	public String registerReview(MultipartHttpServletRequest request, Model model) throws Exception {
+		log.info("Controller..insertReview...!");
 		
-		// 세션 user_key 값 받아오기 
-		long user_key = 0;
-		String nickname = "";
+		// ReviewVO를 새로 만들어서, request에서 받아온 값들을 하나하나 넣어준다.
+		ReviewVO review = new ReviewVO();
+		review.setTitle(request.getParameter("title"));
+		review.setContents(request.getParameter("contents"));
+		review.setScore(Long.parseLong(request.getParameter("score")));
+		review.setGoods_num(Long.parseLong(request.getParameter("goods_num")));
 		
-		// 비회원일 경우, 
-		if(nickname.substring(0,9).equals("noAccount")) {
-			// alert("로그인이 필요합니다") or 로그인모달 or 인덱스로 날려
-		} else {
-			
-			user_key = (long)session.getAttribute("user_key");
-			nickname = (String)session.getAttribute("nickname");
-		}
-		
-		// 합치기 전 임시 user_key
+		// 회원일 경우, (비회원은 뷰단에서 js로 막아놓음!), ReviewVO에 user_key 초기화
+		long user_key = (long)session.getAttribute("member");
 		review.setUser_key(user_key);
 		
-		log.info(review);
+		// 파일 불러오기
+		MultipartFile file = request.getFile("re_img");
 		
-		// review insert
+		// 실제 경로
+		String uploadPath = "C:\\Users\\nej96\\Desktop\\GitClone\\BBSHOP\\src\\main\\webapp\\resources\\shoppingMall\\img\\review\\";
+		
+		String originalFileExtension = file.getOriginalFilename();
+		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension;
+
+		// 암호화해서 파일을 저장한다.
+		if(file.getSize() != 0)
+			file.transferTo(new File(uploadPath + originalFileExtension));
+		
+		// img를 vo에 넣어주기
+		if(originalFileExtension.equals("")) {
+			review.setRe_img("");
+		}
+		else {
+			review.setRe_img("resources/shoppingMall/img/review/" + originalFileExtension);
+		}
+		
+		// 후기 테이블에 insert!
 		service.insertReview(review);
 		
 		model.addAttribute("goods_num", review.getGoods_num());
-		model.addAttribute("category", category);
+		model.addAttribute("category", request.getParameter("category"));
 		
 		return "redirect:goods_info.do";
 	}
@@ -257,20 +265,26 @@ public class GoodsController {
 	// 상품REVIEW 목록 페이지 - ajax 데이터 뿌려주기 
 	@RequestMapping(value="/getReviewList_Ajax.do", consumes="application/json")
 	@ResponseBody
-	public List<ReviewVO> getReviewList_Ajax(@RequestBody Map<String, Object> map){
+	public Map<String, Object> getReviewList_Ajax(@RequestBody Map<String, Object> map){
 		log.info("Controller...Review_list.jsp...reviewListAjax");
-		
+
 		PagingVO pagingVO = new PagingVO();
 		pagingVO.setPageNum((int) map.get("pageNum"));
 		pagingVO.setAmount((int) map.get("amount"));
 		
-		long goods_num = (long) ((int)map.get("goods_num") * 1.0);
+		long goods_num = (int)map.get("goods_num");
 		
 		int score = (int) map.get("score");
 		
-		List<ReviewVO> reviewList = service.getReviewList(pagingVO, goods_num, score);
+		Map<String,Object> reviewMap = new HashMap<>();
 
-		return reviewList;
+		List<ReviewVO> reviewList = service.getReviewList(pagingVO, goods_num, score);
+		reviewMap.put("reviewList", reviewList);
+		
+		int total = service.getReviewCount(goods_num, score);
+		reviewMap.put("total", total);
+
+		return reviewMap;
 	}
 	
 	// 상품REVIEW 별점 뿌려주는 부분 - ajax 데이터 뿌려주기 
@@ -279,7 +293,8 @@ public class GoodsController {
 	public ReviewDTO getReviewScore_Ajax(@RequestBody Map<String, Object> map){
 		log.info("Controller...Review_list.jsp...reviewListAjax");
 		
-		ReviewDTO reviewDTO = service.getReviewDTO((long)((int)map.get("goods_num")*1.0));
+		long goods_num = (int) map.get("goods_num");
+		ReviewDTO reviewDTO = service.getReviewDTO(goods_num);
 
 		return reviewDTO;
 	}
@@ -293,47 +308,40 @@ public class GoodsController {
 		long user_key = 0;
 		List<GoodsVO> recommendList = new ArrayList<GoodsVO>();
 		
-		// 세션 user_key 값 받아오기 
+		// 세션 nickname 값 받아오기 
 		String nickname = (String)session.getAttribute("nickname");
+		System.out.println("비회원 nickname : "+ nickname);
 				
 		// 비회원일 경우, 
-		if (nickname != null && nickname.length() > 10 && nickname.substring(0,9).equals("noAccount")) {
+		if (nickname != null && nickname.length() >= 10 && nickname.substring(0,9).equals("noAccount")) {
 			
 			recommendList = service.recommendBestList();
-				
+			
+			for (int i = 0; i < recommendList.size(); i++) {
+				System.out.println("추천 제품 목록 : " + recommendList.get(i).toString());
+			}
+			
 			model.addAttribute("recommendList", recommendList);
 			
 			return "shoppingMall/main/shopping_main";
 			
-		// 회원일 경우...
+		// 회원일 경우...session user_key를 가져온다.
 		} else {
 			user_key = (long)session.getAttribute("member");
 		}
 
+		// 추가사항 정보를 받아온다.
 		MoreDetailsVO moredetail = service.findDetail(user_key);
-
 		System.out.println("moredetail 추가 사항 객체 정보 : " + moredetail);
 
 		// 추가사항이 없을 경우 moredetail이 null이 되므로 null 체크 로직 추가.
-		if (moredetail != null) {
-		
+		if (moredetail == null) {
+			recommendList = service.recommendBestList();
+		}
+		else {
 			recommendList = service.recommendGoodsList(moredetail);
 		}
 		
-		if (recommendList != null) {
-
-			System.out.println("recommendList 객체 : " + recommendList.toString());
-
-			for (int i = 0; i < recommendList.size(); i++) {
-
-				System.out.println("추천 제품 목록 : " + recommendList.get(i).toString());
-			}
-
-		} else {
-
-			System.out.println("recommendList는 null입니다.");
-		}
-
 		model.addAttribute("recommendList", recommendList);
 
 		return "shoppingMall/main/shopping_main";
@@ -344,9 +352,11 @@ public class GoodsController {
 	public Map<String, Object> addGoodsToCart(@RequestBody Map<String, Object> map) {
 		
 		long user_key = (long)session.getAttribute("member");
+		
 		long goods_detail_num = 0;
 		
 		int goods_num = (int)map.get("goods_num"); // Integer는 long으로 형변환할 수 없다.
+		
 		int qty = Integer.parseInt((String)map.get("qty"));
 		int allPrice = 0;
 		
@@ -356,12 +366,28 @@ public class GoodsController {
 		// 상품 상세 번호를 구할 때 필요한 변수들
 		int category = (int)map.get("category");
 		int option1 = Integer.parseInt((String)map.get("option1"));
-		int option2 = Integer.parseInt((String)map.get("option2"));
 		
 		if (category == 1) {
-			
+			int option2 = Integer.parseInt((String)map.get("option2"));
 			Gd_GloveVO gd_GloveVO = orderService.getGloveOption(goods_num, option1, option2);
 			goods_detail_num = gd_GloveVO.getGLOVE_NUM();
+		}
+		else if(category == 2) {
+			Gd_BatVO gd_BatVO = orderService.getBatOption(goods_num, option1);
+			goods_detail_num = gd_BatVO.getBAT_NUM();
+		}
+		else if(category == 3) {
+			Gd_UniformVO gd_UniformVO = orderService.getUniformOption(goods_num, option1);
+			goods_detail_num = gd_UniformVO.getUNIFORM_NUM();
+		}
+		else if(category == 4) {
+			int option2 = Integer.parseInt((String)map.get("option2"));
+			Gd_ShoesVO gd_ShoesVO = orderService.getShoesOption(goods_num, option1, option2);
+			goods_detail_num = gd_ShoesVO.getSHOES_NUM();
+		}
+		else {
+			Gd_BallVO gd_BallVO = orderService.getBallOption(goods_num, option1);
+			goods_detail_num = gd_BallVO.getBALL_NUM();
 		}
 		
 		Map<String, Object> result = new HashMap<>();
@@ -373,7 +399,11 @@ public class GoodsController {
 		// 상품 상세 번호
 		// 상품 상세 객체(->번호)를 가지고 오는 로직이 의정이가 order에 구현해놓았음. 매퍼에는 임시로 1로 지정함.
 		
-		service.addGoodsToCart(goods, qty, user_key, goods_detail_num);
+		// 적립금 구하기
+		int savings = service.getSavings(goods.getPrice()*qty, user_key);
+		
+		// 장바구니 테이블에 insert
+		service.addGoodsToCart(goods, qty, user_key, goods_detail_num, savings);
 		
 		result.put("goods", goods);
 		result.put("qty", qty);
@@ -393,6 +423,7 @@ public class GoodsController {
 			
 			allPrice += cart_list.get(i).getTOTALPRICE();
 		}
+	
 		
 		result.put("allPrice", allPrice);
 		result.put("goods_list",goods_list);

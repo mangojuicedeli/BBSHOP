@@ -53,13 +53,16 @@ public interface GoodsService {
 	public List<ReviewVO> getReviewList(PagingVO pagingVO, long goods_num, int score);
 	
 	/* 상품 별, REVIEW 글 개수 */
-	public int getReviewCount(long goods_num);
+	public int getReviewCount(long goods_num, int score);
 	
 	/* 상품 별, 리뷰평균점수, 리뷰개수, 별점 별 리뷰 개수 등.. DTO를 반환 */
 	public ReviewDTO getReviewDTO(long goods_num);
 
 	
 	
+	
+	/* 적립금 구하기 */
+	public int getSavings(long price, long user_key);
 
 	/* user_key를 이용해 moredetail을 가져온다.*/
 	public MoreDetailsVO findDetail(long user_key);
@@ -71,7 +74,7 @@ public interface GoodsService {
 	public List<GoodsVO> recommendBestList();
 
 	// 장바구니 목록에 상품 넣는 메소드
-	public void addGoodsToCart(GoodsVO goods, int qty, long user_key, long goods_detail_num);
-
+	public void addGoodsToCart(GoodsVO goods, int qty, long user_key, long goods_detail_num, int savings);
+;
 	
 }

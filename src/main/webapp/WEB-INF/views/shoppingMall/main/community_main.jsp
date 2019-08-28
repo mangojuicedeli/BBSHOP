@@ -37,7 +37,7 @@
 <body>
 	<section class="section visit-section" id="next-section">
 		<div
-			style="background-color: #70e270; width: 100%; min-height: 200px;">
+			style="background-color: #57c051; width: 100%; min-height: 200px;">
 			<table align="center">
 				<!-- 전체 게시판으로 이동 -->
 				<tr>

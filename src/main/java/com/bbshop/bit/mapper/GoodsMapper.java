@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.bbshop.bit.domain.Cart_GDVO;
 import com.bbshop.bit.domain.GoodsQnaVO;
 import com.bbshop.bit.domain.GoodsVO;
 import com.bbshop.bit.domain.MoreDetailsVO;
@@ -50,13 +51,11 @@ public interface GoodsMapper {
 	public List<ReviewVO> getReviewList(HashMap<String, Object> map);
 	
 	// 상품 별, REVIEW 글 개수
-	public int getReviewCount(long goods_num);
+	public int getReviewCount(@Param("goods_num") long goods_num, @Param("score") long score);
 	
 	// 상품 별, REVIEW 점수 평균
 	public double getReviewAvg(long goods_num);
 	
-	// 상품 별, 별점 별 REVIEW 글 개수
-	public int getScoreCount(@Param("goods_num") long goods_num, @Param("score") long score);
 	
 	
 	
@@ -64,6 +63,9 @@ public interface GoodsMapper {
 	
 	// user_key로 nickname 가져오기
 	public String getNickName(long user_key);
+	
+	// user_key로 등급 가져오기
+	public String getGrade(long user_key);
 	
 	
 	
@@ -84,5 +86,6 @@ public interface GoodsMapper {
 
 	// 장바구니 목록에 상품을 넣는 메소드
 	public void addGoodsToCart(@Param("goods") GoodsVO goods, @Param("qty") int qty, @Param("user_key") long user_key
-			, @Param("goods_detail_num") long goods_detail_num);
+			, @Param("goods_detail_num") long goods_detail_num, @Param("savings") int savings);
+
 }

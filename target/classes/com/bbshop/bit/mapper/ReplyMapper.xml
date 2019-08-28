@@ -6,11 +6,13 @@
 <mapper namespace="com.bbshop.bit.mapper.ReplyMapper">
 
 	<insert id="insertReply" parameterType="com.bbshop.bit.domain.ReplyVO">
-		<selectKey keyProperty="seq_reply" resultType="int" order="BEFORE">
+
+		<selectKey keyProperty="reply_num" resultType="int" order="BEFORE">
 			SELECT seq_reply.nextval FROM DUAL
 		</selectKey>
-		INSERT INTO cm_comment(reply_num, reply_content, board_num, writer, user_key) 
-		VALUES(seq_reply.nextval, #{reply_content, jdbcType=VARCHAR}, #{board_num, jdbcType=NUMERIC}, #{writer ,jdbcType=VARCHAR}, 1)
+		INSERT INTO cm_comment
+		VALUES(#{reply_num}, #{reply_content, jdbcType=VARCHAR}, sysdate, 0, #{board_num, jdbcType=NUMERIC}, #{user_key}, sysdate, #{writer ,jdbcType=VARCHAR})
+
 	</insert>
 	
 	<select id="readReply" parameterType="long" resultType="com.bbshop.bit.domain.ReplyVO">

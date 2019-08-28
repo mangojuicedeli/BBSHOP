@@ -1,23 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="../include/community_header.jsp"%>
+<%@ include file="../include/community_header2.jsp"%>
 <jsp:useBean id="today" class="java.util.Date"/>
 
 <!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+<script src="http://demo.dongledongle.com/Scripts/jquery-1.10.2.min.js"></script>
+<script src="http://demo.dongledongle.com/Scripts/jquery.signalR-2.2.1.min.js"></script>
 
 <%
+	String title = (String) request.getAttribute("title");
+	ArrayList<String> list_text = (ArrayList<String>) request.getAttribute("list_text");
+	ArrayList<String> list_link = (ArrayList<String>) request.getAttribute("list_link");
 	String url = request.getRequestURL().toString() + "?BOARD_NUM=" + request.getParameter("BOARD_NUM");
 %>
 
 <style>
+.genric-btn.default{
+background: #57c051;
+border: 1px solid #57c051;
+/* color: #ffffff; */
+}
+.genric-btn.danger:hover{
+color: #ffffff;
+background: #f44a40;
+}
 body {
 	font-size: 17px;
 	font-weight: bold;
 }
-
+b, sup, sub, u, del{
+color:#2d8b28;
+}
 .comments-area .btn-report {
 	background-color: #fff;
 	color: #222222;
@@ -28,7 +45,12 @@ body {
 	font-weight: 600;
 	transition: all 300ms linear 0s;
 }
-
+.comments-area{
+padding-top:0px;
+padding-bottom:0px;
+background: none;
+border: #f7f7ff
+}
 .report_modal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
@@ -99,6 +121,169 @@ body {
 	font-weight: bold;
 	color: white !important;
 }
+
+#wrapper {
+  display: flex;
+}
+
+caption, .date {
+	display: none;
+}
+
+.scoreBoard table {
+	width: 100%;
+}
+
+ul.list_news li a {
+	target: _blank;
+}
+
+#message:focus {
+	outline: none;
+}
+
+thead tr {
+	background: #e6e6e6;
+}
+
+a {
+	color: #777777;
+}
+
+/* 채팅 ui */
+img{ max-width:100%;}
+.inbox_people {
+  background: #f8f8f8 none repeat scroll 0 0;
+  float: left;
+  overflow: hidden;
+  width: 40%; border-right:1px solid #c4c4c4;
+}
+.inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+}
+.top_spac{ margin: 20px 0 0;}
+
+
+.recent_heading {float: left; width:40%;}
+.srch_bar {
+  display: inline-block;
+  text-align: right;
+  width: 60%; padding:
+}
+.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+
+.recent_heading h4 {
+  color: #05728f;
+  font-size: 21px;
+  margin: auto;
+}
+.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+.srch_bar .input-group-addon button {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  padding: 0;
+  color: #707070;
+  font-size: 18px;
+}
+.srch_bar .input-group-addon { margin: 0 0 0 -27px;}
+
+.chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+.chat_ib h5 span{ font-size:13px; float:right;}
+.chat_ib p{ font-size:14px; color:#989898; margin:auto}
+.chat_img {
+  float: left;
+  width: 11%;
+}
+.chat_ib {
+  float: left;
+  padding: 0 0 0 15px;
+  width: 88%;
+}
+
+.chat_people{ overflow:hidden; clear:both;}
+.chat_list {
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0;
+  padding: 18px 16px 10px;
+}
+.inbox_chat { height: 550px; overflow-y: scroll;}
+
+.active_chat{ background:#ebebeb;}
+
+.incoming_msg_img {
+  display: inline-block;
+  width: 6%;
+}
+.received_msg {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 92%;
+ }
+ .received_withd_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+.time_date {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+.mesgs {
+  float: left;
+  width: 100%;
+}
+
+ .sent_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0; color:#fff;
+  padding: 5px 10px 5px 12px;
+  width:100%;
+}
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.sent_msg {
+  float: right;
+  width: 46%;
+}
+.input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+.msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 11px;
+  width: 33px;
+}
+.messaging { padding: 0 0 50px 0;}
+.msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
 </style>
 
 <body>
@@ -107,39 +292,49 @@ body {
 	<section class="cat_product_area section_gap">
 		<div class="container-fluid">
 			<div class="row flex-row-reverse">
-				<div class="col-lg-9" style="margin-left:auto;margin-right:auto;">
+				<div class="col-lg-9" style="margin-left: auto; margin-right: auto;">
 					<div class="single-post row">
-
 						<div class="col-lg-12  col-md-12">
 							<div class="blog_info text-left" style="padding-top: 0px;">
 								<ul class="blog_meta list">
 									<li>
 										<table>
-											<tr>
-												<td>
-													<h2><b>[<c:out value="${post.TEAM_NAME}"/>]</b><c:out value="${post.TITLE}" /></h2>
-												</td>
-											</tr>
+											<tbody>
+												<tr>
+													<td>
+														<h2>
+															<b>[<c:out value="${post.TEAM_NAME}" />]
+															</b>
+															<c:out value="${post.TITLE}" />
+														</h2>
+													</td>
+												</tr>
+											</tbody>
 										</table>
 									</li>
 									<li></li>
 									<li>
 										<table>
 											<tr>
-												<td><p class="bno" style="margin-right: 10px;">글
-														번호: <c:out value="${post.BOARD_NUM}" /></p></td>
+												<td><p class="bno" style="margin-right: 10px;">
+														글 번호:
+														<c:out value="${post.BOARD_NUM}" />
+													</p></td>
 												<td><p class="title" style="margin-right: 10px;">
-														<i class="lnr lnr-user"></i> <c:out value="${post.WRITER}" />
+														<i class="lnr lnr-user"></i>
+														<c:out value="${post.WRITER}" />
 													</p></td>
 												<td>
 													<p class="regdate" style="margin-right: 10px;">
-														<i class="lnr lnr-calendar-full"></i> <fmt:formatDate pattern="yyyy-MM-dd"
-														value="${post.REGDATE}" />
+														<i class="lnr lnr-calendar-full"></i>
+														<fmt:formatDate pattern="yyyy-MM-dd"
+															value="${post.REGDATE}" />
 													</p>
 												</td>
 												<td>
 													<p class="hit" style="margin-right: 10px;">
-														<i class="lnr lnr-eye"></i><c:out value="${post.HIT}" />
+														<i class="lnr lnr-eye"></i>
+														<c:out value="${post.HIT}" />
 													</p>
 												</td>
 											</tr>
@@ -148,15 +343,35 @@ body {
 								</ul>
 							</div>
 						</div>
-
 						<div class="col-lg-9 col-md-9 blog_details"
-							style="min-width: 100%;margin-bottom:20px;">
+							style="min-width: 100%; margin-bottom: 20px; height: 250px; border-bottom: black;">
 							<c:out value="${post.BOARD_CONTENT}" />
-
 						</div>
 					</div>
-					<div class="fileUpload-area"
-						style="border-top: 0.5px solid; border-color: #6c757d6b;">
+					<!-- 이전글 다음글 버튼 -->
+					<div class="navigation-area" style="margin-top: 0px; width: 100%;">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+								<div class="thumb" style="width: 100%;">
+									<a
+										href="/communityGetPrevPostNumAction.do?
+									TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
+									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>">
+										<img class="img-fluid"
+										src="resources/shoppingMall/img/left_arrow.png" alt=""
+										style="width: 30px; float: left;">
+									</a> <a
+										href="/communityGetNextPostNumAction.do?TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
+									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>"><img
+										class="img-fluid"
+										src="resources/shoppingMall/img/right_arrow.png" alt=""
+										style="width: 30px; float: right;"> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 이전글 다음글 버튼 끝 -->
+					<div class="fileUpload-area" style="border-top: 0.5px solid; border-color: #6c757d6b;">
 						<table style="width: 100%; margin-top: 15px;">
 							<tr>
 								<td><p>
@@ -165,140 +380,113 @@ body {
 										<a href='#'>${post.UPLOADFILE}</a>
 										</c:if>
 									</p></td>
-								<td style="float: right;"><a
-									class="genric-btn primary small" id="reportBtn0"
-									style="float: right; padding: 0 20px;" onclick="report(0)"> 신고하기</a></td>
+								<td style="float: right;">
+								<a href="/community_modify.do?BOARD_NUM=<c:out value="${post.BOARD_NUM}"/>"
+									id="modify_post" class="genric-btn primary radius"
+									style="background-color: #57c051;">수정</a>
+								<a id="delete_post" class="genric-btn primary radius"
+									style="background-color: #f44a40;">삭제</a>
+								<a class="genric-btn primary radius" id="reportBtn0"
+									style="background-color: #a03730;"
+									onclick="report(0)">신고</a>
+								<a href="/community_list.do?TEAM_NAME=<c:out value="${post.TEAM_NAME}"/>"
+									id="go_list" class="genric-btn primary radius"
+									style="background-color: #827b7b;">목록</a>
+								</td>
 							</tr>
 						</table>
 					</div>
 
-					<div class="comments-area">
-						<div class="comment-list-write" style="padding-bottom:48px;">
-							<div class="single-comment justify-content-between d-flex"
-								style="border-bottom: 1.5px solid #eee;">
-								<div class="user justify-content-between d-flex" style="min-width:100%;">
-									<div class="desc" style="min-width:100%;">
-										<h5 id="reply_writer">글쓴이</h5>
-										<p class="write_date" style="font-size:13px;color:#cccccc;margin-bottom:13px;">
+					<div class="comment-list-write">
+						<div class="single-comment justify-content-between d-flex"
+							style="border-bottom: 1.5px solid #eee;">
+							<div class="user justify-content-between d-flex"
+								style="min-width: 100%;">
+								<div class="desc" style="min-width: 100%; margin-top: 10px; margin-bottom: 40px;">
+									<h5 id="reply_writer" style="padding-top: 10px;">테스터</h5>
+									<p class="write_date"
+										style="font-size: 13px; color: #cccccc; margin-bottom: 13px;">
 										<!-- sysdate 받아와야 함 -->
-										<fmt:formatDate pattern="yyyy-MM-dd" value="${post.REGDATE}" /></p>
-										<input type="text" name="reply_content"
-											id="reply_content" style="width: 100%; height: 100px;" />
-										<div class="reply-btn">
-											<a class="genric-btn primary small" id="reply_submit"
-												style="float: right; padding: 0 20px; margin-top: 20px; margin-bottom: 30px;">등록</a>
+										<fmt:formatDate pattern="yyyy-MM-dd" value="${post.REGDATE}" />
+									</p>
+									<div id="wrapper">
+										<div style="order: 1; width: 100%;">
+											<input type="text" name="reply_content" id="reply_content" placeholder="댓글을 입력하세요." style="width: 100%; height: 100px;" />
+										</div>
+										<div class="reply-btn" style="float: left; order: 2; text-align: center;">
+											<input type="button" class="genric-btn primary radius" id="reply_submit" style="background-color: #57c051; height: 100%;" value="등록"/>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+					</div>
+
+					<div class="comments-area">
 						<!-- 댓글 -->
-						
 						<h4 id="getComments"></h4>
-						<div class="comment-list-show">
+						<div class="comment-list-show"></div>
+					</div>
 
-						</div>
-						<div class="panel-footer">
-						
-						</div>
-					</div>
-					<!-- 이전글 다음글 버튼 -->
-					<div class="navigation-area" style="margin-top: 0px; width: 100%;">
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-								<div class="thumb" style="width:100%;">
-									<a href="/communityGetPrevPostNumAction.do?
-									TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
-									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>"> <img class="img-fluid"
-										src="resources/shoppingMall/img/left_arrow.png" alt=""
-										style="width: 30px;float:left;">
-									</a> <a href="/communityGetNextPostNumAction.do?TEAM_NAME=<c:out value='${post.TEAM_NAME}'/>
-									&BOARD_NUM=<c:out value='${post.BOARD_NUM}'/>"><img class="img-fluid"
-										src="resources/shoppingMall/img/right_arrow.png" alt=""
-										style="width: 30px;float:right;">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 이전글 다음글 버튼 끝 -->
-
-					<!-- 수정, 삭제, 목록보기 버튼 -->
-					<div style="width: 100%;">
-						<div class="button-group-area mt-40">
-							<a href="/community_list.do?TEAM_NAME=<c:out value="${post.TEAM_NAME}"/>" id="go_list"
-								class="genric-btn primary radius" style="margin-left:35%">목록보기</a>
-							<a href="/community_modify.do?BOARD_NUM=<c:out value="${post.BOARD_NUM}"/>" id="modify_post"
-								class="genric-btn primary radius">수정</a> <a id="delete_post"
-								class="genric-btn primary radius" style="float: right;" >삭제</a>
-						</div>
-					</div>
-					<!-- 수정, 삭제, 목록보기 버튼 끝 -->
+					<div class="panel-footer"></div>
 				</div>
 
 				<!-- 왼쪽 사이드 바 -->
-				<div class="col-lg-2" style="margin-right:auto; margin-left:auto;">
+				<div class="col-lg-3" style="margin-right: auto; margin-left: auto;">
 					<div class="left_sidebar_area">
 						<aside class="left_widgets cat_widgets">
-							<div class="l_w_title"
-								style="text-align: center; background: white;">
-								<h3
-									style="font-size: 20px; font-weight: bold; color: lightcoral;">순위보기</h3>
-								<p>
-									SK <br> 키움 <br> 두산 <br> LG <br> NC <br>
-									KT <br> 삼성 <br> KIA <br> 한화 <br> 롯데 <br>
-							</div>
-							<div class="widgets_inner">
-								<p>
+							<div style="text-align: center; background: white; padding-bottom: 20px;">
+								<h3 style="font-size: 24px; font-weight: bold; color: lightcoral; text-align: center;">KBO리그 순위</h3>
+								${element}
 							</div>
 						</aside>
-						<aside class="left_widgets p_filter_widgets">
-							<div class="l_w_title">
-								<h3
-									style="text-align: center; font-size: 17px; font-weight: bold; color: lightcoral;">스포츠
-									뉴스</h3>
+					</div>
+					<!-- 채팅방 -->
+					<div class="name" style="height: 50px; background: #57c051; margin-top: 50px; color: #fff; text-align: center; line-height: 1.9em; font-size: 24px">
+							BB 채팅방</div>
+					<div class="mesgs">
+						<input type="hidden" id="userid" value="${nickname }">
+						<ul id="discussion" style="width: 100%; height: 500px; border: 4px solid #d7e2d4; margin: auto; padding-left: 0px; background: #fff;"></ul>
+						<div class="type_msg">
+							<div class="input_msg_write">
+								<input type="text" class="write_msg" id="message" placeholder="메세지를 입력하세요." onkeyup="enterkey()">
+								<button class="msg_send_btn" id="btnSend" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+								</button>
 							</div>
-							<div class="widgets_inner">
-								<ul>
-									<li><p>크롤링 구현 예정입니다.</p></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=144&aid=0000621625">
-											[단독] 프로야구선수협, FA ‘4년 80억’ 상한제 수용키로</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=109&aid=0004052054">
-											"이명기는 통산 타율 3할 타자" 트레이드 효과는 이제부터</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=076&aid=0003443645">
-											[SC집중분석]레전드 넘어서는 최정. 467홈런 이승엽 넘기가 가능할까</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=468&aid=0000536149">
-											한선태가 새긴 유강남의 조언 "마운드에선 네가 왕이다"</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=382&aid=0000747370">
-											완전체 앞둔 LG 타선, 새로운 고민 된 외야 조합</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=241&aid=0002938146">
-											LG 윌슨·켈리, '1989년생·9승·원투펀치' 복덩이</a></li>
-									<li><a
-										href="https://sports.news.naver.com/kbaseball/news/read.nhn?oid=241&aid=0002938915">
-											'왕조의 연결고리' 김강민이 말하는 2019년의 SK</a></li>
-								</ul>
-							</div>
-						</aside>
+						</div>
+					</div>
+				</div>
+				<!-- 뉴스 크롤링 -->
+				<div class="col-lg-12" style="margin-top: 40px;">
+					<div class="l_w_title">
+						<h3 style="text-align: center; font-size: 17px; font-weight: bold; color: lightcoral;">스포츠
+							뉴스</h3>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div>
+						<p style="text-align: center;">해외야구</p>
+						${element2}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div>
+						<p style="text-align: center;">국내야구</p>
+						${element1}
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	
-		<!-- ===============신고 모달 Area ==================== -->
+
+	<!-- ===============신고 모달 Area ==================== -->
 	<div class="modal fade" id="report_modal" tabindex="-1" role="dialog"
 		aria-labelledby="report_modal_label" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" style="width:30%;margin:8% auto;">
 				<div class="modal-header">
-					<h2 class="text-black" style="font-weight: bold">신고하기</h2>
+					<h2 class="text-black" style="font-weight: bold;">신고하기</h2>
 					<span class="close" data-dismiss="modal">&times;</span>
 				</div>
 				<div class="modal-body" style="margin-left:3%">
@@ -310,19 +498,19 @@ body {
 								<div class="form-group row">
 					<table>
 						<tr class="report_content">
-							<td><p>작성자:</p></td>
+							<td><p style="margin-bottom: 0px;">작성자:</p></td>
 							<td><input type="text" name="WRITER"
 								class="form-control" id="WRITER" readonly /></td>
 						</tr>
 						<tr>
-							<td><p>신고 내용 주소:</p></td>
+							<td><p style="margin-bottom: 0px;">신고 내용 주소:</p></td>
 							<td><input type="text" name="URI" class="form-control" style="width:140%;"
 								value=<%=url %> readonly /></td>
 							
 						</tr>
 
 						<tr>
-							<td><p>신고 카테고리:</p></td>
+							<td><p style="margin-bottom: 0px;">신고 카테고리:</p></td>
 							<td><select class="nice-select" name="RE_CATEGORY">
 									<option value="header">신고사유</option>
 									<option value="swear">욕설</option>
@@ -338,9 +526,9 @@ body {
 					</div>
 				</div>
 				<div class="modal-footer" align="center">
+					<button class="genric-btn default radius" id="submitReport">제출</button>
 					<button type="button" class="genric-btn danger radius"
 						data-dismiss="modal">닫기</button>
-					<button class="genric-btn default radius" id="submitReport">제출</button>
 				</div>
 			</div>
 		</div>
@@ -361,7 +549,7 @@ body {
 		showList(-1);
 		
 		// 글 상세 > 글 삭제버튼 클릭 시 동작
-	    $("#delete_post").click(function(){                
+	    $("#delete_post").click(function(){
 	    	if(confirm("글을 삭제하시겠습니까?") == true){
 	    		location.href="/communityDeleteAction.do?BOARD_NUM=<c:out value="${post.BOARD_NUM}"/>&TEAM_NAME=<c:out value="${post.TEAM_NAME}"/>"    
 	    	} else{
@@ -388,6 +576,7 @@ body {
 				// 댓글이 없는 경우
 				if(list == null || list.length == 0){
 					replyDIV.html("<p style='text-align:center;'>등록된 댓글이 없습니다.</p>");
+					totalCommentNumH4.empty();
 					return;
 				}
 				for(var i = 0, len = list.length || 0; i < len; i++){
@@ -404,35 +593,42 @@ body {
 					str += "</div>";
 					str += "</div>";
 					str += "<div class='reply-btn'>";
-					str += "<a class='genric-btn primary small'";
-					str += "id='reportBtn"+list[i].reply_num+"'";
-					str += "style='float: right; padding: 0 20px'";
-			//		str += "href='.report_modal'";
-			//		str += "data-toggle='modal'"
-			//		str += ">신고하기</a>";
-					str += "onclick='report("+list[i].reply_num+")'>신고하기</a>";
-					str += "<a class='genric-btn primary small'";
-					str += "style='font-weight: bold;font-size:17px;'"
-					str += "onclick='modify("+list[i].reply_num+")'>수정</a>";
+					str += "<a class='lnr lnr-pencil' ";
+					str += "data-toggle='tooltip' title='수정' ";
+					str += "style='font-weight: bold; padding-right: 20px;'"
+					str += "onclick='modify("+list[i].reply_num+")'></a>";
+					str += "<a class='lnr lnr-trash' ";
+					str += "data-toggle='tooltip' title='삭제' ";
+					str += "style='font-weight: bold; padding-right: 20px;' "
+					str += "id='"+list[i].reply_num+"delete_replyBtn' ";
+					str += "onclick='delete_board("+list[i].reply_num+")'></a>";
+					str += "<a class='lnr lnr-flag' ";
+					str += "data-toggle='tooltip' title='신고' ";
+					str += "id='reportBtn"+list[i].reply_num+"' ";
+					str += "style='font-weight: bold;' ";
+					str += "onclick='report("+list[i].reply_num+")'></a>";
 					str += "</div>";
 					str += "</div>";
+					str += "<div id='wrapper' style='margin-bottom: 28px;'>";
 					str += "<input type='text'";
 					str += "class='"+list[i].reply_num+"content'";
-					str += "style='margin-bottom:20px;width:50%;padding-bottom:20px;display:none;'>";
-					str += "<button class='genric-btn danger radius'";
-					str += "id='"+list[i].reply_num+"delete_replyBtn'";
-					str += "style='display:none;float:right;line-height:24px;margin-top:3%;margin-right:20%;'>삭제</button>"
+					str += "style='order:1;width:50%;padding-bottom:20px;display:none;'>";
 					str += "<button type='submit'";
 					str += "class='genric-btn default radius'";
 					str += "id='"+list[i].reply_num+"modify_replyBtn'";
-					str += "style='display:none;float:right;line-height:24px;margin-top:3%;'>수정</button>"
-					str += "</div>";
+					str += "style='order:2;display:none;line-height:24px;'>수정</button>"
+					str += "</div></div>";
 				}
-				str2 += "<h4 id='getComments'>"+replyCnt+" Comments</h4>"
+				str2 += "<h4 id='getComments'>댓글 "+replyCnt+"개</h4>"
 				replyDIV.html(str);
 				totalCommentNumH4.html(str2);
 				showReplyPage(replyCnt);
 			}); // end function
+			
+			$(document).ready(function(){
+				
+				$('[data-toggle="tooltip"]').tooltip();   
+			});
 		} // end showList
 		
 		// 댓글 추가
@@ -471,13 +667,13 @@ body {
 			
 		//	$("."+reply_num+"content").toggle();
 		
-		$("."+reply_num+"content").toggle();
-		$("#"+reply_num+"delete_replyBtn").toggle();
-		$("#"+reply_num+"modify_replyBtn").toggle();
+			$("."+reply_num+"content").toggle();
+			$("#"+reply_num+"modify_replyBtn").toggle();
 
 			var modalInputContent = $("."+reply_num+"content");
 			
 			replyService.get(reply_num, function(reply){
+				
 				modalInputContent.val(reply.reply_content);
 			});
 			
@@ -486,7 +682,6 @@ body {
 			// 수정하기 버튼 
 			
 			$("#"+reply_num+"modify_replyBtn").on("click", function(e){
-				
 				
 				if(confirm("댓글을 수정하시겠습니까?") == true){
 					var reply = {reply_num : reply_num, reply_content : modalInputContent.val()};
@@ -500,85 +695,84 @@ body {
 				}
 					 
 			}) // end $("#modify_replyBtn").onclick
-				
-			// 댓글 수정 버튼 > input 태크 toggle > 삭제 버튼
-			$("#"+reply_num+"delete_replyBtn").on("click", function(e){
-				
-				if(confirm("댓글을 삭제하시겠습니까?") == true){
-						
-				replyService.remove(reply_num, function(result){
-					showList(pageNum);
-				 });
-				} else{
-					return false;
-				}
-					 
-			})	 // end $("#delete_replyBtn").onclick	
 			
 		} // end function modify;
 		
+
+		function delete_board(reply_num) {
+
+			if (confirm("댓글을 삭제하시겠습니까?") == true) {
+
+				replyService.remove(reply_num, function(result) {
+					showList(pageNum);
+				});
+
+			} else {
+				return false;
+			}
+		}
+
 		// .panel-footer에 페이지 번호 출력하는 로직
 		var pageNum = 1;
 		var replyPageFooter = $(".panel-footer");
-		
-		function showReplyPage(replyCnt){
-			
-			var endNum = Math.ceil(pageNum/10.0) * 10;
-			var startNum = endNum -9;
-			
+
+		function showReplyPage(replyCnt) {
+
+			var endNum = Math.ceil(pageNum / 10.0) * 10;
+			var startNum = endNum - 9;
+
 			var prev = startNum != 1;
 			var next = false;
-			
-			if(endNum * 10 >= replyCnt){
-				endNum = Math.ceil(replyCnt/10.0);
+
+			if (endNum * 10 >= replyCnt) {
+				endNum = Math.ceil(replyCnt / 10.0);
 			}
-			
-			if(endNum * 10 < replyCnt){
+
+			if (endNum * 10 < replyCnt) {
 				next = true;
 			}
-			
-			var str = "<ul class='pagination pull-right'>";
-			
-			if(prev){
-				str += "<li class = 'page-item'><a class='page-link' href='"+(startNum - 1)+"'>Previous</a></li>";
+
+			var str = "<ul class='pagination'>";
+
+			if (prev) {
+				str += "<li class='page-item' style='margin-left: auto; margin-right: auto; margin-top: 20px;'><a class='page-link' href='"
+						+ (startNum - 1) + "'>Previous</a></li>";
 			}
-			
-			for(var i = startNum ; i<= endNum; i++){
-				
-				var active = pageNum == i ? "active":"";
-				
-				str += "<li class='page-item " + active + " '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+
+			for (var i = startNum; i <= endNum; i++) {
+
+				var active = pageNum == i ? "active" : "";
+
+				str += "<li class='page-item " + active + " ' style='margin-left: auto; margin-right: auto; margin-top: 20px;'><a class='page-link' href='"+i+"'>"
+						+ i + "</a></li>";
 			}
-			
-			if(next){
-				str += "<li class='page-item'><a class='page-link' href='"+(endNum + 1) +"'>Next</a></li>";
+
+			if (next) {
+				str += "<li class='page-item' style='margin-left: auto; margin-right: auto; margin-top: 20px;'><a class='page-link' href='"
+						+ (endNum + 1) + "'>Next</a></li>";
 			}
-			
+
 			str += "</ul></div>";
-			
+
 			replyPageFooter.html(str);
 		} // end showReplyPage
-		
+
 		// 페이지의 번호를 클릭했을 때 새로운 댓글 가져오는 부분
-		
-		replyPageFooter.on("click","li a", function(e){
-			
+
+		replyPageFooter.on("click", "li a", function(e) {
+
 			e.preventDefault();
-			
+
 			var targetPageNum = $(this).attr("href");
-			
+
 			pageNum = targetPageNum;
-			
+
 			showList(pageNum);
 		}); // end replyPageFooter onclick
 	</script>
 	
 	<!-- 신고하기 버튼 처리 -->
 	<script>
-		
-//	$('#report_modal').on("show.bs.modal", function (event) {
-//		alert('hi');
-//	})
 
 	function report(num){
 	
@@ -613,10 +807,101 @@ body {
     		return false;
     	}
     });
+	</script>
+	
+	<script>
+	$('ul.list_news li a').attr('target', '_blank');
+	
+	$(document).ready(function(){
+		
+		$('[data-toggle="tooltip"]').tooltip();   
+	});
+	</script>
+	
+	<!-- HTML WebSocket 채팅 -->
+	<script type="text/javascript">
+        var connection = $.hubConnection('http://demo.dongledongle.com/');
+        var chat = connection.createHubProxy('chatHub');
+        var sentMsg = '';
 
+        $(document).ready(function () {
+
+            chat.on('addNewMessageToPage', function (name, message) {
+            	
+            	var currDate = new Date();
+            	
+            	if (htmlEncode(name) == '${nickname}') {
+            		
+	            	sentMsg += '<div class="outgoing_msg">';
+	            	sentMsg += '<div class="sent_msg">';
+	            	sentMsg += '<p>' + htmlEncode(message) + '</p>';
+	            	sentMsg += '<span class="time_date">' + htmlEncode(name) + " " + getTimeStamp() + '</span>';
+	            	sentMsg += '</div></div>';
+            	
+            	} else {
+
+            		sentMsg += '<div class="incoming_msg">';
+	            	sentMsg += '<div class="received_msg">';
+	            	sentMsg += '<div class="received_withd_msg">';
+	            	sentMsg += '<p>' + htmlEncode(message) + '</p>';
+	            	sentMsg += '<span class="time_date">' + htmlEncode(name) + " " + getTimeStamp() + '</span>';
+	            	sentMsg += '</div></div></div>';
+            	}
+            	
+                $('#discussion').append(sentMsg);
+                sentMsg = '';
+            });
+
+            $('#message').focus();
+
+            connection.start({ jsonp: true }).done(function () {
+
+                $('#btnSend').click(function () {
+                    chat.invoke('send', $('#userid').val(), $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+        });
+
+        // 시간 포맷 함수
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+		function getTimeStamp() {
+			
+			var d = new Date();
+			var s = leadingZeros(d.getFullYear(), 4) + '-'
+					+ leadingZeros(d.getMonth() + 1, 2) + '-'
+					+ leadingZeros(d.getDate(), 2) + ' ' 
+					+ leadingZeros(d.getHours(), 2) + ':'
+					+ leadingZeros(d.getMinutes(), 2) + ':'
+					+ leadingZeros(d.getSeconds(), 2);
+
+			return s;
+		}
+
+		function leadingZeros(n, digits) {
+			
+			var zero = '';
+			n = n.toString();
+
+			if (n.length < digits) {
+				for (i = 0; i < digits - n.length; i++)
+					zero += '0';
+			}
+			return zero + n;
+		}
+
+		// 엔터키 눌렀을 때 메세지 입력되게 하는 함수
+		function enterkey() {
+			if (window.event.keyCode == 13) {
+				$('#btnSend').click();
+			}
+		}
 	</script>
 
 	<%@ include file="../include/community_footer.jsp"%>
 </body>
-
 </html>

@@ -47,90 +47,108 @@
 	</insert>
 
 	<select id="getOrdersList" resultType="com.bbshop.bit.domain.OrderVO">
-		<![CDATA[	
-     		SELECT *
-     		FROM
-     			( SELECT rownum rn, s.*
-       			  FROM shop_order s
-       			  WHERE user_key = #{key}
-            	  		AND cancel = 0
-       			  ORDER BY order_num desc )
-	     	WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
-	     		AND rn <= #{pagingVO.pageNum} * #{pagingVO.amount}
+			
+     	SELECT *
+     	FROM
+			( SELECT rownum rn, order_num, or_addr, pymntmthd, pymntamnt, phone1, phone2, savings, or_msg, cancel, or_date, 
+				stts, ship_nmbr, ship_date, user_key, name, items, receiver, tid 
+              FROM 
+              		( SELECT s.* 
+                      FROM shop_order s
+                      WHERE user_key = #{key} AND cancel = 0
+                      ORDER BY order_num desc )
+        <![CDATA[
+              WHERE rownum <= #{pagingVO.pageNum} * #{pagingVO.amount} )
+	    WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount}
 		]]>
 	</select>
-	
-	<select id="getOrdersListStss" resultType="com.bbshop.bit.domain.OrderVO">
-        SELECT *
-        FROM
-            ( SELECT rownum rn, order_num, or_date, items, pymntamnt, stts 
-              FROM shop_order 
-              WHERE user_key = #{key}
-            	  AND cancel = 0
-			<if test='stts_list != null and stts_list.size != 0'>
-				  AND stts IN
-				<foreach item="item" index="index" collection="stts_list" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</if>
-       		  ORDER BY order_num desc )
+
+	<select id="getOrdersListStss"
+		resultType="com.bbshop.bit.domain.OrderVO">
+		SELECT *
+		FROM
+		( SELECT rownum rn, order_num, or_date, items, pymntamnt,
+		pymntmthd, stts
+		FROM shop_order
+		<choose>
+			<when test="key != null and key != ''">
+				WHERE user_key = #{key} AND cancel = 0
+			</when>
+			<otherwise>
+				WHERE cancel = 0
+			</otherwise>
+		</choose>
+		<if test='stts_list != null and stts_list.size != 0'>
+			AND stts IN
+			<foreach item="item" index="index" collection="stts_list"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY order_num desc )
        	<![CDATA[
         WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount}
             AND rn <= #{pagingVO.pageNum} * #{pagingVO.amount}
-		]]>	
+		]]>
 	</select>
 		
 	<select id="getReviewList" resultMap="reviewVO">
-		    SELECT rownum rn, rv_num, title, re_date, score
-     		FROM	
-				( SELECT rv_num, title, re_date, score
-			  	  FROM review
-			   	  WHERE user_key = #{key}
-       		  	  ORDER BY rv_num desc )
-       		<if test='pagingVO.pageNum != 0'>
-			<![CDATA[	       	
-	     	WHERE rv_num <= ${total} - (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
-	     		AND rv_num > ${total} - #{pagingVO.pageNum} * #{pagingVO.amount}
-			]]>
-			</if>
+		SELECT *
+     	FROM	
+			( SELECT rownum rn, rv_num, title, re_date, score
+			  FROM review
+			  WHERE user_key = #{key}
+       		  ORDER BY rv_num desc )
+       	<if test='pagingVO.pageNum != 0'>
+       	<![CDATA[	       	
+	     WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
+     		AND rn < #{pagingVO.pageNum} * #{pagingVO.amount}
+		]]>
+		</if>
 	</select>
 	
-	<select id="getOnetooneList" resultType="com.bbshop.bit.domain.OnetooneVO">
-     		SELECT *
-     		FROM
-     			( SELECT *
-       			  FROM onetoone 
-       			  WHERE user_key = #{key}
-       			  ORDER BY one_one_num desc )
-       		<if test='pagingVO.pageNum != 0'>
-			<![CDATA[	       	
-	     		WHERE one_one_num <= ${total} - (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
-	     			AND one_one_num > ${total} - #{pagingVO.pageNum} * #{pagingVO.amount}
-			]]>
-			</if>
+	<select id="getOnetooneList" resultType="com.bbshop.bit.domain.OnetooneVO">		
+        SELECT *
+     	FROM
+     		( SELECT rownum rn, one_one_num, one_category, one_title, one_contents, one_file, regdate, user_key, seq, lev, dep
+     		  FROM onetoone 
+  			  WHERE user_key = #{key}
+       		  ORDER BY one_one_num desc )
+       	<if test='pagingVO.pageNum != 0'>
+       	<![CDATA[	       	
+	     WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
+     		AND rn < #{pagingVO.pageNum} * #{pagingVO.amount}
+		]]>
+		</if>
 	</select>
 	
 	<select id="getQnaList" resultType="com.bbshop.bit.domain.GoodsQnaVO">
-     		SELECT *
-     		FROM
-     			( SELECT *
-       			  FROM qna 
-       			  WHERE user_key = #{key}
-       			  ORDER BY qna_num desc )
-       		<if test='pagingVO.pageNum != 0'>
-			<![CDATA[	       	
-	     		WHERE qna_num <= ${total} - (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
-	     			AND qna_num > ${total} - #{pagingVO.pageNum} * #{pagingVO.amount}
-			]]>
-			</if>
+     	SELECT *
+     	FROM
+     		( SELECT rownum rn, qna_num, title, content, attached_file, regdate, goods_num, user_key, re_seq, re_lev, re_ref 
+       		  FROM qna 
+       		  WHERE user_key = #{key}
+			  ORDER BY qna_num desc )
+       	<if test='pagingVO.pageNum != 0'>
+       	<![CDATA[	       	
+	     WHERE rn > (#{pagingVO.pageNum} - 1) * #{pagingVO.amount} 
+     		AND rn < #{pagingVO.pageNum} * #{pagingVO.amount}
+		]]>
+		</if>
 	</select>
 	
 	<!-- 전체 주문 리스트 -->
-	<select id="getAllOrdersList" resultType="com.bbshop.bit.domain.OrderVO">
+	<select id="getAllOrdersList"
+		resultType="com.bbshop.bit.domain.OrderVO">
 		SELECT savings, stts
 		FROM shop_order
-		WHERE user_key = #{key}
+		<choose>
+			<when test="key != null and key != ''">
+				WHERE user_key = #{key} AND cancel = 0
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 
 	<!-- 주문 취소 -->
@@ -166,10 +184,16 @@
 		WHERE user_key = #{key}
 	</update>
 	
+	<!-- 회원 탈퇴 : 탈퇴 테이블에 회원식별자, 탈퇴날짜 insert -->
+	<insert id="insertWithdrawal">
+		INSERT into withdrawal
+		VALUES (#{key}, sysdate, #{reason})
+	</insert>
+	
 	<!-- 배송지 정보 관련 쿼리 -->
 	<insert id="insertAddrInfo">
-		INSERT into address 
-		VALUES (#{user_key}, #{zc_key}, #{name}, #{addr}, #{contact}, #{num}, #{roadAddress})
+		INSERT into address(user_key, zc_key, num, name, roadAddress, addr, contact)
+		VALUES (#{user_key}, #{zc_key}, #{num}, #{name}, #{roadAddress}, #{addr}, #{contact})
 	</insert>
 
 	<select id="getAddrList" resultType="com.bbshop.bit.domain.AddrVO">

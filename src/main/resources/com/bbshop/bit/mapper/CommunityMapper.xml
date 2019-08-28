@@ -9,11 +9,9 @@
 		<selectKey keyProperty="BOARD_NUM" resultType="int" order="BEFORE">
 			select seq_board.nextval FROM DUAL
 		</selectKey>
-
 		INSERT INTO community
 		VALUES
-			(#{BOARD_NUM}, #{TEAM_NAME}, #{TITLE}, #{BOARD_CONTENT}, #{UPLOADFILE}, #{WRITER}, 0, sysdate, sysdate, 0, 0, #{USER_KEY})
-
+		(#{BOARD_NUM}, #{TEAM_NAME}, #{TITLE}, #{BOARD_CONTENT}, #{UPLOADFILE}, #{WRITER}, 0, sysdate, sysdate, 0, 0, #{USER_KEY})
 	</insert>
 
 	<select id="getNickname" parameterType="int" resultType="String">
@@ -36,10 +34,10 @@
 	SELECT rownum rn, board_num, title, board_content,writer,regdate,moddate, hit
 	FROM 
 		(
-			SELECT /*+INDEX(community idx_regdate) */ 
+			SELECT /*+INDEX(community idx_board_num) */ 
 			rownum rn, board_num, title, board_content, writer, regdate, moddate, hit 
 			FROM community 
-			WHERE team_name= #{teamName} and regdate > '19/01/01' and ]]>
+			WHERE team_name= #{teamName} and board_num > 0 and ]]>
 
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item="type" collection="pagingVO.typeArr">

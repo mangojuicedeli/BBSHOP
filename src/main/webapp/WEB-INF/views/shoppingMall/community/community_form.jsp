@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../include/community_header.jsp" %>
+<%@ include file="../include/community_header2.jsp" %>
 
 <script type="text/javascript"
 	src="resources/community/js/smarteditor/js/service/HuskyEZCreator.js"
@@ -58,7 +58,7 @@
 					<div class="mt-10">
 						<table style="width:100%;">
 							<tr>
-								<td align="center"><br /> <input type="submit" id="savebutton" value="등록" 
+								<td align="center"><br /> <input type="button" id="savebutton" value="등록" 
 								style="float:right;"></td>
 								<td align="center"><br /> <input type="button" value="취소" style="float:left;"
 									onclick="location.href='/community_list.do?TEAM_NAME=${teamName}'" /></td>

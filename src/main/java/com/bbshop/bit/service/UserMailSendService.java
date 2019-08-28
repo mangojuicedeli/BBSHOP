@@ -60,30 +60,30 @@ public class UserMailSendService {
 		return init();
 	}
 
-	// ȸ������ �߼� �̸���(����Ű �߼�)
-	public String mailSendWithUserKey(String e_mail, String user_id, HttpServletRequest request) {
-		
-		String key = getKey(false, 20);
-		//MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		//mapper.GetKey(user_id, key); 
-		MimeMessage mail = mailSender.createMimeMessage();
-		String htmlStr = "<h2>�ȳ��ϼ���  :) BBSHOP �Դϴ�!</h2><br><br>" 
-				+ "<h3>" + user_id + "��</h3>" + "<p>����Ű : "+ key+"�Դϴ�"
-				+ "<a href='http://localhost:8080" + request.getContextPath() + "/user/key_alter?user_id="+ user_id +"&user_key="+key+"'>�����ϱ�</a></p>"
-				+ "(Ȥ�� �߸� ���޵� �����̶�� �� �̸����� �����ϼŵ� �˴ϴ�)";
-		try {
-			mail.setSubject("[��������] BBSHOP�� ���������Դϴ�", "utf-8");
-			mail.setText(htmlStr, "utf-8", "html");
-			mail.addRecipient(RecipientType.TO, new InternetAddress(e_mail));
-			
-			mail.setFrom(new InternetAddress("dntjr0517@gmail.com"));
-			
-			mailSender.send(mail);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+	// 회원가입 발송 이메일(인증키 발송)
+    public String mailSendWithUserKey(String e_mail, String user_id, HttpServletRequest request) {
 
-		return key;
-	}
+        String key = getKey(false, 20);
+        //MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+        //mapper.GetKey(user_id, key); 
+        MimeMessage mail = mailSender.createMimeMessage();
+        String htmlStr = "<h2>안녕하세요  :) BBSHOP 입니다!</h2><br><br>" 
+                + "<h3>" + user_id + "님</h3>" + "<p>인증키 : "+ key+"입니다"
+                + "<a href='http://localhost:8080/" + request.getContextPath() + "/user/key_alter?user_id="+ user_id +"&user_key="+key+"'>인증하기</a></p>"
+                + "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
+        try {
+            mail.setSubject("[본인인증] BBSHOP의 인증메일입니다", "utf-8");
+            mail.setText(htmlStr, "utf-8", "html");
+            mail.addRecipient(RecipientType.TO, new InternetAddress(e_mail));
+
+            mail.setFrom(new InternetAddress("dntjr0517@gmail.com"));
+
+            mailSender.send(mail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return key;
+    }
 
 }

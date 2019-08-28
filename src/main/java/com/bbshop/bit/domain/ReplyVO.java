@@ -14,11 +14,10 @@ public class ReplyVO {
 	private long reply_num;
 	private String reply_content;
 	private Date regdate;
-	private Date moddate;
 	private long report_num;
 	private long board_num;
 	private long user_key;
+	private Date moddate;
 	private String writer;
-	private int seq_reply;
 
 }

@@ -51,13 +51,6 @@ $(document).ready(function(){
 	
 	var operForm = $("#operForm");
 	
-	$('#go_list').on("click", function(e){
-	
-		operForm.find("#FAQ_NUM").remove();
-		operForm.attr("action","/faq_list.do")
-		operForm.submit();
-	});
-	
 /* var formObj = $("form");
 	
 	$('button').on("click", function(e){
@@ -120,12 +113,12 @@ $(document).ready(function(){
 					<div class="single-post row">
 
 						<div class="col-lg-12  col-md-12"
-							style="border-bottom: 1px solid; border-color: #6c757d45;">
+							style="border-color: #6c757d45;">
 							<div class="blog_info text-left">
 								<ul class="blog_meta list"
 									style="border-top: 1px solid; border-bottom: 1px solid; border-color: #6c757d45; background: #9993;">
-									<li>
-										<table style="margin-left: auto; margin-right: auto;">
+									<li style="height:100px;">
+										<table style="margin-left: auto; margin-right: auto; font-size:xx-large; color:black; height:inherit;">
 											<tr>
 												<td><c:out value="${board.SUBJECT}" /></td>
 											</tr>
@@ -134,16 +127,16 @@ $(document).ready(function(){
 									<li></li>
 									<li>
 										<table style="float: right; margin-top: 20px;">
-											<tr>
-												<td><p class="bno" style="margin-right: 10px;">
-														글 번호:
-														<c:out value="${board.FAQ_NUM}" />
-													</p></td>
-												<td><p class="title" style="margin-right: 10px;">
-														<i class="lnr lnr-user"></i>
-														<c:out value="${nickname}" />
-													</p></td>
-											</tr>
+<!-- 											<tr> -->
+<!-- 												<td><p class="bno" style="margin-right: 10px;"> -->
+<!-- 														글 번호: -->
+<%-- 														<c:out value="${board.FAQ_NUM}" /> --%>
+<!-- 													</p></td> -->
+<!-- 												<td><p class="title" style="margin-right: 10px;"> -->
+<!-- 														<i class="lnr lnr-user"></i> -->
+<%-- 														<c:out value="${nickname}" /> --%>
+<!-- 													</p></td> -->
+<!-- 											</tr> -->
 										</table>
 									</li>
 								</ul>
@@ -151,7 +144,7 @@ $(document).ready(function(){
 						</div>
 
 						<div class="col-lg-9 col-md-9 blog_details"
-							style="min-width: 100%;">
+							style="min-width: 100%; text-align:center; font-size:x-large; padding: 26px 100px 0 100px;">
 							<p>
 								<c:out value="${board.CONTENT}" />
 							</p>
@@ -188,7 +181,8 @@ $(document).ready(function(){
 					<!-- 수정, 삭제, 목록보기 버튼 -->
 					<div style="width: 100%;">
 						<div class="button-group-area mt-40" style="text-align: center">
-							<a href="#" onclick='history.back(-1); return false;' id="go_list"
+<!-- 						//onclick='history.back(-1); return false;' -->
+							<a href="/faq_list.do"  id="go_list"
 								class="genric-btn primary radius">목록보기</a>
 						</div>
 					</div>

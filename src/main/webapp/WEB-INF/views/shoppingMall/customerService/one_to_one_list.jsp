@@ -6,6 +6,24 @@
 <%@ include file="../include/shopping_header.jsp"%>
 
 <style>
+.genric-btn.primary:hover{
+color: #ffffff;
+border: 1px solid #ffffff;
+}
+.genric-btn.default{
+background: #57c051;
+color: #ffffff
+}
+.genric-btn.default:hover{
+background: #57c051;
+color: #ffffff
+}
+.genric-btn.danger:hover{
+color:#ffffff;
+background: #f44a40;
+border: 1px solid #f44a40;
+
+}
 body {
 	font-weight: bold;
 	font-size: 17px;
@@ -114,7 +132,7 @@ a {
 	<!--================Home Banner Area =================-->
 	<section class="banner_area">
 		<div class="banner_inner d-flex align-items-center"
-			style="background-color: #70e270;">
+			style="background-color: #57c051;">
 			<div class="container">
 				<div class="banner_content text-center">
 					<h2 style="color: white;">고객센터</h2>
@@ -123,30 +141,31 @@ a {
 							href="/one_to_one_list" style="color: white;">1대1 문의</a>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</section>
 	<!--================End Home Banner Area =================-->
-	<div class="button-group-area mt-40" style="margin-bottom: 30px; margin-top: 40px;">
+	<div class="container">
+	<div class="button-group-area mt-40" style="margin-bottom: 30px; text-align:right;">
 		<a href="/faq_list.do" class="genric-btn primary e-large"
-			style="background: #024137; margin-left: 30%; padding: 6px 60px; font-size: 30px; font-weight: bold;">FAQ</a>
+			style="background: #a0a0a0; font-size: 30px; font-weight: bold; width:15%;">FAQ</a>
 		<a href="/onetoonelist.do" class="genric-btn primary e-large"
-			style="background: #024137; margin-left: 21%; padding: 6px 60px; font-size: 30px; font-weight: bold;">1:1문의</a>
+			style="background: #57c051; font-size: 30px; font-weight: bold; width:15%;">1:1문의</a>
 	</div>
 
-		<div class="order_details_table" style="margin-top: 0px; padding: 0px;">
-			<div class="table-responsive">
-				<table class="table">
+			<div class="table-responsive" style="text-align: center;">
+				<table class="table" >
 					<thead>
-						<tr style="background: #9FC197;">
+						<tr style="background: #ffffff; color:#000000">
 							<th scope="col"
-								style="width: 15%;">번호</th>
+								style="width: 15%; ">번호</th>
 							<th scope="col"
 								style="width: 15%;">카테고리</th>
 							<th scope="col"
-								style="width: 50%;">제목</th>
+								style="width: 40%;">제목</th>
 							<th scope="col"
-								style="width: 20%;">날짜</th>
+								style="width: 15%;">날짜</th>
 						</tr>
 					</thead>
 					
@@ -167,7 +186,7 @@ a {
 		</div>
 
 	<table class="paging_area"
-		style="width: 1200px; margin-left: auto; margin-right: auto;">
+		style="width: 1140px; margin-left: auto; margin-right: auto;">
 		<tr>
 			
 			<td><a href="#writing_modal" class="genric-btn default radius"

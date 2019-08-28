@@ -12,18 +12,18 @@ import lombok.ToString;
 		private boolean prev, next;
 		
 		private int total;
-		private Criteria pag;
+		private Criteria cri;
 		
-		public AdminPageDTO(Criteria pag, int total) {
+		public AdminPageDTO(Criteria cri, int total) {
 			
-			this.pag = pag;
+			this.cri = cri;
 			this.total = total;
 			
-			this.endPage = (int) (Math.ceil(pag.getPageNum() / 5.0)) * 5;
+			this.endPage = (int) (Math.ceil(cri.getPageNum() / 5.0)) * 5;
 			
 			this.startPage = this.endPage - 4;
 			
-			int realEnd = (int) (Math.ceil((total * 1.0 ) / pag.getAmount()));
+			int realEnd = (int) (Math.ceil((total * 1.0 ) / cri.getAmount()));
 			
 			if(realEnd < this.endPage) {
 				this.endPage = realEnd;
@@ -33,4 +33,5 @@ import lombok.ToString;
 			this.next = this.endPage < realEnd;
 		}
 	}
+
 

@@ -1,5 +1,7 @@
 package com.bbshop.bit.domain;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -11,5 +13,7 @@ public class ReportReplyVO {
 	private long REPLY_NUM;
 	private String WRITER;
 	private String URI;
-	private int SEQ_REPORT;
+	private Date REGDATE;
 }
+
+ 

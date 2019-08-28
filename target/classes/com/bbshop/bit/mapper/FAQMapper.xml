@@ -5,7 +5,6 @@
 <mapper namespace="com.bbshop.bit.mapper.FAQMapper">
 
 	<sql id="PagingVO">
-	
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
 				<foreach item='type' collection="typeArr">
 					<trim prefix="OR">
@@ -22,8 +21,8 @@
 						</choose>
 					</trim>
 				</foreach>
-			</trim>
-		</sql>
+		</trim>
+	</sql>
 
 	<select id="FAQ_getList" resultType="com.bbshop.bit.domain.FAQVO">
 		<![CDATA[
@@ -38,27 +37,24 @@
 
 	
 	<select id="getListWithPaging" resultType="com.bbshop.bit.domain.FAQVO">
-	
-		<![CDATA[
+<![CDATA[		
 			select
 				FAQ_NUM, FAQ_CATEGORY, SUBJECT, CONTENT
 			from
 				(
 				select
-			 		rownum rn, FAQ_NUM, FAQ_CATEGORY, SUBJECT, CONTENT 
+			 		rownum rn, FAQ_NUM, FAQ_CATEGORY, SUBJECT, CONTENT
 				from SERVICE_FAQ
 				where
-	]]>			
-			
- 		<include refid="PagingVO"></include>	
-			
-		<![CDATA[
+					
+]]>			
+ 		<include refid="PagingVO"></include>
+<![CDATA[	 			
 					rownum <= #{pageNum} * #{amount}
 					ORDER BY FAQ_NUM desc
 				)
 			where rn > (#{pageNum} -1) * #{amount}
-			
-		]]>
+]]>
 	</select>
 	
 	<select id="cancel" resultType="com.bbshop.bit.domain.FAQVO">

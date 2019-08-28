@@ -3,6 +3,9 @@
 
 <%@ include file="../include/mypage_header.jsp"%>
 <style>
+.default-select .nice-select{
+background: #f7f7f7;
+}
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
 	.table>thead>tr>td, .table>thead>tr>th {
 	padding: 20px;
@@ -33,7 +36,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
-					<tr style="background: #b5dab6;">
+					<tr style="background: #ffffff;">
 						<th scope="col" style="width: 10%; font-weight: bold;">번호</th>
 						<th scope="col" style="width: 15%; font-weight: bold;">카테고리</th>
 						<th scope="col" style="font-weight: bold;">제목</th>

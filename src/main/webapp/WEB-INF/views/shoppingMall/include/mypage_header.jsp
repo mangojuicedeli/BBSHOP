@@ -612,7 +612,7 @@ body {
 		</div>
 		
 		<!-- total -->
-		<div class="miniCart_total" style="display: flex;">
+		<div class="miniCart_total" style="display: flex; margin-bottom: 10px;">
 			<h2 style="color: black; font-weight: bold;">총 상품금액 :</h2>
 			&emsp;&emsp;
 			<h2 style="color: black; font-weight: bold;" id="minicart_total"></h2>
@@ -672,8 +672,8 @@ body {
 				<div class="container-fluid" style="max-height:80px;">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<!-- shop_main 경로  + 로고 파일 -->
-					<a class="navbar-brand logo_h" href="/shopping_main.do">
-						<img src="resources/shoppingMall/img/logo.png" alt="" style="visibility : hidden">	<!-- 일단 로고 안보이게 -->
+					<a class="navbar-brand logo_h" href="/shopping_main.do" style="height:-webkit-fill-available; padding:0px;">
+						<img src="resources/shoppingMall/img/BB_SHOP.png" style="height: -webkit-fill-available;" alt="">	<!-- 일단 로고 안보이게 -->
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 					 aria-expanded="false" aria-label="Toggle navigation">
@@ -690,88 +690,72 @@ body {
 									<!-- 서브메뉴1 글러브 -->
 									<!-- li태그 자체에 onclick이벤트를 줘야 페이지이동 합니다.(a href는 이동이 안됨) -->
 									<li class="nav-item submenu dropdown" onclick="javascript: location.href='/goods_list.do?category=1'">
-										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">글러브</a>
+										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown"
+										role="button" aria-haspopup="true" aria-expanded="false">글러브</a>
 										<ul class="dropdown-menu">
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">글러브 카테1</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">글러브 카테2</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">글러브 카테3</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=1">외야수 글러브</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=1">내야수 글러브</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=1">투수 글러브</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=1">포수 글러브</a></li>
 										</ul>
 									</li>
-									
-									<!-- 서브메뉴2 배트 -->
-									<li class="nav-item submenu dropdown" onclick="javascript: location.href='/goods_list'">
-										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >배트</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">배트 카테1</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">배트 카테2</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">배트 카테3</a></li>
-										</ul>
-									</li>
-									
-									<!-- 서브메뉴3 유니폼 -->
-									<li class="nav-item submenu dropdown" onclick="javascript: location.href='/goods_list'">
-										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">유니폼</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">유니폼 카테1</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">유니폼 카테2</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">유니폼 카테3</a></li>
-										</ul>
-									</li>
-									
-									<!-- 서브메뉴4 야구화 -->
-									<li class="nav-item submenu dropdown" onclick="javascript: location.href='/goods_list'">
-										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">야구화</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구화 카테1</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구화 카테2</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구화 카테3</a></li>
-										</ul>
-									</li>
-									
-									<!-- 서브메뉴5 야구공 -->
-									<li class="nav-item submenu dropdown" onclick="javascript: location.href='/goods_list'">
-										<a href="#none" id="submenu_name" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">야구공</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구공 카테1</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구공 카테2</a></li>
-											<li class="nav-item">
-												<a class="nav-link" href="/goods_list">야구공 카테3</a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
 
-							<!-- 검색 탭 -->
-							<div class="col-lg-5" id="searchBox">
-								<ul class="nav navbar-nav navbar-right right_nav pull-right" style="height:80px;">
-									<li class="nav-item">	<!-- 돋보기 : 상품명으로 검색 -->
-										<a href="#none" class="icons" id="search_btn">
-											<i class="fa fa-search" aria-hidden="true"></i>
-										</a>
+									<!-- 서브메뉴2 배트 -->
+									<li class="nav-item submenu dropdown"
+										onclick="javascript: location.href='/goods_list.do?category=2'">
+										<a href="#none" id="submenu_name"
+										class="nav-link dropdown-toggle" data-toggle="dropdown"
+										role="button" aria-haspopup="true" aria-expanded="false">배트</a>
+										<ul class="dropdown-menu">
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=2">알루미늄 배트</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=2">카본 배트</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=2">나무 배트</a></li>
+										</ul>
 									</li>
-									<li class="nav-item">	<!-- 플러스 : 상세검색(모달) -->
-										<a href="#none" class="icons" id="searchBig_btn">
-											<i class="fa fa-plus" aria-hidden="true"></i>
-										</a>
+
+									<!-- 서브메뉴3 유니폼 -->
+									<li class="nav-item submenu dropdown"
+										onclick="javascript: location.href='/goods_list.do?category=3'">
+										<a href="#none" id="submenu_name"
+										class="nav-link dropdown-toggle" data-toggle="dropdown"
+										role="button" aria-haspopup="true" aria-expanded="false">유니폼</a>
+										<ul class="dropdown-menu">
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=3">SK, LG, 한화, 삼성, 키움</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=3">KT, NC, 두산, 롯데, 기아</a></li>
+										</ul>
 									</li>
-									<li class="nav-item">	<!-- 장바구니 -->
-										<a href="#none" class="icons" id="cart_btn">
-											<i class="lnr lnr-cart" aria-hidden="true"></i>
-										</a>
+
+									<!-- 서브메뉴4 야구화 -->
+									<li class="nav-item submenu dropdown"
+										onclick="javascript: location.href='/goods_list.do?category=4'">
+										<a href="#none" id="submenu_name"
+										class="nav-link dropdown-toggle" data-toggle="dropdown"
+										role="button" aria-haspopup="true" aria-expanded="false">야구화</a>
+										<ul class="dropdown-menu">
+										</ul>
+									</li>
+
+									<!-- 서브메뉴5 야구공 -->
+									<li class="nav-item submenu dropdown"
+										onclick="javascript: location.href='/goods_list.do?category=5'">
+										<a href="#none" id="submenu_name"
+										class="nav-link dropdown-toggle" data-toggle="dropdown"
+										role="button" aria-haspopup="true" aria-expanded="false">야구공</a>
+										<ul class="dropdown-menu">
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=5">시합/연습용</a></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/goods_list.do?category=5">안전용</a></li>
+										</ul>
 									</li>
 								</ul>
 							</div>

@@ -4,6 +4,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style>
+.order_details .title_confirmation{
+margin-bottom: 120px;
+}
+.order_details_table{
+margin-top:0px;
+}
+.order_details_table{
+background: #ffffff;
+}
 body {
 	font-weight: bold;
 	font-size: 17px;
@@ -21,7 +30,7 @@ body {
 <body>
 	<!--================Home Banner Area =================-->
 	<section class="banner_area">
-		<div class="banner_inner d-flex align-items-center" style="background-color:#70e270;">
+		<div class="banner_inner d-flex align-items-center" style="background-color:#57c051;">
 			<div class="container">
 				<div class="banner_content text-center">
 					<h2 style="color:white;">주문확인</h2>
@@ -37,53 +46,53 @@ body {
 	<!--================Order Details Area =================-->
 	<section class="order_details p_120" style="padding-top:0px;">
 		<div class="container">
-			<p class="title_confirmation" style="font-weight:bold; font-size:20px">♥주문 완료되었습니다. 감사합니다♥</p>
+			<p class="title_confirmation" style="font-weight:bold; font-size:40px">♥주문 완료되었습니다. 감사합니다♥</p>
 			<div class="row order_d_inner">
-				<div class="col-lg-4" style="margin-left:17%;">
-					<div class="details_item" style="background-color:#e0f0e3;">
+				<div class="col-lg-4">
+					<div class="details_item" style="background-color:#ffffff;">
 						<h4>주문 정보</h4>
 						<ul class="list">
 							<li>
 								<a href="#none">
-									<span>주문 번호</span> : 60235</a>
+									<span>주문 번호</span> : ${order.order_num}</a>
 							</li>
 							<li>
 								<a>
-									<span>주문 날짜</span> : <fmt:formatDate pattern="yyyy-MM-dd" value="${info.approved_at}" /></a>
+									<span>주문 날짜</span> : ${order.or_date}</a>
 							</li>
 							<li>
 								<a href="#none">
-									<span>총 결제금액</span> : ${info.amount.total}</a>
+									<span>총 결제금액</span> : ${order.pymntamnt}</a>
 							</li>
 							<li>
 								<a href="#none">
-									<span>결제 방식</span> : 카카오페이</a>
+									<span>결제 방식</span> : ${order.pymntmthd}</a>
 							</li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-lg-4">
-					<div class="details_item" style="background-color:#b7d2b1; height:162px;">
+				<div class="col-lg-4" style="margin-left: 25%;">
+					<div class="details_item" style="background-color:#ffffff; height:162px;">
 						<h4>배송 정보</h4>
 						<ul class="list">
 							<li>
 								<a href="#none">
-									<span>우편번호</span> : 123-456</a>
+									<span>우편번호</span> : ${addr_list[0]}</a>
 							</li>
 							<li>
 								<a href="#none">
-									<span>주소</span> : 주소시 주소구 주소동 123</a>
+									<span>주소</span> : ${addr_list[1]}</a>
 							</li>
 							<li>
 								<a href="#none">
-									<span>상세주소</span> : 1234호</a>
+									<span>상세주소</span> : ${addr_list[2]}</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="order_details_table">
-				<h2 style="text-align:center; font-weight:bold;">주문 상세</h2>
+				<h2 style="text-align:center; font-weight:bold; font-size: 30px">주문 상세</h2>
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
@@ -108,36 +117,47 @@ body {
 							</tr>
 						</c:forEach>
 							<tr>
-								<td>
-									<p>총 상품 금액</p>
+								<td style="border-top: 2px solid #c7c8c9;">
+									<p style="color: #565656;">총 상품 금액</p>
 								</td>
-								<td>
+								<td style="border-top: 2px solid #c7c8c9;">
 									<h5></h5>
 								</td>
-								<td>
-									<p style="text-align:center;"></p>
+								<td style="border-top: 2px solid #c7c8c9;">
+									<p style="text-align:center;color: #565656;">${totalPrice}</p>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p>배송비(5만원 이상 구매 시 무료)</p>
+									<p style="color: #565656;">배송비(5만원 이상 구매 시 무료)</p>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">0원</p>
+									<p style="text-align:center;color: #565656;">${shipping_fee}</p>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p>총 결제금액</p>
+									<p style="color: #565656;">사용 적립금</p>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p style="text-align:center;">${info.amount.total}</p>
+									<p style="text-align:center;color: #565656;">${useSavings}</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p style="color: #565656;">총 결제금액</p>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p style="text-align:center;color: #565656;">${order.pymntamnt}</p>
 								</td>
 							</tr>
 						</tbody>

@@ -4,14 +4,21 @@
 <%@ include file="../include/mypage_header.jsp"%>
 
 <style>
+.genric-btn.danger:hover{
+color:#ffffff;
+background: #f44a40;
+border: 1px solid #f44a40;
+}
 .product_top_bar{
 	background: #ffffff;
 }
 .genric-btn.default{
 	background: #57c051;
+	color: #ffffff;
 }
 .genric-btn.default:hover{
-	background: #ffffff;
+	background: #57c051;
+	color: #ffffff;
 }
 
 .sorting {
@@ -29,7 +36,7 @@ h3, h4, h6 {
 			<div class="billing_details">
 				<div class="row">
 					<div class="col-lg-12" style="margin-bottom: 30px;">
-						<h3 class="mb-30 title_color" style="text-align: center; font-size: 30px; padding-bottom: 25px;">회원 정보 수정
+						<h3 class="mb-30 title_color" style="text-align: center; font-size: 30px; padding-bottom: 25px; margin-left: 20%">회원 정보 수정
 						<a id="withdraw" href="/withdraw.do" class="genric-btn default radius" style="float: right;"><span>회원 탈퇴</span></a>
 						<a href="#" class="genric-btn disable radius" onclick="modify_userInfo('modify_info')" id="modifybtn" style="float: right; margin-right: 10px;"><span>수정하기</span></a>
 						</h3>
@@ -78,7 +85,7 @@ h3, h4, h6 {
 							</div>
 							<div class="col-md-3 form-group p_star">
 								<a id="check" class="genric-btn default radius" 
-								style="position: absolute; left: 0px; bottom: 0px;"><span>중복 확인</span></a>
+								style="position: absolute; left: 0px; bottom: 0px; color: #ffffff;"><span>중복 확인</span></a>
 							</div>
 							<div class="col-md-4 form-group p_star"></div>
 							<div class="col-md-3 form-group p_star">
@@ -358,8 +365,6 @@ h3, h4, h6 {
 	}
 	
 	function submit(team, position, brand1, brand2, brand3) {
-		
-		alert('submit 함수 진입');
 		
 		console.log(team);
 		console.log(position);

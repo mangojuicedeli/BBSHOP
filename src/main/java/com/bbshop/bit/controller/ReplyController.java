@@ -31,21 +31,20 @@ public class ReplyController {
 	method= RequestMethod.POST)
 	// @RequestBody를 적용해서 JSON 데이터를 ReplyVO 타입으로 변환하도록 한 것
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo, HttpSession session){
-		
-		/*
-		 long user_key = (long)session.getAttribute("user_key");
-		 String nickname = (String)session.getAttribute("nickname");
-		 
-		 // 비회원
-		 if(nickname.substring(0,9).equals("noAccount")) {
-		 	// 글쓰기 input에 readonly로 로그인하라고 띄우기
-		 }
-		 else{
-		 	long user_key = (long)session.getAttribute("user_key");
-		 	qna.setUser_key(user_key);
-		 	}
-		 */
-		
+
+		long user_key = (long)session.getAttribute("member");
+		String nickname = (String)session.getAttribute("nickname");
+
+//		// 비회원
+//		if(nickname.substring(0,9).equals("noAccount")) {
+//			// 글쓰기 input에 readonly로 로그인하라고 띄우기
+//		}
+//		else{
+//			long user_key = (long)session.getAttribute("user_key");
+//			qna.setUser_key(user_key);
+//		}
+
+		vo.setUser_key(user_key);
 		int insertCount = replyService.registerReply(vo);
 		
 		// 댓글이 정상적으로 등록되었을 경우, HttpStatus -> OK, 정상 등록 되지 않았을 경우, 내부 서버 에러. 삼항 연산자 처리
