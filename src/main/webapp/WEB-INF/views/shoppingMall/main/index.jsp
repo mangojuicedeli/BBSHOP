@@ -3,26 +3,22 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" >
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Sunflower:300,500,700&amp;subset=korean" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Sunflower:300,500,700&amp;subset=korean" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <style>
+<style>
 /*바디태그에 폰트넣기*/
 @font-face {
 	font-family: 'NanumBarunpen';
 	font-weight: normal;
 	src: local(NanumBarunpen);
 	src: url("resources/shoppingMall/fonts/NanumBarunpenR.eot");
-	src: url("resources/shoppingMall/fonts/NanumBarunpenR.woff")
-		format("woff"),
-		url("resources/shoppingMall/fonts/NanumBarunpenR.woff2")
-		format("woff2")
+	src: url("resources/shoppingMall/fonts/NanumBarunpenR.woff") format("woff"), url("resources/shoppingMall/fonts/NanumBarunpenR.woff2") format("woff2")
 }
 
 @font-face {
@@ -30,10 +26,7 @@
 	font-weight: bold;
 	src: local(NanumBarunpen);
 	src: url("resources/shoppingMall/fonts/NanumBarunpenB.eot");
-	src: url("resources/shoppingMall/fonts/NanumBarunpenB.woff")
-		format("woff"),
-		url("resources/shoppingMall/fonts/NanumBarunpenB.woff2")
-		format("woff2")
+	src: url("resources/shoppingMall/fonts/NanumBarunpenB.woff") format("woff"), url("resources/shoppingMall/fonts/NanumBarunpenB.woff2") format("woff2")
 }
 
 body {
@@ -235,16 +228,12 @@ input[type="checkbox"]+label span {
 	height: 19px;
 	margin: -2px 10px 0 0;
 	vertical-align: middle;
-	background:
-		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png)
-		left top no-repeat;
+	background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
 	cursor: pointer;
 }
 
 input[type="checkbox"]:checked+label span {
-	background:
-		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png)
-		-19px top no-repeat;
+	background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
 }
 
 /*동영상 내용*/
@@ -308,377 +297,324 @@ input[type="checkbox"]:checked+label span {
 }
 </style>
 
-   
+
 </head>
 
 <body>
-    <!-- Index Background Video -->
-	    <video id="index-back" preload="auto" style="opacity: 0.5;" loop autoplay muted>
-	        <source src="resources/shoppingMall/img/indexmedia.mp4" type="video/mp4">
-	        <source src="resources/shoppingMall/img/indexmedia.ogg" type="video/ogg">
-	    </video>
+	<!-- Index Background Video -->
+	<video id="index-back" preload="auto" style="opacity: 0.5;" loop autoplay muted>
+		<source src="resources/shoppingMall/img/indexmedia.mp4" type="video/mp4">
+		<source src="resources/shoppingMall/img/indexmedia.ogg" type="video/ogg">
+	</video>
 
-    <div id="index">
+	<div id="index">
 
-        <!-- <button id="loginBtn">Login</button>-->
+		<!-- <button id="loginBtn">Login</button>-->
 
-        <table cellpadding="0" cellspacing="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="100%" height="700" align="center" valign="middle">
-                        <table width="700" cellpadding="0" cellspacing="0" height="100">
-                            <tbody>
-                               <tr align = center>
-                                	<img style ="background-color:rgba(255, 255, 255, 0); border: none " src ="${pageContext.request.contextPath }/resources/shoppingMall/img/logo.png">
-                                    <br><br><br><br><br><br><br><br>
-                                </tr>
-                                <tr>
-	                                    <td style="text-align: center" width="1000" height="100">
-											<!-- 여기서 버튼을 누르면 로그인 창이 뜬다. -->
-											<button id="goShop" class="button" style="width: 100%;">
-	                                            <p align="center">
-	                                                <font color="white"> <span style="font-size: 24pt;">SHOP</span></font>
-	                                                <br> <br>
-	                                                <font color="white"><span style="font-size: 14pt;">Go Shop</span></font>
-	
-	                                            </p>
-	                                        </button>
-	                                    </td>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tbody>
+				<tr>
+					<td width="100%" height="700" align="center" valign="middle">
+						<table width="700" cellpadding="0" cellspacing="0" height="100">
+							<tbody>
+								<tr align=center>
+									<img style="background-color: rgba(255, 255, 255, 0); border: none"
+										src="${pageContext.request.contextPath }/resources/shoppingMall/img/logo.png">
+									<br>
+									<br>
+									<br>
+									<br>
+									<br>
+									<br>
+									<br>
+									<br>
+								</tr>
+								<tr>
+									<td style="text-align: center" width="1000" height="100">
+										<!-- 여기서 버튼을 누르면 로그인 창이 뜬다. -->
+										<button id="goShop" class="button" style="width: 100%;">
+											<p align="center">
+												<font color="white"> <span style="font-size: 24pt;">SHOP</span></font> <br> <br> <font color="white"><span
+													style="font-size: 14pt;">Go Shop</span></font>
+
+											</p>
+										</button>
+									</td>
 									<td width="1500"></td>
 									<td style="text-align: center" width="500" height="120">
-											<button id="goCommunity" class="button">
-												<p align="center">
-													<font color="white"> <span style="font-size: 22pt;">COMMUNITY</span>
-													</font><br> <br> <font color="white"><span
-														style="font-size: 12pt;">Go Community</span> </font>
-												</p>
-											</button>
+										<button id="goCommunity" class="button">
+											<p align="center">
+												<font color="white"> <span style="font-size: 22pt;">COMMUNITY</span>
+												</font><br> <br> <font color="white"><span style="font-size: 12pt;">Go Community</span> </font>
+											</p>
+										</button>
 									</td>
 								</tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
 
 		<!-- 이부분 부터 로그인 모달이 띄어지는 부분이다. -->
-        <div id="loginModal" class="modal">
+		<div id="loginModal" class="modal">
 			<!-- 로그인 모달의 내용 -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 align="center">로 그 인</h2>
-                <div class="modal-body" style="padding: 40px 50px;">
-                    <form id="loginform" name="loginform" role="form" action="login.do" method="post">
-                        <div class="form-group">
-                       <input type='hidden' id='toPage' name='toPage' value=''>
-                            <label for="userid">ID</label> <input type="text" class="form-control" id="userid"
-                                name="MEMBER_ID" placeholder="ID를 입력하세요...">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label> <input type="password" class="form-control" id="password"
-                                name="MEMBER_PW" placeholder="Password를 입력하세요...">
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="login_checkbox" checked /> <label
-                                for="login_checkbox"><span></span>ID 저장</label>
-                            <input type="checkbox" id="login_maintain_checkbox" checked /> <label
-                                for="login_maintain_checkbox"><span></span>로그인 상태 유지</label>
-                        </div>
-                        <input type="submit" value="로그인" class="btn btn-info btn-block">
-                        <Br>
-                    </form>
-                    <input type="button" value="비회원 로그인" id="noAccount" class="btn btn-info btn-block">
-                    <!--여기에 비회원 로그인할 컨트롤러 설정을 해야함.-->
-                    <br>
-                    <!-- 카카오 api 버튼 -->
-                    <div align="center" style="display: flex;">
-                    <Button id="kakao-login-btn" style="width:100% auto; background: transparent; border: 0;" onclick="location.href='http://developers.kakao.com/logout'"></Button>
-                    <Button id="naver-login-btn" style="width:100% auto; background: transparent; border: 0;">
-                    	<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/naver_login.PNG" width="222px" height="49px">
-                    </Button>					
-					</div>
-					<br>
-
-
-					
-
-                    <div style=" float:left;  margin-right:40px">
-                        <Button id="sign_up_btn" class="btn btn-info btn-block">회원가입</Button> </div>
-
-                    <div style=" float:right;"><Button id="find_info_btn" class="btn btn-info btn-block">아이디/비밀번호
-                            찾기</Button></div>
-
-                </div>
-
-
-            </div>
-        </div>
-        <div id="findinfo" class="findinfo_Modal">
-        	<!-- 아이디 /비밀번호 찾기 -->
-        	<div class="findinfo-content">
-        		<span class="close">&times;</span>
-        		<h2 align=center>아이디 찾기</h2>
-        		<form>
-        			<div class=form-group>
-        			<label for="findinfo_name">이름</label><br>
-        			
-        			<input type="text" class="form-control" id="findinfo_name" placeholder="가입시 기입한 이름을 적어주세요"><br>
-        			</div>
-        			<div class=form-group>
-        			<label for="findinfo_phone">휴대전화</label><br>
-        			<input type="text" class="form-control" id="findinfo_phone" placeholder="가입시 기입한 휴대전화 번호를 -를 제외하고 적어주세요."><br>
-					</div>
-        			<br>
-        			<input type="submit" class="btn btn-info btn-block" value="확인">
-              	</form>
-           	</div>
-		</div>        	
-        
-        <div id="sign_up" class="sign_up_Modal">
-            <!-- 회원가입 모달창 -->
-            <div class="sign_up_content">
-                <span class="close">&times;</span>
-                <h2 align="center">회 원 가 입</h2>
-                <div class="sign_up_body" style="padding: 40px 50px;">
-
-                    <form action="register.do" method="post" name="sign_form" role="form">
-                        <table width=100% cellspacing=0 cellpadding=0 align=center>
-                            
-                                <tr>
-                                    <td><div style='float:left'>
-                                        <label for="sign_id">ID(Email)</label> &nbsp;&nbsp;&nbsp;
-                                        </div>
-                                        <div class="check_font" id="id_check" style='float:center'></div>
-                                   
-
-                                        <input type="text" class="form-control" id="sign_id" name="MEMBER_ID"
-                                            placeholder="Email을 입력하세요">
-                      
-                            </td>
-                            <td><br>
-                                <input type="button" class="btn btn-info btn-block" name="emailbtn" id="auth_Email" value="Email인증"
-                                     style="margin-left:10px" onclick="emailAvailCheck()" disabled="true">
-
-                            </td>
-
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <label for="sign_pwd">Password</label><BR>
-                                    <input type="password" class="form-control" id="sign_pwd" name="MEMBER_PW"
-                                        placeholder="암호를 입력하세요">
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td><div style='float:left'>
-                                    <label for="sign_pwd_check">Password Check</label>&nbsp;&nbsp;&nbsp;</div>
-                                     <div class="check_font" id="pw_check" style='float:center'></div>
-                                    <input type="password" class="form-control" id="sign_pwd_check"
-                                        name="password_check" placeholder="암호를 다시 입력하세요">
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="sign_name">Name</label><BR>
-                                    <input type="text" class="form-control" id="sign_name" name="NAME"
-                                        placeholder="이름을 입력하세요">
-                                </td>
-
-                            </tr>
-                            
-                            <tr>
-                                <td><div style='float:left'>
-                                    <label for="sign_nickname">Nickname</label>&nbsp;&nbsp;&nbsp;</div>
-                                      <div class="check_font" id="nick_check" style='float:center'></div>
-                                    <input type="text" class="form-control" id="sign_nickname" name="NICKNAME"
-                                        placeholder="닉네임을 적어주세요">
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <label for="sign_phone">Phone</label><BR>
-                                    <input type="text" class="form-control" id="sign_phone" name="PHONE"
-                                        placeholder="-제외한 번호를 적어주세요 ex)01012345678">
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="sign_birth">Birth</label><BR>
-                                    <input type="text" class="form-control" id="sign_birth" name="BIRTH"
-                                        placeholder="생년월일을 적어주세요 ex)190701">
-                                </td>
-
-                            </tr>
-                </table>
-                <br>
-                <input type="button" id="moredetails_btn" class="btn btn-info btn-block" value="추가 사항 입력" disabled="true"></button>
-               
-                <br>
-                <input type="submit" class="btn btn-info btn-block" id="sign_btn" name="sign" value="회원가입" disabled="true" >
-                </form>
-            </div>
-        </div>
-
-    </div>
-
-		<div id="emailcheck" class="emailcheck_Modal">
-			<div calss="emailcheck_content">
+			<div class="modal-content">
 				<span class="close">&times;</span>
-				
-				<div class="emailcheck_body" style="padding: 40px 50px;">
-				
-					<h2 align=center>이메일 인증</h2>
-				
+				<h2 align="center">로 그 인</h2>
+				<div class="modal-body" style="padding: 40px 50px;">
+					<form id="loginform" name="loginform" role="form" action="/login" method="post">
 						<div class="form-group">
-					    <label for="auth">인증키</label>
-                    	<input type="text" class="form-control" id="insertkey" placeholder="인증키를 적어주세요"></div>
+							<input type='hidden' id='toPage' name='toPage' value=''> <label for="userid">ID</label> <input type="text" class="form-control"
+								id="userid" name="MEMBER_ID" placeholder="ID를 입력하세요...">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label> <input type="password" class="form-control" id="password" name="MEMBER_PW"
+								placeholder="Password를 입력하세요...">
+						</div>
+						<div class="checkbox">
+							<input type="checkbox" id="login_checkbox" checked /> <label for="login_checkbox"><span></span>ID 저장</label> <input type="checkbox"
+								id="login_maintain_checkbox" checked /> <label for="login_maintain_checkbox"><span></span>로그인 상태 유지</label>
+						</div>
+						<input type="submit" value="로그인" class="btn btn-info btn-block"> <Br>
+					</form>
+					<input type="button" value="비회원 로그인" id="noAccount" class="btn btn-info btn-block">
+					<!--여기에 비회원 로그인할 컨트롤러 설정을 해야함.-->
 					<br>
-						<input type="button" id="authkey_check" value="인증" class="btn btn-info btn-block" onclick="checkAuthkey()">
-			
+					<!-- 카카오 api 버튼 -->
+					<div align="center" style="display: flex;">
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=8ac53956767ae67d81086241a1a789b1&redirect_uri=http://localhost:8080/login/kakao&response_type=code">
+							<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/kakao_login_medium_narrow.png">
+						</a>
+						<Button id="naver-login-btn" style="width: 100% auto; background: transparent; border: 0;">
+							<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/naver_login.PNG" width="222px" height="49px">
+						</Button>
+					</div>
+				</div>
+				<br>
+				<div style="float: left; margin-right: 40px">
+					<Button id="sign_up_btn" class="btn btn-info btn-block">회원가입</Button>
+				</div>
+
+				<div style="float: right;">
+					<Button id="find_info_btn" class="btn btn-info btn-block">아이디/비밀번호 찾기</Button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="findinfo" class="findinfo_Modal">
+		<!-- 아이디 /비밀번호 찾기 -->
+		<div class="findinfo-content">
+			<span class="close">&times;</span>
+			<h2 align=center>아이디 찾기</h2>
+			<form>
+				<div class=form-group>
+					<label for="findinfo_name">이름</label><br> <input type="text" class="form-control" id="findinfo_name" placeholder="가입시 기입한 이름을 적어주세요"><br>
+				</div>
+				<div class=form-group>
+					<label for="findinfo_phone">휴대전화</label><br> <input type="text" class="form-control" id="findinfo_phone"
+						placeholder="가입시 기입한 휴대전화 번호를 -를 제외하고 적어주세요."><br>
+				</div>
+				<br> <input type="submit" class="btn btn-info btn-block" value="확인">
+			</form>
+		</div>
+	</div>
+
+	<div id="sign_up" class="sign_up_Modal">
+		<!-- 회원가입 모달창 -->
+		<div class="sign_up_content">
+			<span class="close">&times;</span>
+			<h2 align="center">회 원 가 입</h2>
+			<div class="sign_up_body" style="padding: 40px 50px;">
+
+				<form action="register.do" method="post" name="sign_form" role="form">
+					<table width=100% cellspacing=0 cellpadding=0 align=center>
+
+						<tr>
+							<td><div style='float: left'>
+									<label for="sign_id">ID(Email)</label> &nbsp;&nbsp;&nbsp;
+								</div>
+								<div class="check_font" id="id_check" style='float: center'></div> <input type="text" class="form-control" id="sign_id" name="MEMBER_ID"
+								placeholder="Email을 입력하세요"></td>
+							<td><br> <input type="button" class="btn btn-info btn-block" name="emailbtn" id="auth_Email" value="Email인증"
+								style="margin-left: 10px" onclick="emailAvailCheck()" disabled="true"></td>
+
+						</tr>
+
+						<tr>
+							<td><label for="sign_pwd">Password</label><BR> <input type="password" class="form-control" id="sign_pwd" name="MEMBER_PW"
+								placeholder="암호를 입력하세요"></td>
+
+						</tr>
+						<tr>
+							<td><div style='float: left'>
+									<label for="sign_pwd_check">Password Check</label>&nbsp;&nbsp;&nbsp;
+								</div>
+								<div class="check_font" id="pw_check" style='float: center'></div> <input type="password" class="form-control" id="sign_pwd_check"
+								name="password_check" placeholder="암호를 다시 입력하세요"></td>
+
+						</tr>
+						<tr>
+							<td><label for="sign_name">Name</label><BR> <input type="text" class="form-control" id="sign_name" name="NAME"
+								placeholder="이름을 입력하세요"></td>
+
+						</tr>
+
+						<tr>
+							<td><div style='float: left'>
+									<label for="sign_nickname">Nickname</label>&nbsp;&nbsp;&nbsp;
+								</div>
+								<div class="check_font" id="nick_check" style='float: center'></div> <input type="text" class="form-control" id="sign_nickname"
+								name="NICKNAME" placeholder="닉네임을 적어주세요"></td>
+						</tr>
+
+						<tr>
+							<td><label for="sign_phone">Phone</label><BR> <input type="text" class="form-control" id="sign_phone" name="PHONE"
+								placeholder="-제외한 번호를 적어주세요 ex)01012345678"></td>
+
+						</tr>
+						<tr>
+							<td><label for="sign_birth">Birth</label><BR> <input type="text" class="form-control" id="sign_birth" name="BIRTH"
+								placeholder="생년월일을 적어주세요 ex)190701"></td>
+
+						</tr>
+					</table>
+					<br> <input type="button" id="moredetails_btn" class="btn btn-info btn-block" value="추가 사항 입력" disabled="true">
+					</button>
+
+					<br> <input type="submit" class="btn btn-info btn-block" id="sign_btn" name="sign" value="회원가입" disabled="true">
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="emailcheck" class="emailcheck_Modal">
+		<div calss="emailcheck_content">
+			<span class="close">&times;</span>
+
+			<div class="emailcheck_body" style="padding: 40px 50px;">
+
+				<h2 align=center>이메일 인증</h2>
+
+				<div class="form-group">
+					<label for="auth">인증키</label> <input type="text" class="form-control" id="insertkey" placeholder="인증키를 적어주세요">
+				</div>
+				<br> <input type="button" id="authkey_check" value="인증" class="btn btn-info btn-block" onclick="checkAuthkey()">
+
+			</div>
+		</div>
+	</div>
+
+	<div id="moredetails" class="moredetails_Modal">
+		<div class="moredetails_content">
+			<span class="close">&times;</span>
+			<h2 align="center">추 가 사 항</h2>
+			<div class="moredetail_body" style="padding: 40px 50px;">
+				<div class=form_moredetails_group>
+
+					<form action="moredetails.do" method="post" id="moredetailsform">
+						<input type='hidden' name='MEMBER_ID' id='md_id' value=''> <input type='hidden' name='MEMBER_PW' id='md_pw' value=''> <input
+							type='hidden' name='NAME' id='md_name' value=''> <input type='hidden' name='PHONE' id='md_phone' value=''> <input type='hidden'
+							name='BIRTH' id='md_birth' value=''> <input type='hidden' name='NICKNAME' id='md_nickname' value=''>
+
+						<table width=100% cellspacing=0 cellpadding=0 align=center colspan="2">
+							<tr>
+								<td><label for="team">선호 구단</label></td>
+								<td><select class="form-control" name="TEAM" id="team">
+										<option value="team">Team</option>
+										<option value="lg">LG</option>
+										<option value="kiwoom">Kiwoom</option>
+										<option value="kia">Kia</option>
+										<option value="hanwha">Hanwha</option>
+										<option value="lotte">Lotte</option>
+										<option value="samsung">Samsung</option>
+										<option value="nc">NC</option>
+										<option value="doosan">Doosan</option>
+										<option value="kt">KT</option>
+										<option value="sk">SK</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td><br> <label for="position">주 포지션</label></td>
+								<td><br>
+									<div class="position select">
+										<select class="form-control" name="POSITION" id="position">
+											<option value="position">Position</option>
+											<option value="내야수">내야수</option>
+											<option value="외야수">외야수</option>
+											<option value="포수">포수</option>
+											<option value="투수">투수</option>
+										</select>
+									</div></td>
+							</tr>
+							<tr>
+								<td><br> <label for="brand">브랜드1</label></td>
+								<td><br>
+									<div>
+										<select class="form-control" name="BRAND1" id="brand1">
+											<option value="">선택1</option>
+											<option value="adidas">Adidas</option>
+											<option value="asics">Asics</option>
+											<option value="descente">Descente</option>
+											<option value="brett">Brett</option>
+											<option value="fila">Fila</option>
+											<option value="mizuno">Mizuno</option>
+											<option value="nike">Nike</option>
+											<option value="morimoto">Morimoto</option>
+											<option value="underarmour">UnderArmour</option>
+											<option value="wilson">Wilson</option>
+										</select>
+									</div></td>
+							</tr>
+							<tr>
+								<td><br> <label for="brand">브랜드2</label></td>
+								<td><br>
+									<div>
+										<select class="form-control" name="BRAND2" id="brand2">
+											<option value="">선택2</option>
+											<option value="adidas">Adidas</option>
+											<option value="asics">Asics</option>
+											<option value="descente">Descente</option>
+											<option value="brett">Brett</option>
+											<option value="fila">Fila</option>
+											<option value="mizuno">Mizuno</option>
+											<option value="nike">Nike</option>
+											<option value="morimoto">Morimoto</option>
+											<option value="underarmour">UnderArmour</option>
+											<option value="wilson">Wilson</option>
+										</select>
+									</div></td>
+							</tr>
+							<tr>
+								<td><br> <label for="brand">브랜드3</label></td>
+								<td><br>
+									<div>
+										<select class="form-control" name="BRAND3" id="brand3">
+											<option value="">선택3</option>
+											<option value="adidas">Adidas</option>
+											<option value="asics">Asics</option>
+											<option value="descente">Descente</option>
+											<option value="brett">Brett</option>
+											<option value="fila">Fila</option>
+											<option value="mizuno">Mizuno</option>
+											<option value="nike">Nike</option>
+											<option value="morimoto">Morimoto</option>
+											<option value="underarmour">UnderArmour</option>
+											<option value="wilson">Wilson</option>
+										</select>
+									</div></td>
+							</tr>
+						</table>
+						<br> <input type="button" class="btn btn-info btn-block" id="moredetails_submit" name="sign" value="회원가입">
+					</form>
 				</div>
 			</div>
 		</div>
 
-		<div id="moredetails" class="moredetails_Modal">
-        <div class="moredetails_content">
-            <span class="close">&times;</span>
-            <h2 align="center">추 가 사 항</h2>
-            <div class="moredetail_body" style="padding: 40px 50px;">
-                        <div class=form_moredetails_group>
-
-                <form action="moredetails.do" method="post" id="moredetailsform">
-                	<input type='hidden'name='MEMBER_ID' id='md_id' value=''>
-            		<input type='hidden'name='MEMBER_PW' id='md_pw' value=''>
-                 	<input type='hidden' name='NAME' id='md_name' value=''>
-                 	<input type='hidden' name='PHONE' id='md_phone' value=''>
-                 	<input type='hidden' name='BIRTH' id='md_birth' value=''>
-                 	<input type='hidden' name='NICKNAME' id='md_nickname' value=''>
-                
-                    <table width=100% cellspacing=0 cellpadding=0 align=center colspan="2">
-                            <tr>
-                                <td>
-                                    <label for="team">선호 구단</label>
-                                </td>
-                                <td>
-                                    <select class="form-control" name="TEAM" id="team">
-                                    	<option value="team">Team</option>
-                                        <option value="lg">LG</option>
-                                        <option value="kiwoom">Kiwoom</option>
-                                        <option value="kia">Kia</option>
-                                        <option value="hanwha">Hanwha</option>
-                                        <option value="lotte">Lotte</option>
-                                        <option value="samsung">Samsung</option>
-                                        <option value="nc">NC</option>
-                                        <option value="doosan">Doosan</option>
-                                        <option value="kt">KT</option>
-                                        <option value="sk">SK</option>
-
-                                    </select>
-                                </td>
-                            </tr>
-                       
-                            <tr>
-                                <td>     <br>
-                                    <label for="position">주 포지션</label></td>
-                                <td>     <br>
-
-                                    <div class="position select">
-                                    <select class="form-control" name="POSITION" id="position">
-                                    	<option value="position">Position</option>
-                                        <option value="내야수">내야수</option>
-                                        <option value="외야수">외야수</option>
-                                        <option value="포수">포수</option>
-                                        <option value="투수">투수</option>
-
-                                    </select>
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>     <br>
-                                <label for="brand">브랜드1</label></td>
-                                <td>     <br>
-                                 <div>
-                                   <select class="form-control" name="BRAND1" id="brand1">
-                                   		<option value="">선택1</option>
-                                        <option value="adidas">Adidas</option>
-                                        <option value="asics">Asics</option>
-                                        <option value="descente">Descente</option>
-                                        <option value="brett">Brett</option>
-                                        <option value="fila">Fila</option>
-                                        <option value="mizuno">Mizuno</option>
-                                        <option value="nike">Nike</option>
-                                        <option value="morimoto">Morimoto</option>
-                                        <option value="underarmour">UnderArmour</option>
-                                        <option value="wilson">Wilson</option>
-                                    </select>
-                                </div>
-                                </td>
-                               
-                            </tr>
-                            <tr>
-                                <td>
-                                <br><label for="brand">브랜드2</label></td>
-                                <td> <br>
-                                 <div>
-                                   <select class="form-control" name="BRAND2" id="brand2">
-                                   		<option value="">선택2</option>
-                                        <option value="adidas">Adidas</option>
-                                        <option value="asics">Asics</option>
-                                        <option value="descente">Descente</option>
-                                        <option value="brett">Brett</option>
-                                        <option value="fila">Fila</option>
-                                        <option value="mizuno">Mizuno</option>
-                                        <option value="nike">Nike</option>
-                                        <option value="morimoto">Morimoto</option>
-                                        <option value="underarmour">UnderArmour</option>
-                                        <option value="wilson">Wilson</option>
-                                    </select>
-                                </div>
-                                </td>
-                               
-                            </tr>
-                            <tr>
-                                <td><br>
-                                <label for="brand">브랜드3</label></td>
-                                <td><br>
-                                 <div>
-                                   <select class="form-control" name="BRAND3" id="brand3">
-                                   		<option value="">선택3</option>
-                                        <option value="adidas">Adidas</option>
-                                        <option value="asics">Asics</option>
-                                        <option value="descente">Descente</option>
-                                        <option value="brett">Brett</option>
-                                        <option value="fila">Fila</option>
-                                        <option value="mizuno">Mizuno</option>
-                                        <option value="nike">Nike</option>
-                                        <option value="morimoto">Morimoto</option>
-                                        <option value="underarmour">UnderArmour</option>
-                                        <option value="wilson">Wilson</option>
-                                    </select>
-                                </div>
-                                </td>
-                               
-                            </tr>
-                          </table>
-                       
-                
-                    <br>
-                    <input type="button" class="btn btn-info btn-block" id="moredetails_submit" name="sign" value="회원가입">
-                </form>
-            </div>
-        </div>
-    </div>
-    
-     <script>
+		<script>
     //로그인시 아이디와 패스워드 체크
         function check_input() {
             var str, i, ch;
@@ -721,58 +657,11 @@ input[type="checkbox"]:checked+label span {
                     }
                 }
             } // 패스워드 체크 <------
-
             loginform.submit();
         }
-    
-      //<![CDATA[ // 사용할 앱의 JavaScript 키를 설정해 주세요. 
-    	  Kakao.init('25bbcf79c9a33e4e0d27eaa6bd0ddcf3'); //여기서 아까 발급받은 키 중 javascript키를 사용해준다. 
-    	  // 카카오 로그인 버튼을 생성합니다.
-    	  Kakao.Auth.createLoginButton({ 
-    		  container: '#kakao-login-btn', 
-    		  success: function(authObj){
-    			  Kakao.API.request({
-
-    			       url: '/v1/user/me',
-
-    			       success: function(res) {
-
-    			           //  alert(JSON.stringify(res)); //<---- kakao.api.request 에서 불러온 결과값 json형태로 출력
-    			           //  alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
-    			          
-    			           console.log(res.id);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
-    			             console.log(res.kaccount_email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
-    			             console.log(res.properties['nickname']);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근 
-    			    		 console.log(res.birthday)
-    			             console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
-    			             var MEMBER_ID =  res.kaccount_email;
-    						 
-    			    		 $.ajax({
-    			         		url:'kakaoLogin.do',
-    			         		type:'POST', //여기서 String값으로 받고 밑에서 비교하는것을 success,fail로 비교하자!!
-    			         		data:{MEMBER_ID:res.kaccount_email , NICKNAME:res.properties['nickname'],toPage:$("#toPage").val()},
-    			         		dataType : "text",
-    			         		success : function(data) {
-    			         			alert('성공'+data);
-    			         			location.href=data;
-    			         				}, 
-    			         		error : function() {
-    			         			alert('실패');
-    			 						console.log("실패");
-    			 				}
-    			 			});
-    			       }
-    			         })
-    		  }, 
-    		fail: function(err) { 
-    			alert("실패"+JSON.stringify(err)); 
-    			}
-    			  }); //]]>
-
-        
     </script>
-    <!-- 아이디 중복과 비밀번호 일치 시키는 코드. -->
-    <script>
+		<!-- 아이디 중복과 비밀번호 일치 시키는 코드. -->
+		<script>
     $(document).ready(function(){
     	
     	$("#noAccount").click(function(){
@@ -871,10 +760,10 @@ input[type="checkbox"]:checked+label span {
 		});	
     
     </script>
-    
-    
-	<!-- 이부분이 이메일 양식을 체크 하는부분 -->
-    <script type="text/javascript">
+
+
+		<!-- 이부분이 이메일 양식을 체크 하는부분 -->
+		<script type="text/javascript">
     var authkey;
     var emailcheck_Modal = document.getElementById('emailcheck');
         var emailAvailCheck = function () {
@@ -931,7 +820,7 @@ input[type="checkbox"]:checked+label span {
         
     </script>
 
-    <script>
+		<script>
         var modal = document.getElementById('loginModal');  //id가 loginModal인것을 찾아서 modal변수에 넣어준다.
         var modal_sign_up = document.getElementById('sign_up');
         var moredetails = document.getElementById('moredetails');
