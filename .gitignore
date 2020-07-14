@@ -1,105 +1,78 @@
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# CDT- autotools
+.autotools
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Annotation Processing
+.apt_generated/
+.apt_generated_test/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+# Uncomment this line if you wish to ignore the project description file.
+# Typically, this file would be tracked if it contains build/dependency configurations:
+#.project
+
+### Eclipse Patch ###
+# Spring Boot Tooling
+.sts4-cache/
+
+### Maven ###
 target/
-*.class
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/test-classes/com/bbshop/bit/service/GoodsServiceTests.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/classes/com/bbshop/bit/service/GoodsService.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/domain/GoodsVO.class
-target/classes/com/bbshop/bit/controller/GoodsController.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-*.class
-*.properties
-target/test-classes/com/bbshop/bit/service/GoodsServiceTests.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.xml
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/classes/com/bbshop/bit/service/GoodsService.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/domain/GoodsVO.class
-target/classes/com/bbshop/bit/controller/GoodsController.class
-src/test/java/com/bbshop/bit/service/GoodsServiceTests.java
-*.JPG
-*.jpg
-*.png
-*.class
-target/test-classes/log4j.xml
-src/test/java/com/bbshop/bit/controller/GoodsControllerTests.java
-src/test/java/com/bbshop/bit/mapper/GoodsMapperTests.java
-src/test/java/com/bbshop/bit/service/GoodsServiceTests.java
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/domain/GoodsVO.class
-target/classes/com/bbshop/bit/mapper/MemberMapper.class
-target/classes/com/bbshop/bit/mapper/MemberMapper.xml
-target/classes/com/bbshop/bit/mapper/OrderMapper.xml
-target/classes/com/bbshop/bit/service/MemberService.class
-target/classes/com/bbshop/bit/service/MemberServiceImpl.class
-target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/test-classes/com/bbshop/bit/mapper/GoodsMapperTests.class
-target/test-classes/com/bbshop/bit/service/GoodsServiceTests.class
-target/test-classes/com/bbshop/dao/ConnectionPoolTests.class
-src/test/java/com/bbshop/dao/ConnectionPoolTests.java
-src/test/java/com/bbshop/bit/service/OrderServiceTests.java
-src/test/java/com/bbshop/bit/service/GoodsServiceTests.java
-src/test/java/com/bbshop/bit/mapper/GoodsMapperTests.java
-src/main/webapp/resources/shoppingMall/img/goods/g-1.JPG
-src/main/webapp/resources/shoppingMall/img/goods/g-2.jpg
-src/main/webapp/resources/shoppingMall/img/goods/g-3.jpg
-src/main/webapp/resources/shoppingMall/img/goods/g-4.jpg
-src/main/webapp/resources/shoppingMall/img/goods/g-5.jpg
-src/main/webapp/resources/shoppingMall/img/goods/g-6.png
-src/main/webapp/resources/shoppingMall/img/goods/g-7.jpg
-src/main/webapp/resources/shoppingMall/img/goods/g-8.jpg
-target/classes/com/bbshop/bit/controller/OrderController.class
-target/classes/com/bbshop/bit/mapper/OrderMapper.class
-target/classes/com/bbshop/bit/mapper/OrderMapper.xml
-target/classes/com/bbshop/bit/service/CartService.class
-target/classes/com/bbshop/bit/service/CartServiceImpl.class
-target/classes/com/bbshop/bit/service/OrderService.class
-target/classes/com/bbshop/bit/service/OrderServiceImpl.class
-target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/test-classes/com/bbshop/bit/mapper/GoodsMapperTests.class
-target/test-classes/com/bbshop/bit/mapper/GoodsMapperTests.class
-src/test/java/com/bbshop/bit/mapper/GoodsMapperTests.java
-target/classes/com/bbshop/bit/controller/GoodsController.class
-target/classes/com/bbshop/bit/controller/MemberController.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/service/GoodsService.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-src/test/java/com/bbshop/bit/mapper/GoodsMapperTests.java
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/classes/com/bbshop/bit/controller/OrderController.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/service/GoodsService.class
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/controller/GoodsController.class
-target/classes/com/bbshop/bit/controller/OrderController.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/service/GoodsService.class
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/com/bbshop/bit/service/GoodsServiceImpl.class
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/classes/com/bbshop/bit/controller/GoodsController.class
-target/classes/com/bbshop/bit/mapper/GoodsMapper.xml
-target/classes/log4j.xml
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.properties
-target/m2e-wtp/web-resources/META-INF/maven/com.bbshop/bit/pom.xml
-target/test-classes/com/bbshop/bit/mapper/GoodsMapperTests.class
-target/classes/com/bbshop/bit/controller/OrderController.class
-target/classes/com/bbshop/bit/mapper/AdminMapper.xml
-target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-target/classes/com/bbshop/bit/mapper/OnetoOneMapper.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
