@@ -3,14 +3,17 @@ package com.bbshop.bit.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
+@Log4j
 public class HomeController {
 
 	// index - 동영상 및 로그인
-	@RequestMapping("/")
+	@RequestMapping("/home")
 	public String index() {
-
-		return "index.do";
+		log.info("index()");
+		return "shoppingMall/main/index";
 	}
 
 	/* 쇼핑몰 */

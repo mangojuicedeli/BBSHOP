@@ -114,8 +114,6 @@
 			<artifactId>HikariCP</artifactId>
 			<version>2.7.4</version>
 		</dependency>
-
-
 		<!-- myBatis 추가 -->
 		<!-- spring jdbc -->
 		<dependency>
@@ -162,8 +160,6 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
-
 		<!-- Oracle(변경된부분:2017.06.12 현재) -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -181,14 +177,14 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
 		<!-- Jsoup 설정 -->
-      	<dependency>
-    	    <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.8.3</version>
-      	</dependency>
-		
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+
 		<!-- spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -225,45 +221,29 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
-
-
 		<!-- json 데이터 처리 -->
-		<!-- 객체를 JSON/XML로 변환할 때 사용  -->
+		<!-- 객체를 JSON/XML로 변환할 때 사용 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.6</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.9.6</version>
 		</dependency>
-		
-		<!-- gson 라이브러리 추가 -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.2</version>
-		</dependency>
-
-
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-
-
-
 		<!-- gson, json -->
-	<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>2.8.5</version>
-	</dependency>
-
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
 		<!-- 의정이꺼 -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -275,28 +255,26 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
-		
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- 쿼리 로그 출력을 위한..의정 0818 -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.lazyluke</groupId> -->
-<!-- 			<artifactId>log4jdbc-remix</artifactId> -->
-<!-- 			<version>0.2.7</version> -->
-<!-- 		</dependency> -->
-		
+		<!-- <dependency> -->
+		<!-- <groupId>org.lazyluke</groupId> -->
+		<!-- <artifactId>log4jdbc-remix</artifactId> -->
+		<!-- <version>0.2.7</version> -->
+		<!-- </dependency> -->
+
 	</dependencies>
 	<build>
 		<plugins>

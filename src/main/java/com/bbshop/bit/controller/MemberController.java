@@ -20,9 +20,12 @@ import com.bbshop.bit.domain.MemberVO;
 import com.bbshop.bit.domain.MoreDetailsVO;
 import com.bbshop.bit.service.MemberService;
 import com.bbshop.bit.service.UserMailSendService;
+import com.bbshop.bit.util.login.AccessToken;
+import com.bbshop.bit.util.login.KakaoAPI;
+import com.bbshop.bit.util.login.KakaoUser;
 
 @Controller
-@RequestMapping("*.do")
+@RequestMapping("/login")
 public class MemberController {
 	
 	private int noAccountCount;
@@ -36,13 +39,7 @@ public class MemberController {
 	@Autowired
 	private UserMailSendService mailsender;
 	
-	@RequestMapping(value="index.do", method=RequestMethod.GET)
-	public String index() {
-		System.out.println("index 입니다..");
-		return "shoppingMall/main/index";
-	}
-	
-	@RequestMapping(value="login.do" ,method=RequestMethod.POST)//RequestMethod 쿼리스트링으로 받을때 사용하는것. GET만가능 (RequestParam)
+	@RequestMapping(method=RequestMethod.POST)
 	public String login(MemberVO vo, HttpSession session ,HttpServletRequest request) {
 		
 		String toPage = request.getParameter("toPage"); //hidden 은 value값을 가져와야 한다.
@@ -103,40 +100,18 @@ public class MemberController {
 	}
 	
 	//이메일을 받아와서 먼저 아이디 체크를 해보고 없으면 아이디를 넣어준다!
-	@ResponseBody
-	@RequestMapping(value="kakaoLogin.do" , method= {RequestMethod.POST,RequestMethod.GET})
-	public String kakaoLogin(MemberVO vo , HttpServletRequest request,HttpSession session) {
-		vo.setMEMBER_ID(request.getParameter("MEMBER_ID"));
-		String toPage = request.getParameter("toPage");
-		System.out.println(vo.getMEMBER_ID());
-		String result ="";
-		System.out.println(toPage);
-		if (toPage.equals("goShop")) {
-			
-			result="shopping_main.do";
-		}
-		else {
-			
-			result="community_main.do";
-		}
-		int temp = memberService.getId(vo);
-		if(temp==1) {
-			System.out.println("아이디가 존재 합니다");
-			session.setAttribute("member",vo.getUSER_KEY());
-		}
-		else {
-			System.out.println("아이디가 없으니 이쪽으로 들어오니??");
-			vo.setMEMBER_PW("kakao");
-			vo.setGRADE("bronze");
-			vo.setNAME(vo.getNICKNAME());
-			vo.setPHONE("kakao");
-			
-			memberService.register(vo);
-			vo.setUSER_KEY(memberService.getUser_key(vo));
-			session.setAttribute("member", vo.getUSER_KEY());
-		}
-		System.out.println(result);
-		return result;
+	@RequestMapping(value="/kakao")
+	public String kakaoLogin(String code, HttpSession session) {
+		System.out.println("code : " + code);
+		
+		KakaoAPI kakaoAPI = new KakaoAPI();
+		String access_token = kakaoAPI.getAccessToken(code);
+		KakaoUser user = kakaoAPI.getUserInfo(access_token);
+		
+		session.setAttribute("member", 100); // 임시 user_key 값을 넣어둠
+		if (user.getNickname() != null) session.setAttribute("nickname", user.getNickname());
+		
+		return "/home";
 	}
 	
 	@RequestMapping(value="register.do",method=RequestMethod.POST)
@@ -147,11 +122,11 @@ public class MemberController {
 		try {
 			memberService.register(vo);
 			System.out.println("회원등록 성공!");			
-			return "redirect:index.do";
+			return "shoppingMall/main/index";
 		}
 		catch(Exception e) {
 			System.out.println("회원 등록 실패...");
-			return "redirect:index.do";
+			return "shoppingMall/main/index";
 		}
 	}
 	@ResponseBody
@@ -183,13 +158,13 @@ public class MemberController {
 			memberService.moreDetailsRegister(md);
 			System.out.println("추가정보 등록 성공!");
 
-			return "redirect:index.do";
+			return "shoppingMall/main/index";
 		}
 		catch(Exception e) {
 			
 			System.out.println("회원등록 실패..");
 
-			return "redirect:index.do";
+			return "shoppingMall/main/index";
 		}
 	}
 	
