@@ -302,46 +302,17 @@ public class GoodsController {
 	// 쇼핑 메인 - 추천상품
 	@RequestMapping(value="/shopping_main.do", method=RequestMethod.GET)
 	public String shopping_main(HttpSession session, Model model) {
-
-		log.info("Controller...shopping_main.jsp");
-
-		long user_key = 0;
+		
 		List<GoodsVO> recommendList = new ArrayList<GoodsVO>();
+		long user_key = (long)session.getAttribute("member");
 		
-		// 세션 nickname 값 받아오기 
-		String nickname = (String)session.getAttribute("nickname");
-		System.out.println("비회원 nickname : "+ nickname);
-				
-		// 비회원일 경우, 
-		if (nickname != null && nickname.length() >= 10 && nickname.substring(0,9).equals("noAccount")) {
-			
-			recommendList = service.recommendBestList();
-			
-			for (int i = 0; i < recommendList.size(); i++) {
-				System.out.println("추천 제품 목록 : " + recommendList.get(i).toString());
-			}
-			
-			model.addAttribute("recommendList", recommendList);
-			
-			return "shoppingMall/main/shopping_main";
-			
-		// 회원일 경우...session user_key를 가져온다.
-		} else {
-			user_key = (long)session.getAttribute("member");
-		}
-
-		// 추가사항 정보를 받아온다.
 		MoreDetailsVO moredetail = service.findDetail(user_key);
-		System.out.println("moredetail 추가 사항 객체 정보 : " + moredetail);
 
-		// 추가사항이 없을 경우 moredetail이 null이 되므로 null 체크 로직 추가.
-		if (moredetail == null) {
+		if (moredetail != null) {
+			recommendList = service.recommendGoodsList(moredetail);
+		} else {
 			recommendList = service.recommendBestList();
 		}
-		else {
-			recommendList = service.recommendGoodsList(moredetail);
-		}
-		
 		model.addAttribute("recommendList", recommendList);
 
 		return "shoppingMall/main/shopping_main";

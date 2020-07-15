@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +19,8 @@ import com.bbshop.bit.domain.MemberVO;
 import com.bbshop.bit.domain.MoreDetailsVO;
 import com.bbshop.bit.service.MemberService;
 import com.bbshop.bit.service.UserMailSendService;
-import com.bbshop.bit.util.login.AccessToken;
 import com.bbshop.bit.util.login.KakaoAPI;
-import com.bbshop.bit.util.login.KakaoUser;
+import com.bbshop.bit.util.login.KakaoAccount;
 
 @Controller
 @RequestMapping("/login")
@@ -53,7 +51,7 @@ public class MemberController {
 		System.out.println("디비에 저장된 비밀번호"+db_pw);
 		
 		//암호화된 비밀번호를 복호화 하여 로그인시 회원이 작성한 비밀번호와 매치 시켜서 비밀번호 일치 하는지 본다. 
-		if(passwordEncoder.matches(vo.getMEMBER_PW(),db_pw)) {
+		if (passwordEncoder.matches(vo.getMEMBER_PW(), db_pw)) {
 			
 			System.out.println("비밀번호 일치!");
 			
@@ -99,19 +97,21 @@ public class MemberController {
 		return result;
 	}
 	
-	//이메일을 받아와서 먼저 아이디 체크를 해보고 없으면 아이디를 넣어준다!
+	// 카카오 로그인 API 연동
 	@RequestMapping(value="/kakao")
 	public String kakaoLogin(String code, HttpSession session) {
-		System.out.println("code : " + code);
-		
+				
 		KakaoAPI kakaoAPI = new KakaoAPI();
+		// 전달 받은 인증 코드로 엑세스 토큰 받아 온다.
 		String access_token = kakaoAPI.getAccessToken(code);
-		KakaoUser user = kakaoAPI.getUserInfo(access_token);
+		// 엑세스 토큰을 통해 카카오 사용자 조회 API를 호출해서 카카오에 저장된 사용자 정보 얻어 온다.
+		KakaoAccount user = kakaoAPI.getUserInfo(access_token);
+		// 얻어온 사용자 정보 중 id와 nickname을 세션에 저장한다.
+		session.setAttribute("member", user.getId());
+		String nickname = user.getProfile().getNickname();
+		if (nickname != null) session.setAttribute("nickname", nickname);
 		
-		session.setAttribute("member", 100); // 임시 user_key 값을 넣어둠
-		if (user.getNickname() != null) session.setAttribute("nickname", user.getNickname());
-		
-		return "/home";
+		return "redirect:/shopping_main.do";
 	}
 	
 	@RequestMapping(value="register.do",method=RequestMethod.POST)
