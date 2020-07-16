@@ -1,5 +1,10 @@
 package com.bbshop.bit.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -21,9 +26,13 @@ import com.bbshop.bit.service.MemberService;
 import com.bbshop.bit.service.UserMailSendService;
 import com.bbshop.bit.util.login.KakaoAPI;
 import com.bbshop.bit.util.login.KakaoAccount;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/login")
+@Log4j
 public class MemberController {
 	
 	private int noAccountCount;
@@ -98,7 +107,7 @@ public class MemberController {
 	}
 	
 	// 카카오 로그인 API 연동
-	@RequestMapping(value="/kakao")
+	@RequestMapping(value="/login/kakao")
 	public String kakaoLogin(String code, HttpSession session) {
 				
 		KakaoAPI kakaoAPI = new KakaoAPI();
@@ -110,8 +119,35 @@ public class MemberController {
 		session.setAttribute("member", user.getId());
 		String nickname = user.getProfile().getNickname();
 		if (nickname != null) session.setAttribute("nickname", nickname);
+		session.setAttribute("access_token", access_token);
 		
 		return "redirect:/shopping_main.do";
+	}
+	
+	@RequestMapping(value="/logout/kakao")
+	public String kakaoLogout(String access_token, HttpSession session) {
+		
+		try {
+		// 커넥션 설정
+			URL url = new URL("https://kapi.kakao.com/v1/user/logout");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "Bearer " + access_token);
+		// 응답 데이터를 파싱해서 로그아웃된 카카오계정 id를 확인한다.	
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null) { result += line; }
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            long id = element.getAsJsonObject().get("id").getAsLong();
+            log.info("id : " + id);
+			
+			return "redirect:/home";
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="register.do",method=RequestMethod.POST)
@@ -143,14 +179,8 @@ public class MemberController {
 	public String moredetails(MemberVO vo, MoreDetailsVO md, HttpServletRequest request) {
 				
 		vo.setGRADE("bronze"); // 등급 설정
-		
-		System.out.println("moredetails 컨트롤러에서의 vo : " + vo.toString());
-		System.out.println("moredetails 컨트롤러에서의 md : " + md.toString());
-		
 		try {
-			
 			memberService.register(vo);
-			
 			long user_key=memberService.getUser_key(vo);
 			System.out.println("vo user_key : " + user_key);
 			
@@ -159,8 +189,7 @@ public class MemberController {
 			System.out.println("추가정보 등록 성공!");
 
 			return "shoppingMall/main/index";
-		}
-		catch(Exception e) {
+		} catch(Exception e) {
 			
 			System.out.println("회원등록 실패..");
 
