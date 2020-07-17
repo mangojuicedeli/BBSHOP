@@ -12,7 +12,6 @@ public class HomeController {
 	// index - 동영상 및 로그인
 	@RequestMapping("/home")
 	public String index() {
-		log.info("index()");
 		return "shoppingMall/main/index";
 	}
 
