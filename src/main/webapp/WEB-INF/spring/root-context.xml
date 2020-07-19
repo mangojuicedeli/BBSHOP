@@ -38,7 +38,7 @@
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.transport.protocol">SMTP</prop>
 				<prop key="mail.smtp.auth">true</prop>
 				<prop key="mail.smtp.starttls.enable">true</prop>
 				<prop key="mail.debug">true</prop>
@@ -47,5 +47,6 @@
 	</bean>
    
    <mybatis-spring:scan base-package="com.bbshop.bit.mapper" />
+   <context:component-scan base-package="com.bbshop.bit.mapper, com.bbshop.bit.domain, com.bbshop.bit.service, com.bbshop.bit.util" />
    
 </beans>

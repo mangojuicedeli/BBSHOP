@@ -46,7 +46,7 @@ public class MemberController {
 	@Autowired
 	private UserMailSendService mailsender;
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(MemberVO vo, HttpSession session ,HttpServletRequest request) {
 		
 		String toPage = request.getParameter("toPage"); //hidden 은 value값을 가져와야 한다.
