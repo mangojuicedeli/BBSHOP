@@ -33,8 +33,9 @@ import com.bbshop.bit.service.MyPageService;
 
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 @Controller
+@Log4j
+@RequestMapping("/mypage")
 public class MyPageController {
 
 	@Autowired
@@ -47,32 +48,25 @@ public class MyPageController {
     PasswordEncoder passwordEncoder;
 	
 	// 회원 정보 조회 -> 적립금 불러오기
-	@RequestMapping(value = "/savings.do")
 	public String getSavings(Model model, PagingVO pagingVO) {
 		
 		pagingVO.setAmount(5); // 기본 생성자로 설정되는 10에서 5로 바꿔준다.
-						
 		long sum = 0;
 		long total = 0;
 		long user_key = (long)session.getAttribute("member");
 		int cnt = 0;
 		
 		MemberVO user = myPageService.getUserInfo(user_key); // 회원 정보 불러오기
-		
 		total = myPageService.getTotal(pagingVO, "savings", user_key); // 적립금 테이블 데이터 개수 구하기.
 		
 		List<SavingsVO> savings_list = myPageService.getSavingsList(pagingVO, user_key);		
 		List<OrderVO> orders_list = myPageService.getAllOrdersList(user_key);
 		
-		// 총 적립금 배열
-		long[] savings_total_list = new long[(int)total];
+		long[] savings_total_list = new long[(int)total]; // 총 적립금 배열
+		int[] stts_list = new int[5]; // 내 주문 주문 상태별 묶기
 		
-		// 내 주문 주문 상태별 묶기
-		int[] stts_list = new int[5];
-		
-		for (int i = 0; i < orders_list.size(); i++) {
-						
-			switch(orders_list.get(i).getStts()) {
+		for (int i = 0; i < orders_list.size(); i++) {	
+			switch (orders_list.get(i).getStts()) {
 				case 0 : 
 					stts_list[0]++;
 					break;
@@ -90,20 +84,15 @@ public class MyPageController {
 					break;					
 			}
 		}
-		
 		// 적립금 전체 총합
 		for (int i = savings_list.size()-1; i >= 0; i--) {
-			
 			sum += savings_list.get(i).getOr_savings();
 			savings_total_list[cnt] = sum;
-			
 			if (i != 0) cnt++;
 		}
-		
 		// 누적 금액 구하기
 		int pymnt_toNextGrade = 0;
 		switch (user.getGRADE()) {
-		
 			case "bronze" :
 				pymnt_toNextGrade = 200000 - user.getTOTAL_BUY();
 				break;
@@ -117,10 +106,8 @@ public class MyPageController {
 				pymnt_toNextGrade = 0;
 				break;
 		}
-		
 		// 적립금 총 금액 바인딩
 		if (savings_list.size() != 0) {
-			
 			for (int i = 0; i < savings_list.size(); i++) {	
 				savings_list.get(i).setOr_savings_total(savings_total_list[cnt--]);
 			}

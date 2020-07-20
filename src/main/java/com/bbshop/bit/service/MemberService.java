@@ -8,8 +8,8 @@ import com.bbshop.bit.domain.MoreDetailsVO;
 
 public interface MemberService {
 
-	public  void register(MemberVO member);
-	public String memberLogin(HashMap<String,String> map ,String toPage);
+	public void register(MemberVO member);
+	public String memberLogin(HashMap<String, String> map, String toPage);
 	public int getId(MemberVO vo);
 	public int getNickname(MemberVO vo);
 	public MemberVO isExsist();
@@ -19,9 +19,7 @@ public interface MemberService {
 	public boolean deleteMemberInfo(String id, String pw);
 	public void modify(MemberVO member);
 	public String memberPw(MemberVO member);
-	
 	public MemberVO getMemberInfo(long user_key);
-	
 	// 주문 후에 회원 정보 업데이트
 	public void updateMemberInfoAfterOrder(MemberVO user);
 }

@@ -468,7 +468,6 @@ body {
 				<div class="float-left"></div>
 				<div class="float-right">
 					<ul class="right_side">
-						<!-- 민구 추가 -->
 						<c:choose>
 							<c:when test="${member == 00 }">
 								<li><a href="#" onclick="noAccToLogin()">마이 페이지</a></li>
@@ -477,7 +476,7 @@ body {
 								<li><a href="#" onclick="noAccToLogin()">마이 페이지</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="/savings.do">마이 페이지</a></li>
+								<li><a href="/mypage">마이 페이지</a></li>
 							</c:otherwise>
 						</c:choose>
 						<li><a href="/community_main.do">커뮤니티
@@ -629,6 +628,6 @@ body {
 		function noAccToLogin() {
 
 			alert('마이 페이지는 로그인을 하셔야 볼 수 있습니다.');
-			location.href='/index.do';
+			location.href='/shopping_main.do';
 		}
 	</script>
