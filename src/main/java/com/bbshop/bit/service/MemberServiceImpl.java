@@ -24,91 +24,57 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void register(MemberVO vo) {
-		// TODO Auto-generated method stub
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		 System.out.println("ServiceImpl register");
-		 
-		 if(vo.getPHONE().equals("kakao")) {
-			vo.setMEMBER_PW("kakao"); 
-		 }else {
-	        String encPassword = passwordEncoder.encode(vo.getMEMBER_PW());
+		
+		if (vo.getPHONE().equals("kakao")) {
+			vo.setMEMBER_PW("kakao");
+		} else {
+			String encPassword = passwordEncoder.encode(vo.getMEMBER_PW());
 	        vo.setMEMBER_PW(encPassword);
-	        //System.out.println("占쏙옙호화占쏙옙 占쏙옙橘占싫� : "+user.getUserPassword());
-		System.out.println("占쏙옙橘占싫� 占쏙옙호화 占쏙옙占쏙옙"+vo.toString());
-		 }
+		}
 		sqlSession.getMapper(MemberMapper.class);
 		mapper.insertMember(vo);
-		System.out.println("insert 占쏙옙占쏙옙!!!");
+	}
+	
+	public void moreDetailsRegister(MoreDetailsVO md) {
+		MemberMapper mapper= sqlSession.getMapper(MemberMapper.class);
+		sqlSession.getMapper(MemberMapper.class);
+		mapper.moreDetailsRegister(md);
+	}
+	
+	public String memberLogin(HashMap<String,String> map, String toPage) {
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		sqlSession.getMapper(MemberMapper.class);
+		
+		if (mapper.memberLogin(map) == 1) {
+			if (toPage.equals("goShop")) { return "shopping_main.do"; }
+			if (toPage.equals("goCommunity")) { return "community_main.do"; }
+		}
+		return "index.do";
 	}
 	
 	public long getUser_key(MemberVO vo) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		sqlSession.getMapper(MemberMapper.class);
-		System.out.println(vo.getMEMBER_ID());
-		long user_key =mapper.getUser_key(vo);
-		System.out.println("key 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙!::::"+user_key);
-		return user_key;
-	}
-	
-	public void moreDetailsRegister(MoreDetailsVO md) {
-		MemberMapper mapper= sqlSession.getMapper(MemberMapper.class);
-		System.out.println(md.toString());
-		sqlSession.getMapper(MemberMapper.class);
-		mapper.moreDetailsRegister(md);
-	}
-
-	
-	public String memberLogin(HashMap<String,String> map , String toPage) {
-		// TODO Auto-generated method stub
-		System.out.println("serviceimpl");
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		sqlSession.getMapper(MemberMapper.class);
-		int result=mapper.memberLogin(map);
-		System.out.println("result="+result);
-		if(mapper.memberLogin(map)==1) {
-			
-			if (toPage.equals("goShop")) {
-
-				System.out.println("toPage is 'goShop'");
-				
-				return "shopping_main.do";
-				
-			} else if(toPage.equals("goCommunity")) {
-				
-				return "community_main.do";
-			}
-		}
-		else {
-			return "index.do";
-		}
-		return "index.do";
+		return mapper.getUser_key(vo);
 	}
 	
 	public String memberPw(MemberVO member) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		sqlSession.getMapper(MemberMapper.class);
-		String db_pw = mapper.memberPw(member);
-		return db_pw;
-		
+		return mapper.memberPw(member);
 	}
 
-	public int getId(MemberVO vo) {		// TODO Auto-generated method stub
+	public int getId(MemberVO vo) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		sqlSession.getMapper(MemberMapper.class);
-		System.out.println("serviceImpl占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙?"+vo.getMEMBER_ID());
-		int result=mapper.getId(vo);
-		
-		
-		return result;
+		return mapper.getId(vo);
 	}
-	public int getNickname(MemberVO vo) {		// TODO Auto-generated method stub
+	
+	public int getNickname(MemberVO vo) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		sqlSession.getMapper(MemberMapper.class);
-		System.out.println("serviceImpl占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙?"+vo.getNICKNAME());
-		int result=mapper.getNickname(vo);
-		
-		
-		return result;
+		return mapper.getNickname(vo);
 	}
 
 	@Override
@@ -138,17 +104,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO getMemberInfo(long user_key) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		sqlSession.getMapper(MemberMapper.class);
-		System.out.println("serviceImpl....user_key : "+ user_key);
-		
+		sqlSession.getMapper(MemberMapper.class);		
 		return mapper.getMemberInfo(user_key);
 	}
 
 	@Override
 	public void updateMemberInfoAfterOrder(MemberVO user) {
-
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		
 		mapper.updateMemberInfoAfterOrder(user);
 	}
 

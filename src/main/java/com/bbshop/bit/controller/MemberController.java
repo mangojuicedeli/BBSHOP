@@ -1,5 +1,10 @@
 package com.bbshop.bit.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -21,9 +26,13 @@ import com.bbshop.bit.service.MemberService;
 import com.bbshop.bit.service.UserMailSendService;
 import com.bbshop.bit.util.login.KakaoAPI;
 import com.bbshop.bit.util.login.KakaoAccount;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/login")
+@Log4j
 public class MemberController {
 	
 	private int noAccountCount;
@@ -37,40 +46,27 @@ public class MemberController {
 	@Autowired
 	private UserMailSendService mailsender;
 	
-	@RequestMapping(method=RequestMethod.POST)
-	public String login(MemberVO vo, HttpSession session ,HttpServletRequest request) {
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String login(MemberVO vo, HttpSession session, HttpServletRequest request) throws Exception {
 		
-		String toPage = request.getParameter("toPage"); //hidden 은 value값을 가져와야 한다.
+		String toPage = request.getParameter("toPage"); // hidden 은 value값을 가져와야 한다.
+		String db_pw = memberService.memberPw(vo); // 암호화되어 저장된 비밀번호를 받아와야 한다. 매퍼에서는 where아이디로 비밀번호를 받아온다.
 		
-		//무슨 버튼을 누르고 들어왔는지 정보를 보여준다.
-		System.out.println("로그인 ID:"+vo.getMEMBER_ID()+"로그인 PW:"+vo.getMEMBER_PW()+"이동 Page:"+toPage);
-		
-		//암호화되어 저장된 비밀번호를 받아와야 한다. 매퍼에서는 where아이디로 비밀번호를 받아온다.
-		String db_pw = memberService.memberPw(vo);
-		
-		System.out.println("디비에 저장된 비밀번호"+db_pw);
-		
-		//암호화된 비밀번호를 복호화 하여 로그인시 회원이 작성한 비밀번호와 매치 시켜서 비밀번호 일치 하는지 본다. 
+		// 암호화된 비밀번호를 복호화 하여 로그인시 회원이 작성한 비밀번호와 매치 시켜서 비밀번호 일치 하는지 본다. 
 		if (passwordEncoder.matches(vo.getMEMBER_PW(), db_pw)) {
-			
-			System.out.println("비밀번호 일치!");
-			
-			//비밀번호가 맞으면 vo에 db에 있는 비밀번호를 넣어준다
 			vo.setMEMBER_PW(db_pw);
-			
-			System.out.println("vo의 비밀번호"+vo.getMEMBER_PW());
 		} else {
-			System.out.println("비밀번호 틀림~ 멍청이~");
+			throw new Exception("비밀번호 불일치");
 		}
+		
 		//맵에다가 아이디와 pw를 넣어준다
-		HashMap<String,String> map = new HashMap<String,String>();
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("MEMBER_ID", vo.getMEMBER_ID());
 		map.put("MEMBER_PW", vo.getMEMBER_PW());
 		
 		//맵과 무슨 버튼을 눌렀는지 를 서비스를 통해서 넣어준다.
-		String resultUrl = memberService.memberLogin(map,toPage);
-		if(resultUrl.equals("shopping_main.do") || resultUrl.equals("community_main.do")) {
-			
+		String resultUrl = memberService.memberLogin(map, toPage);
+		if (resultUrl.equals("shopping_main.do") || resultUrl.equals("community_main.do")) {
 			session.setAttribute("member", memberService.getUser_key(vo));
 			session.setAttribute("nickname", memberService.getMemberInfo(memberService.getUser_key(vo)).getNICKNAME());
 		}
@@ -78,27 +74,25 @@ public class MemberController {
 		return "redirect:/" + resultUrl;
 	}
 	
-	@RequestMapping(value="noAccount.do", method=RequestMethod.GET)
+	// 비회원 로그인
+	@RequestMapping(value="/noAccount.do", method=RequestMethod.GET)
 	public String noAccount(HttpServletRequest request,HttpSession session ,@RequestParam("toPage") String toPage) {
-//		String toPage = request.getParameter("toPage"); //hidden 은 value값을 가져와야 한다.
-		System.out.println("비회원 페이지이동:"+toPage);
 		String result = "";
 		noAccountCount++;
-		if(toPage.equals("goShop")) {
-			result="redirect:/shopping_main.do";
-		}
-		else {
-			result="redirect:/community_main.do";
-		}
 		
+		if (toPage.equals("goShop")) {
+			result = "redirect:/shopping_main.do";
+		} else {
+			result = "redirect:/community_main.do";
+		}
 		session.setAttribute("member", (long)00);
 		session.setAttribute("nickname", "noAccount" + noAccountCount);
 		
 		return result;
 	}
 	
-	// 카카오 로그인 API 연동
-	@RequestMapping(value="/kakao")
+	// 카카오 로그인
+	@RequestMapping(value="/login/kakao")
 	public String kakaoLogin(String code, HttpSession session) {
 				
 		KakaoAPI kakaoAPI = new KakaoAPI();
@@ -110,22 +104,45 @@ public class MemberController {
 		session.setAttribute("member", user.getId());
 		String nickname = user.getProfile().getNickname();
 		if (nickname != null) session.setAttribute("nickname", nickname);
+		session.setAttribute("access_token", access_token);
 		
 		return "redirect:/shopping_main.do";
 	}
 	
-	@RequestMapping(value="register.do",method=RequestMethod.POST)
+	// 카카오 로그아웃
+	@RequestMapping(value="/logout/kakao")
+	public String kakaoLogout(String access_token, HttpSession session) {
+		
+		try {
+		// 커넥션 설정
+			URL url = new URL("https://kapi.kakao.com/v1/user/logout");
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "Bearer " + access_token);
+		// 응답 데이터를 파싱해서 로그아웃된 카카오계정 id를 확인한다.	
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            while ((line = br.readLine()) != null) { result += line; }
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            long id = element.getAsJsonObject().get("id").getAsLong();
+            log.info("id : " + id);
+			return "redirect:/home";
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/register.do",method=RequestMethod.POST)
 	public String register(Model model, MemberVO vo, HttpServletRequest request) {
 		vo.setGRADE("bronze");
-		System.out.println(vo.toString());
 			
 		try {
-			memberService.register(vo);
-			System.out.println("회원등록 성공!");			
+			memberService.register(vo);			
 			return "shoppingMall/main/index";
-		}
-		catch(Exception e) {
-			System.out.println("회원 등록 실패...");
+		} catch (Exception e) {
 			return "shoppingMall/main/index";
 		}
 	}
@@ -143,14 +160,8 @@ public class MemberController {
 	public String moredetails(MemberVO vo, MoreDetailsVO md, HttpServletRequest request) {
 				
 		vo.setGRADE("bronze"); // 등급 설정
-		
-		System.out.println("moredetails 컨트롤러에서의 vo : " + vo.toString());
-		System.out.println("moredetails 컨트롤러에서의 md : " + md.toString());
-		
 		try {
-			
 			memberService.register(vo);
-			
 			long user_key=memberService.getUser_key(vo);
 			System.out.println("vo user_key : " + user_key);
 			
@@ -159,8 +170,7 @@ public class MemberController {
 			System.out.println("추가정보 등록 성공!");
 
 			return "shoppingMall/main/index";
-		}
-		catch(Exception e) {
+		} catch(Exception e) {
 			
 			System.out.println("회원등록 실패..");
 

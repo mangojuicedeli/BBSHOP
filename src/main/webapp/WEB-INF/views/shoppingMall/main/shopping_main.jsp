@@ -49,8 +49,7 @@
 <!--================Home Banner Area =================-->
 <section class="home_banner_area">
 	<div class="home_banner_img" style="padding-top:120px;">
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			  
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">			  
 			<ol class="carousel-indicators">
 				<li data-target="#myCarousel" data-slide-to="0" class="active">
 				</li>
@@ -58,8 +57,7 @@
 				</li>
 				<li data-target="#myCarousel" data-slide-to="2">
 				</li>
-			</ol>
-			
+			</ol>		
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<img class="d-block w-100" src="resources/shoppingMall/img/banner/main-bg-1.jpg" alt="First slide">
@@ -71,12 +69,10 @@
 					<img class="d-block w-100" src="resources/shoppingMall/img/banner/main-bg-3.JPG" alt="Third slide">
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </section>
 <!--============== End Home Banner Area ==============-->
-
 
 	<!--============추천상품 공간 : 전달받은 추천상품리스트를 출력=============-->
 	<!--================Feature Product Area =================-->
@@ -90,22 +86,8 @@
 						<h2 style="color : white; font-weight : bold; margin-bottom: 0px;">추천 상품</h2>
 					</div>
 				</div>
-				
 				<!-- 상품 list !반복! -->
 				<div class="row">
-				
-<!-- 					<div class="col col1"> -->
-<!-- 						<div class="f_p_item"> -->
-<!-- 							<div class="f_p_img"> -->
-<!-- 								<img class="img-fluid" src="resources/shoppingMall/img/product/feature-product/f-p-6.jpg" alt=""> -->
-<!-- 							</div> -->
-<!-- 							<a href="#"> -->
-<!-- 								<h4>모리모토 195MBG 아이웹 내야</h4> -->
-<!-- 							</a> -->
-<!-- 							<h5>119,000원</h5> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
 					<!-- 상품 출력  -->
 						<c:forEach items="${recommendList}" var="goods">
 						<div class="col">
@@ -121,45 +103,11 @@
 						</div>
 						</c:forEach>
 					<!-- end 상품 출력 -->
-						
 				</div>
-				<!-- 상품 list 반복 끝 -->
-
-				<!-- 페이지 출력 - script 항상 같이 따라가야함 -->
-<!-- 				<div class="row"> -->
-<!-- 					<nav class="cat_page mx-auto" aria-label="Page navigation example"> -->
-<!-- 						<ul class="pagination"> -->
-<!-- 							<li class="page-item page-item-left"> -->
-<!-- 								<a class="page-link" href="#"> -->
-<!-- 									<i class="fa fa-chevron-left" aria-hidden="true"></i> -->
-<!-- 								</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item active"> -->
-<!-- 								<a class="page-link" href="#">01</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"> -->
-<!-- 								<a class="page-link" href="#">02</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"> -->
-<!-- 								<a class="page-link" href="#">03</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"> -->
-<!-- 								<a class="page-link" href="#">04</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"> -->
-<!-- 								<a class="page-link" href="#">05</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item page-item-right"> -->
-<!-- 								<a class="page-link" href="#"> -->
-<!-- 									<i class="fa fa-chevron-right" aria-hidden="true"></i> -->
-<!-- 								</a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</nav> -->
-<!-- 				</div> -->
 			</div>
 		</div>
 	</section>
+	</div>
 	<!--================End Feature Product Area =================-->
 
 <%@ include file="../include/shopping_footer.jsp" %>
