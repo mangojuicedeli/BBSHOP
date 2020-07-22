@@ -241,12 +241,8 @@ public class OrderController {
     @RequestMapping(value="/kakaoPay.do", method=RequestMethod.POST)
     public String kakaoPay(Model model, OrderVO order, @RequestParam("GOODS_NUM_LIST") String list, 
     		@RequestParam("shipping_fee") int shipping_fee, @RequestParam("useSavings") long useSavings) {
-    	System.out.println("kakaoPay post............................................");
-
-    	System.out.println("kakaoPay.do 컨트롤러에 들어올 때의 OrderVO : " + order.getSavings());
     	
     	long user_key = (long)session.getAttribute("member");
-
     	MemberVO user = memberService.getMemberInfo(user_key);
     	String nickname = (String)session.getAttribute("nickname");
 
@@ -281,12 +277,9 @@ public class OrderController {
     	for (String goods_num : goods_num_list ){
     		goodsList.add(cartService.getGoods(Long.parseLong(goods_num)));
     	}
-    	
-//    	Cart_GDVO cartVO;
-//    	Order_GDVO order_gd = null;
 
     	// 한가지 상품을 구매하는 경우 -> 상품명. 한가지 이상의 상품을 구매하는 경우 -> 1상품명 + 외 n개
-    	if(goods_num_list.length == 1) {
+    	if (goods_num_list.length == 1) {
     		order.setItems(goodsList.get(0).getName());
     	} else {
     		order.setItems(goodsList.get(0).getName()+"외"+((goods_num_list.length)-1)+"개");
@@ -303,12 +296,6 @@ public class OrderController {
 
     	// 방금 order테이블에 insert한 order_num
     	long order_num = orderService.getLastOrderNum(order.getUser_key());
-    	
-//    	// 단일상품 일 경우, order_gd테이블도 insert
-//    	if(from.equals("good")) {
-//    		order_gd.setOrder_num(order_num);
-//    		orderService.insertOrderGD(order_gd);
-//    	}
 
     	return "redirect:" + kakaopay.kakaoPayReady(goodsList, cartList, allPrice, list, order_num, shipping_fee, order.getUser_key(),useSavings);
     }
@@ -318,22 +305,17 @@ public class OrderController {
     		@RequestParam("allPrice") int allPrice, @RequestParam("list") String list, 
     		@RequestParam("order_num") long order_num, @RequestParam("shipping_fee") int shipping_fee,
     		@RequestParam("useSavings") long useSavings) {
-    	System.out.println("kakaoPaySuccess get............................................");
     	
     	long user_key = (long)session.getAttribute("member");
-
     	String[] goods_num_list = list.split(",");
-
     	goodsList = new ArrayList<GoodsVO>();
     	int totalPrice = 0;
-    	
-//    	if(from.equals("cart")) {
 
     	// jsp에서 구매 체크한 goods_num을 불러와 해당 cartList에 입력
     	cartList = orderService.getCheckedCartList(goods_num_list, user_key);
 
     	// goods 가져와서 goodsList에 넣어주는 부분
-    	for (String goods_num : goods_num_list ){
+    	for (String goods_num : goods_num_list) {
     		goodsList.add(cartService.getGoods(Long.parseLong(goods_num)));
     	}   	
 
@@ -349,40 +331,33 @@ public class OrderController {
     	String[] addr_list = order.getOr_addr().split(",");
 
     	// 주문한 개수만큼 재고에서 빼기
-    	for(int i=0; i<goodsList.size();i++) {
-    		switch(goodsList.get(i).getCategory()) {
-
+    	for (int i=0; i<goodsList.size();i++) {
+    		switch (goodsList.get(i).getCategory()) {
     		// 글러브
     		case 1 : 
     			orderService.updateGloveStock(cartList.get(i).getQNTTY(), cartList.get(i).getGD_DETAILS());
     			break;
-
-    			// 배트
+    		// 배트
     		case 2 : 
     			orderService.updateBatStock(cartList.get(i).getQNTTY(), cartList.get(i).getGD_DETAILS());
     			break;
-
-    			// 유니폼
+    		// 유니폼
     		case 3 : 
     			orderService.updateUniformStock(cartList.get(i).getQNTTY(), cartList.get(i).getGD_DETAILS());
     			break;
-
-    			// 야구화
+    		// 야구화
     		case 4 : 
     			orderService.updateShoesStock(cartList.get(i).getQNTTY(), cartList.get(i).getGD_DETAILS());
     			break;
-
-    			// 야구공
+    		// 야구공
     		case 5 : 
     			orderService.updateBallStock(cartList.get(i).getQNTTY(), cartList.get(i).getGD_DETAILS());
     			break;
     		}
-    		System.out.println("재고 업데이트 완료!");
     	}
 
     	// 주문 성공시, 적립금 추가 및 누적 금액 변화, 그에 따른 등급 변화
     	MemberVO user = memberService.getMemberInfo(user_key);
-
     	// 주문한 상품의 이름 바인딩
     	String order_items = goodsList.get(0).getName();
 
@@ -401,17 +376,13 @@ public class OrderController {
     	} else {
     		savings_curr = ((long)allPrice / 100) * 10;
     	}
-
     	user.setSAVINGS(user.getSAVINGS() + savings_curr);
-
     	// 적립금 테이블 insert
     	SavingsVO savings = new SavingsVO(savings_curr, order_num, savings_used, order_items);
     	mypageService.insertSavings(savings, user_key);
-
     	// 누적 금액 업데이트
     	total_buy_curr += allPrice;
     	user.setTOTAL_BUY(total_buy_curr);
-
     	// 등급 업데이트
     	if (total_buy_curr < 200000) {	
     		user.setGRADE("bronze");
@@ -422,13 +393,9 @@ public class OrderController {
     	} else {
     		user.setGRADE("diamond");
     	}
-
     	memberService.updateMemberInfoAfterOrder(user);
-    	
-//    	if(from.equals("cart")) {
-
     	// order_gd 테이블에 insert!
-    	for(int i=0;i<cartList.size();i++) {
+    	for (int i = 0; i < cartList.size(); i++) {
     		Order_GDVO order_gd = new Order_GDVO();
     		order_gd.setPrice(cartList.get(i).getTOTALPRICE());
     		order_gd.setQntty(cartList.get(i).getQNTTY());
@@ -439,24 +406,20 @@ public class OrderController {
 
     		orderService.insertOrderGD(order_gd);
     	}
-
     	// kakaoPayInfo로부터 return 받는 tid를 update
     	int res = orderService.updateTid(kakaopay.kakaoPayInfo(pg_token, allPrice, order_num, order.getUser_key()).getTid(), order_num);
-
-    	if(res == 1) {
+    	if (res == 1) {
     		System.out.println("tid가 업데이트 되었습니다.");
     	} else {
     		System.out.println("tid 업데이트에 실패했습니다.");
     	}
-    	
     	// 적립금을 사용한 경우
-    	if(useSavings != 0) {
+    	if (useSavings != 0) {
     		// savings 테이블 -> savings_used 업데이트
     		orderService.updateSavings_used(useSavings, order_num);
     		// sh_user 테이블 -> savings 업데이트
     		orderService.update_usedUser_savings(useSavings, user_key);
     	}
-
     	model.addAttribute("goodsList",goodsList);
     	model.addAttribute("orderList",cartList);
     	model.addAttribute("order",order);

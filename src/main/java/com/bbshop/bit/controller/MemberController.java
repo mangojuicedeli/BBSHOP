@@ -91,7 +91,7 @@ public class MemberController {
 		return result;
 	}
 	
-	// 카카오 로그인 API 연동
+	// 카카오 로그인
 	@RequestMapping(value="/login/kakao")
 	public String kakaoLogin(String code, HttpSession session) {
 				
@@ -109,6 +109,7 @@ public class MemberController {
 		return "redirect:/shopping_main.do";
 	}
 	
+	// 카카오 로그아웃
 	@RequestMapping(value="/logout/kakao")
 	public String kakaoLogout(String access_token, HttpSession session) {
 		
