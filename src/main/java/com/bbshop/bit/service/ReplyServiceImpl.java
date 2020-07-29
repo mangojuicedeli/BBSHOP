@@ -42,7 +42,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 	
 	@Override
-	public int modifyReply(ReplyVO vo) {
+	public ReplyVO modifyReply(ReplyVO vo, long num) {
 		
 		ReplyMapper replymapper = sqlSession.getMapper(ReplyMapper.class);
 		return replymapper.updateReply(vo);

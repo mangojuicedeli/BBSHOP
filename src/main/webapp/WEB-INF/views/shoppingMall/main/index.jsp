@@ -385,7 +385,7 @@ input[type="checkbox"]:checked+label span {
 					<br>
 					<!-- 카카오 api 버튼 -->
 					<div align="center" style="display: flex;">
-						<a href="https://kauth.kakao.com/oauth/authorize?client_id=8ac53956767ae67d81086241a1a789b1&redirect_uri=http://localhost:8080/login/kakao&response_type=code">
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=8ac53956767ae67d81086241a1a789b1&redirect_uri=https://localhost:443/login/kakao&response_type=code">
 							<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/kakao_login_medium_narrow.png">
 						</a>
 						<Button id="naver-login-btn" style="width: 100% auto; background: transparent; border: 0;">

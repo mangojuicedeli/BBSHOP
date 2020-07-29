@@ -16,9 +16,9 @@ public class KakaoAPI {
 	
 	private final String KAUTH = "https://kauth.kakao.com/oauth/token";
 	private final String KAPI = "https://kapi.kakao.com/v2/user/me";
+	private final String LOGIN_PATH = "http://localhost:8080/login/kakao";
 	
 	public String getAccessToken(String code) {
-		
 		try {
 		// 커넥션 생성
 			URL url = new URL(KAUTH);
@@ -31,7 +31,7 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=8ac53956767ae67d81086241a1a789b1");
-            sb.append("&redirect_uri=http://localhost:8080/login/kakao");
+            sb.append("&redirect_uri=" + LOGIN_PATH);
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -45,10 +45,8 @@ public class KakaoAPI {
             JsonElement element = parser.parse(result);
             String access_token = element.getAsJsonObject().get("access_token").getAsString();
             String refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
-            
             br.close();
             bw.close();
-            
     		return access_token;
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +55,6 @@ public class KakaoAPI {
 	}
 
 	public KakaoAccount getUserInfo(String access_token) {
-		
 		KakaoAccount user = new KakaoAccount();
 		
 		try {
@@ -88,7 +85,6 @@ public class KakaoAPI {
             user.setProfile(profile);
             user.setId(id);
             if (email != null) user.setEmail(email);
-            
             return user;
 		} catch (IOException e) {
             e.printStackTrace();

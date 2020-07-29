@@ -94,25 +94,18 @@ public class MemberController {
 	// 카카오 로그인
 	@RequestMapping(value="/login/kakao")
 	public String kakaoLogin(String code, HttpSession session) {
-				
 		KakaoAPI kakaoAPI = new KakaoAPI();
-		// 전달 받은 인증 코드로 엑세스 토큰 받아 온다.
 		String access_token = kakaoAPI.getAccessToken(code);
-		// 엑세스 토큰을 통해 카카오 사용자 조회 API를 호출해서 카카오에 저장된 사용자 정보 얻어 온다.
 		KakaoAccount user = kakaoAPI.getUserInfo(access_token);
-		// 얻어온 사용자 정보 중 id와 nickname을 세션에 저장한다.
-		session.setAttribute("member", user.getId());
-		String nickname = user.getProfile().getNickname();
-		if (nickname != null) session.setAttribute("nickname", nickname);
+		session.setAttribute("id", user.getId());
 		session.setAttribute("access_token", access_token);
 		
-		return "redirect:/shopping_main.do";
+		return "redirect:/home";
 	}
 	
 	// 카카오 로그아웃
 	@RequestMapping(value="/logout/kakao")
 	public String kakaoLogout(String access_token, HttpSession session) {
-		
 		try {
 		// 커넥션 설정
 			URL url = new URL("https://kapi.kakao.com/v1/user/logout");
@@ -127,7 +120,8 @@ public class MemberController {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             long id = element.getAsJsonObject().get("id").getAsLong();
-            log.info("id : " + id);
+            log.info("logout id : " + id);
+            
 			return "redirect:/home";
 		} catch (IOException e){
 			e.printStackTrace();

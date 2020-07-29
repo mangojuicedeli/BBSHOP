@@ -14,7 +14,7 @@ public interface ReplyService {
 	
 	public int removeReply(long reply_num);
 	
-	public int modifyReply(ReplyVO vo);
+	public ReplyVO modifyReply(ReplyVO vo, long num);
 	
 	public List<ReplyVO> getList(PagingVO pagingvo, long board_num);
 	
