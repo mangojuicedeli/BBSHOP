@@ -1,8 +1,7 @@
 package com.bbshop.bit.domain;
 
 import java.util.Date;
-
-import org.springframework.stereotype.Component;
+import java.util.List;
 
 import lombok.Data;
 
@@ -23,4 +22,5 @@ public class MemberVO {
     private Date MODDATE;
     private int FLAG;
     private int TOTAL_BUY;
+    private List<AuthVO> authList;
 }

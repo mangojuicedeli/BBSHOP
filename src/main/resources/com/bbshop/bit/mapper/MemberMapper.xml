@@ -19,6 +19,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		<result property ="MODDATE" column ="MODDATE"/>
 		<result property ="FLAG" column ="FLAG"/>
 	</resultMap>
+	
+	<resultMap type="com.bbshop.bit.domain.UserVO" id="memberMap">
+		<id property="userid" column="userid"/>
+		<result property="userid" column="userid"/>
+		<result property="userpw" column="userpw"/>
+		<result property="userName" column="username"/>
+		<result property="regDate" column="regdate"/>
+		<result property="updateDate" column="updatedate"/>
+		<collection property="authList" resultMap="authMap"/>
+	</resultMap>
+	
+	<resultMap type="com.bbshop.bit.domain.AuthVO" id="authMap">
+		<result property="userid" column="userid"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
 
 <select id="memberLogin" parameterType="HashMap" resultType="int">
 
@@ -26,13 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	from sh_user
 	where MEMBER_ID=#{MEMBER_ID} and MEMBER_PW =#{MEMBER_PW}
 
-
 </select>
 
 <insert id="moreDetailsRegister" parameterType="com.bbshop.bit.domain.MoreDetailsVO">
 	
-		INSERT INTO U_MOREDETAIL (user_key,team,position,brand1,brand2,brand3)
-		VALUES(#{USER_KEY}, #{TEAM},#{POSITION},#{BRAND1},#{BRAND2},#{BRAND3})
+	INSERT INTO U_MOREDETAIL (user_key,team,position,brand1,brand2,brand3)
+	VALUES(#{USER_KEY}, #{TEAM},#{POSITION},#{BRAND1},#{BRAND2},#{BRAND3})
 
 </insert>
 
@@ -41,12 +55,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		select user_seq.nextval FROM DUAL
 	</selectKey>
 		
-		INSERT INTO sh_user (user_key,member_id, member_pw, name, birth,phone,
-		nickname,REGDATE,flag,grade,savings,caution,MODDATE)
-		VALUES
-		(#{USER_KEY},#{MEMBER_ID}, #{MEMBER_PW}, #{NAME}, #{BIRTH} , #{PHONE} ,
-		#{NICKNAME},sysdate,#{FLAG},#{GRADE},#{SAVINGS},#{CAUTION},sysdate)
-	</insert>
+	INSERT INTO sh_user (user_key,member_id, member_pw, name, birth,phone,
+	nickname,REGDATE,flag,grade,savings,caution,MODDATE)
+	VALUES (#{USER_KEY},#{MEMBER_ID}, #{MEMBER_PW}, #{NAME}, #{BIRTH} , #{PHONE} ,
+	#{NICKNAME},sysdate,#{FLAG},#{GRADE},#{SAVINGS},#{CAUTION},sysdate)
+</insert>
 
 <select id="memberPw" parameterType="com.bbshop.bit.domain.MemberVO" resultType="String">
 	select member_pw from sh_user where member_id=#{MEMBER_ID}
@@ -78,4 +91,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		grade = #{GRADE}
 	WHERE user_key = #{USER_KEY}
 </update>
+
+<select id="read" resultMap="memberMap">
+	SELECT
+		users.userid, userpw, username, enabled, regdate, updatedate, auth 
+	FROM
+		bbshop_user users LEFT OUTER JOIN bbshop_user_auth auth 
+		ON users.userid = auth.userid
+	WHERE
+		users.userid = #{userid}
+</select>
 </mapper>

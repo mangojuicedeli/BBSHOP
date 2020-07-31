@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.bbshop.bit.domain.MemberVO;
 import com.bbshop.bit.domain.MoreDetailsVO;
+import com.bbshop.bit.domain.UserVO;
 
 public interface MemberMapper {
 	
@@ -18,4 +19,5 @@ public interface MemberMapper {
 	public MemberVO getMemberInfo(long user_key);
 	
 	public void updateMemberInfoAfterOrder(MemberVO member);
+	public UserVO read(String userid);
 }

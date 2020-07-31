@@ -14,14 +14,14 @@ import com.google.gson.JsonParser;
 
 public class KakaoAPI {
 	
-	private final String KAUTH = "https://kauth.kakao.com/oauth/token";
-	private final String KAPI = "https://kapi.kakao.com/v2/user/me";
+	private final String K_AUTH = "https://kauth.kakao.com/oauth/token";
+	private final String K_USER_INFO = "https://kapi.kakao.com/v2/user/me";
 	private final String LOGIN_PATH = "http://localhost:8080/login/kakao";
 	
 	public String getAccessToken(String code) {
 		try {
 		// 커넥션 생성
-			URL url = new URL(KAUTH);
+			URL url = new URL(K_AUTH);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         // 커넥션 설정
             conn.setRequestMethod("POST");
@@ -44,7 +44,6 @@ public class KakaoAPI {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             String access_token = element.getAsJsonObject().get("access_token").getAsString();
-            String refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
             br.close();
             bw.close();
     		return access_token;
@@ -59,7 +58,7 @@ public class KakaoAPI {
 		
 		try {
 		// 커넥션 생성
-			URL url = new URL(KAPI);
+			URL url = new URL(K_USER_INFO);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		// 커넥션 설정
 			conn.setRequestProperty("Authorization", "Bearer " + access_token);

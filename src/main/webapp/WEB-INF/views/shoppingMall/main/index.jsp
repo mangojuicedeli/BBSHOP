@@ -308,9 +308,6 @@ input[type="checkbox"]:checked+label span {
 	</video>
 
 	<div id="index">
-
-		<!-- <button id="loginBtn">Login</button>-->
-
 		<table cellpadding="0" cellspacing="0" width="100%">
 			<tbody>
 				<tr>
@@ -357,7 +354,6 @@ input[type="checkbox"]:checked+label span {
 			</tbody>
 		</table>
 
-
 		<!-- 이부분 부터 로그인 모달이 띄어지는 부분이다. -->
 		<div id="loginModal" class="modal">
 			<!-- 로그인 모달의 내용 -->
@@ -367,37 +363,33 @@ input[type="checkbox"]:checked+label span {
 				<div class="modal-body" style="padding: 40px 50px;">
 					<form id="loginform" name="loginform" role="form" action="/login" method="post">
 						<div class="form-group">
-							<input type='hidden' id='toPage' name='toPage' value=''> <label for="userid">ID</label> <input type="text" class="form-control"
-								id="userid" name="MEMBER_ID" placeholder="ID를 입력하세요...">
+							<label for="userid">ID</label>
+							<input type="text" class="form-control" id="username" name="username" placeholder="ID를 입력하세요...">
 						</div>
 						<div class="form-group">
-							<label for="password">Password</label> <input type="password" class="form-control" id="password" name="MEMBER_PW"
-								placeholder="Password를 입력하세요...">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password를 입력하세요...">
 						</div>
 						<div class="checkbox">
 							<input type="checkbox" id="login_checkbox" checked /> <label for="login_checkbox"><span></span>ID 저장</label> <input type="checkbox"
 								id="login_maintain_checkbox" checked /> <label for="login_maintain_checkbox"><span></span>로그인 상태 유지</label>
 						</div>
-						<input type="submit" value="로그인" class="btn btn-info btn-block"> <Br>
+						<input type="submit" value="로그인" class="btn btn-info btn-block"><br>
+						<input type='hidden' id='toPage' name='toPage' value=''>
 					</form>
 					<input type="button" value="비회원 로그인" id="noAccount" class="btn btn-info btn-block">
 					<!--여기에 비회원 로그인할 컨트롤러 설정을 해야함.-->
 					<br>
 					<!-- 카카오 api 버튼 -->
 					<div align="center" style="display: flex;">
-						<a href="https://kauth.kakao.com/oauth/authorize?client_id=8ac53956767ae67d81086241a1a789b1&redirect_uri=https://localhost:443/login/kakao&response_type=code">
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=8ac53956767ae67d81086241a1a789b1&redirect_uri=http://localhost:8080/login/kakao&response_type=code">
 							<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/kakao_login_medium_narrow.png">
 						</a>
-						<Button id="naver-login-btn" style="width: 100% auto; background: transparent; border: 0;">
-							<img src="${pageContext.request.contextPath }/resources/shoppingMall/img/naver_login.PNG" width="222px" height="49px">
-						</Button>
 					</div>
 				</div>
-				<br>
 				<div style="float: left; margin-right: 40px">
 					<Button id="sign_up_btn" class="btn btn-info btn-block">회원가입</Button>
 				</div>
-
 				<div style="float: right;">
 					<Button id="find_info_btn" class="btn btn-info btn-block">아이디/비밀번호 찾기</Button>
 				</div>
