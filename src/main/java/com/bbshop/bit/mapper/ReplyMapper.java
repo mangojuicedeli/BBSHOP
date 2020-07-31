@@ -15,7 +15,7 @@ public interface ReplyMapper {
 	
 	public int deleteReply(long reply_num);
 	
-	public int updateReply(ReplyVO vo);
+	public ReplyVO updateReply(ReplyVO vo);
 	
 	// 게시물 페이징 처리와 다르게, 추가적으로 특정한 게시물의 댓글들만을 대상으로 하기 때문에 추가로 게시물의 번호 필요.
 	// 따라서 두 개 이상의 데이터를 파라미터로 전달함

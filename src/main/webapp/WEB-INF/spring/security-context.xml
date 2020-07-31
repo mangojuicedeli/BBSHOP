@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                                http://www.springframework.org/schema/beans/spring-beans.xsd 
-                                http://www.springframework.org/schema/security 
-                                http://www.springframework.org/schema/security/spring-security.xsd">
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<security:http>
+		<security:intercept-url pattern="/shopping_main.do" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
+		<!-- 접근 제한 커스터마이징 -->
+		<security:access-denied-handler
+			ref="customAccessDenied" />
+		<security:form-login
+			login-page="/" username-parameter="username" password-parameter="password"
+			login-processing-url="/login" authentication-success-handler-ref="customLoginSuccess" />	
+	</security:http>
+	
+	<!-- provider -->
+	<security:authentication-manager>
+		<security:authentication-provider ref="customAuthenticationProvider" />
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	<!-- security 관련 구현한 bean 목록 -->
+	<bean id="customAccessDenied" class="com.bbshop.bit.util.security.CustomAccessDeniedHandler"/>
+	<bean id="customLoginSuccess" class="com.bbshop.bit.util.security.CustomLoginSuccessHandler"/>
+	<bean id="customUserDetailsService" class="com.bbshop.bit.util.security.CustomUserDetailsService"/>
+	<bean id="customAuthenticationProvider" class="com.bbshop.bit.util.security.CustomAuthenticationProvider"/>
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-	<beans:bean id="bcryptPasswordEncoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
-</beans:beans>
+</beans>

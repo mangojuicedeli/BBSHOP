@@ -185,7 +185,7 @@
 			<version>1.8.3</version>
 		</dependency>
 
-		<!-- spring Security -->
+		<!-- spring security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -201,6 +201,17 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+		<!-- oauth2 client -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-client</artifactId>
+		    <version>5.3.3.RELEASE</version>
+		</dependency>
 
 		<!-- 이메일 인증 2018.11.20 KW -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
@@ -215,12 +226,7 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>5.0.6.RELEASE</version>
-		</dependency>
+
 		<!-- json 데이터 처리 -->
 		<!-- 객체를 JSON/XML로 변환할 때 사용 -->
 		<dependency>

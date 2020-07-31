@@ -22,7 +22,6 @@ public class ReplyServiceImpl implements ReplyService{
 		
 		ReplyMapper replymapper = sqlSession.getMapper(ReplyMapper.class);
 		return replymapper.insertReply(vo);
-
 	}
 	
 	@Override
@@ -36,13 +35,11 @@ public class ReplyServiceImpl implements ReplyService{
 	public int removeReply(long reply_num) {
 		
 		ReplyMapper replymapper = sqlSession.getMapper(ReplyMapper.class);
-		int res = replymapper.deleteReply(reply_num);
-		
-		return res;
+		return replymapper.deleteReply(reply_num);
 	}
 	
 	@Override
-	public int modifyReply(ReplyVO vo) {
+	public ReplyVO modifyReply(ReplyVO vo, long num) {
 		
 		ReplyMapper replymapper = sqlSession.getMapper(ReplyMapper.class);
 		return replymapper.updateReply(vo);
@@ -64,5 +61,4 @@ public class ReplyServiceImpl implements ReplyService{
 				replymapper.getCountByBno(board_num),
 				replymapper.getListWithPaging(pagingvo, board_num));
 	}
-
 }
